@@ -1,0 +1,11 @@
+// StarMap BA — Prisma schema
+// DB connection URL is configured in prisma.config.ts (reads DATABASE_URL from .env)
+// Docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
