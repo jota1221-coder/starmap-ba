@@ -37,7 +37,11 @@ export async function GET(request: NextRequest) {
 
   try {
     const conditions = await getConditions({ lat, lng, bortle, date });
-    return Response.json(conditions);
+    return Response.json(conditions, {
+      headers: {
+        "Cache-Control": "public, s-maxage=900, stale-while-revalidate=1800",
+      },
+    });
   } catch {
     return Response.json(
       { error: "No se pudieron calcular las condiciones" },

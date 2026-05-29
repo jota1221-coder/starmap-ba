@@ -31,5 +31,12 @@ export async function GET(
     date,
   });
 
-  return Response.json({ point, conditions });
+  return Response.json(
+    { point, conditions },
+    {
+      headers: {
+        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=900",
+      },
+    },
+  );
 }

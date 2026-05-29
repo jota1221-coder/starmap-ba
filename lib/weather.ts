@@ -95,7 +95,14 @@ export async function fetchForecast(
     `&hourly=cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,visibility,relative_humidity_2m,temperature_2m` +
     `&timezone=auto&forecast_days=${FORECAST_DAYS}`;
 
-  const res = await fetch(url, { signal: AbortSignal.timeout(10_000) });
+  // Caché L2: Next Data Cache. A diferencia del Map in-memory (L1, por
+  // instancia y efímero en serverless), esta caché PERSISTE entre
+  // invocaciones serverless. Es el cache real de cara a escalar.
+  // En runtime no-Next (scripts/tests) la opción `next` se ignora sin romper.
+  const res = await fetch(url, {
+    signal: AbortSignal.timeout(10_000),
+    next: { revalidate: CACHE_TTL_MS / 1000, tags: ["weather"] },
+  });
   if (!res.ok) {
     throw new Error(`Open-Meteo respondió ${res.status}`);
   }

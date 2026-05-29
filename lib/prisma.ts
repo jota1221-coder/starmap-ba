@@ -1,17 +1,15 @@
 import { PrismaClient } from "@prisma/client";
 import { PrismaNeon } from "@prisma/adapter-neon";
+import { env } from "@/lib/env";
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
 function createPrismaClient() {
-  const connectionString = process.env.DATABASE_URL;
-  if (!connectionString) {
-    throw new Error("DATABASE_URL no está definida");
-  }
   // Prisma 7 requiere un driver adapter. Usamos el de Neon (serverless).
-  const adapter = new PrismaNeon({ connectionString });
+  // env.DATABASE_URL valida y falla con mensaje claro si falta.
+  const adapter = new PrismaNeon({ connectionString: env.DATABASE_URL });
   return new PrismaClient({ adapter });
 }
 
