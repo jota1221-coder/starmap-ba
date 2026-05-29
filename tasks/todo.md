@@ -8,24 +8,25 @@
 ## Fase 1: MVP Mapa con Datos Reales [Producto + DS]
 - [x] **Task 1.5** — 13 puntos validados; contaminación lumínica MEDIDA vía VIIRS (MCP stargazing); coords verificadas con Google Maps — ✅
 - [x] **Task 2** — Schema `ObservationPoint` + seed 13 puntos (bortle/sqm/acceso/tips/experiencia) en Neon — ✅ commit c5460b7
-- [ ] **Task 3** — Página `/mapa` con Leaflet (Client Component estricto, `ssr: false`) — M ← SIGUIENTE
-- [ ] **Task 4** — Panel detalle del punto (sidebar / sheet mobile) — S
+- [x] **Task 3** — Página `/mapa` con Leaflet (Client Component estricto, `ssr: false`) — ✅ commit a193b48
+- [ ] **Task 4** — Panel detalle del punto (sidebar / sheet mobile) — S — ⏸️ DIFERIDO (UI, después del backend)
 
 > Stack real: Next.js 16 + Prisma 7 (más nuevos que el plan original). Prisma 7 requiere driver adapter (`@prisma/adapter-neon`). El modelo suma info de visitante rica (tips, dónde dormir, mejor época, experiencia), mejora no prevista en el plan.
 
 ### ✋ Checkpoint: Mapa con datos de Bortle reales funcionando
 
-## Fase 2: Clima y Score Real [Producto]
-- [ ] **Task 5** — Open-Meteo con `cloud_cover_low/mid/high` + cache — S
-- [ ] **Task 6** — Score real: Clima (nubes desglosadas) + Luna + Bortle + tests — M
-- [ ] **Task 7** — Geolocalización + distancia Haversine — S
+## Fase 2: Clima y Score Real [Producto] — ✅ commit d4cc1c0
+- [x] **Task 5** — Open-Meteo con `cloud_cover_low/mid/high` + cache — ✅ `lib/weather.ts`
+- [x] **Task 6** — Score real: Clima (nubes desglosadas) + Luna + Bortle + tests — ✅ `lib/score.ts` (8 tests)
+- [x] **Task 7** — Distancia Haversine — ✅ `lib/distance.ts`. Geolocalización del usuario (UI) pendiente.
+- [x] **(extra)** — API routes + `lib/conditions.ts` (clima+cielo+score combinados)
 
-### ✋ Checkpoint: Score real y geolocalización OK
+### ✋ Checkpoint: Score real OK ✅ (validado en vivo: Alberti score 10 por luna casi llena)
 
 ## Fase 3: Guía de Observación [Producto]
-- [ ] **Task 8** — Servicio astronomy-engine (objetos visibles) — M
-- [ ] **Task 9** — Página `/punto/[slug]` Server Component + guía + date picker — M
-- [ ] **Task 10** — Azimut/altitud + brújula visual — M
+- [x] **Task 8** — Servicio astronomy-engine (objetos visibles, alt/az, rise/set) — ✅ `lib/astronomy.ts` (8 tests, validado vs MCP)
+- [x] **Task 9** — Página `/punto/[slug]` Server Component + guía + date picker — ✅ score en vivo, cielo, planetas, clima, info del lugar
+- [ ] **Task 10** — Azimut/altitud + brújula visual — M (cálculo ya en astronomy.ts; la guía ya muestra alt/az en texto; falta brújula visual)
 
 ### 🚩 Checkpoint MVP: Flow end-to-end usable
 
