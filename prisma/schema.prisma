@@ -9,3 +9,66 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+/// Punto de observación astronómica en la Provincia de Buenos Aires.
+/// Datos de contaminación lumínica (bortle/sqm) medidos vía grilla VIIRS;
+/// coordenadas ajustadas a la celda oscura accesible, no al centro del pueblo.
+model ObservationPoint {
+  id Int @id @default(autoincrement())
+
+  // Identidad
+  slug    String @unique
+  nombre  String
+  partido String
+
+  // Geografía
+  lat             Float
+  lng             Float
+  distanciaCabaKm Int
+  tipo            PointType
+
+  // Calidad de cielo (medida)
+  bortle Int // 1 (excelente) – 9 (cielo de gran ciudad)
+  sqm    Float // Sky Quality Meter, mag/arcsec². Mayor = más oscuro.
+
+  // Acceso
+  accesoTipo   AccessType
+  accesoCamino RoadType
+
+  // Contenido
+  descripcion String
+  notasAcceso String
+  referencia  String?
+
+  // Info para visitantes
+  mejorEpoca  String?
+  dondeDormir String?
+  tips        String[] // lista de consejos prácticos
+  experiencia String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([bortle])
+  @@index([distanciaCabaKm])
+}
+
+enum PointType {
+  sierra
+  costa
+  reserva
+  pampa
+  laguna
+}
+
+enum AccessType {
+  auto
+  auto_caminata_corta
+  cuatro_x_cuatro
+}
+
+enum RoadType {
+  asfalto
+  ripio
+  tierra
+}

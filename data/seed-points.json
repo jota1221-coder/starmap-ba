@@ -1,0 +1,349 @@
+{
+  "_meta": {
+    "version": 5,
+    "descripcion": "Puntos de observación astronómica en Provincia de Buenos Aires para escapadas desde CABA. v5 agrega info para visitantes (mejor época, dónde dormir, tips, experiencias) recopilada de medios, sitios de turismo y reseñas.",
+    "fuente_bortle": "MCP stargazing light_pollution_map (grilla VIIRS ~5.5 km). Coordenadas ajustadas a la celda oscura accesible.",
+    "leccion_clave": "Medir en el pueblo o la costanera da Bortle 6-8 por luz urbana; 5-15 km hacia el campo baja a Bortle 3-4. Las coordenadas apuntan a la celda oscura accesible.",
+    "campos_info_visitante": {
+      "mejor_epoca": "Mejor momento del año / condiciones",
+      "donde_dormir": "Opciones de alojamiento cercanas",
+      "tips": "Consejos prácticos (array)",
+      "experiencia": "Qué dicen visitantes / a qué se parece la experiencia"
+    },
+    "excluidos": {
+      "Mercedes (Obs. Di Palma)": "Bortle 8 — observatorio pegado a la ciudad. Visita guiada viernes, no cielo oscuro.",
+      "Navarro": "Bortle 6 — jornadas en la plaza del pueblo."
+    }
+  },
+  "puntos": [
+    {
+      "slug": "lobos-campo-sur",
+      "nombre": "Campo al sur de la Laguna de Lobos",
+      "partido": "Lobos",
+      "lat": -35.28,
+      "lng": -59.21,
+      "distancia_caba_km": 110,
+      "tipo": "laguna",
+      "bortle": 4,
+      "sqm": 20.4,
+      "acceso": { "tipo": "auto", "tipo_camino": "ripio" },
+      "descripcion": "Campo abierto al sur de la Laguna de Lobos. La opción decente más cercana a CABA. La costanera de la laguna (lado pueblo) es Bortle 6 por la luz de Lobos; este punto está alejado hacia el campo.",
+      "notas_acceso": "Pueblo más cercano: Lobos (12 km). Por Ruta 205 + caminos rurales hacia el sur. NO observar desde la costanera turística.",
+      "referencia": "Lobos — citado por Meteored, Agencia DIB y Ámbito como destino de astroturismo",
+      "info_visitante": {
+        "mejor_epoca": "Todo el año. Noches de otoño/invierno con aire más seco y estable. Siempre con Luna nueva o creciente temprana.",
+        "donde_dormir": "Hosterías y cabañas en Lobos y alrededores de la laguna. Como está a 110 km, muchos van y vuelven en el día.",
+        "tips": [
+          "Por la cercanía a CABA, ideal para una primera salida o para probar equipo nuevo sin viajar mucho.",
+          "Alejate de la costanera y los clubes náuticos: tienen iluminación que arruina la adaptación a la oscuridad.",
+          "Llevá repelente: cerca de la laguna hay mosquitos en temporada cálida."
+        ],
+        "experiencia": "Escapada corta y accesible. No esperes cielo de montaña, pero a 90 minutos de CABA ya se ve la Vía Láctea en noches buenas."
+      }
+    },
+    {
+      "slug": "chascomus-campo-sur",
+      "nombre": "Campo al sur de Chascomús",
+      "partido": "Chascomús",
+      "lat": -35.70,
+      "lng": -58.16,
+      "distancia_caba_km": 140,
+      "tipo": "pampa",
+      "bortle": 3,
+      "sqm": 21.3,
+      "acceso": { "tipo": "auto", "tipo_camino": "ripio" },
+      "descripcion": "Campo abierto unos 10 km al sur de Chascomús, lejos de la luz del pueblo y de la laguna. Bortle 3 medido. Excelente relación oscuridad/distancia desde CABA.",
+      "notas_acceso": "Pueblo más cercano: Chascomús (15 km al norte). Autovía 2, luego rutas rurales hacia el sur. NO observar desde la laguna (Bortle 6-8); alejarse al campo.",
+      "referencia": "Zona de salidas de astrónomos amateurs de LIADA",
+      "info_visitante": {
+        "mejor_epoca": "Todo el año. La Autovía 2 hace el acceso muy fácil. Evitar fines de semana largos de temporada por tránsito.",
+        "donde_dormir": "Amplia oferta en Chascomús (hotelería, cabañas, camping a orillas de la laguna). Pueblo turístico consolidado.",
+        "tips": [
+          "El mejor combo cerca/oscuridad de toda la lista: Bortle 3 a solo 140 km por autovía.",
+          "Chascomús tiene gastronomía y servicios completos: podés cenar en el pueblo y salir al campo después.",
+          "Buscá un camino rural tranquilo y seguro; avisá a alguien dónde vas a estar."
+        ],
+        "experiencia": "La escapada 'racional': cielo muy oscuro sin manejar 4 horas. Combinable con turismo de laguna durante el día."
+      }
+    },
+    {
+      "slug": "pipinas-punta-indio",
+      "nombre": "Pipinas — Centro Espacial Punta Indio",
+      "partido": "Punta Indio",
+      "lat": -35.536,
+      "lng": -57.336,
+      "distancia_caba_km": 160,
+      "tipo": "pampa",
+      "bortle": 4,
+      "sqm": 20.4,
+      "acceso": { "tipo": "auto", "tipo_camino": "asfalto" },
+      "descripcion": "Pueblo de Pipinas, sede del Centro Espacial Punta Indio (CONAE) donde se ensambla el Tronador II. Cielos limpios y un pueblo con identidad espacial y turismo comunitario fuerte.",
+      "notas_acceso": "Acceso por Ruta Provincial 36 hasta Pipinas. Servicios en el pueblo.",
+      "referencia": "Centro Espacial Punta Indio — CONAE",
+      "info_visitante": {
+        "mejor_epoca": "Todo el año. Pueblo de turismo comunitario activo, conviene coordinar con la Oficina de Turismo: (02221) 48-0835.",
+        "donde_dormir": "Hotel Pipinas (16 habitaciones, proyecto cooperativo 'Pipinas Viva'), con desayuno y pensión completa. Reservas anticipadas recomendadas.",
+        "tips": [
+          "Combinás astronomía con la réplica del Tronador II (CONAE), el museo a cielo abierto (murales MAPI) y la vieja estación de tren.",
+          "Turismo de base comunitaria: el dinero queda en el pueblo, buena experiencia social además de astronómica.",
+          "Balnearios El Pericón y Sarandí cerca para actividades de día."
+        ],
+        "experiencia": "Pipinas 'resucitó' gracias al turismo cooperativo. Pueblo con alma espacial: ideal para un fin de semana que mezcla ciencia, historia y cielo."
+      }
+    },
+    {
+      "slug": "san-pedro-vuelta-obligado",
+      "nombre": "Vuelta de Obligado (San Pedro)",
+      "partido": "San Pedro",
+      "lat": -33.596,
+      "lng": -59.817,
+      "distancia_caba_km": 175,
+      "tipo": "pampa",
+      "bortle": 4,
+      "sqm": 20.4,
+      "acceso": { "tipo": "auto", "tipo_camino": "asfalto" },
+      "descripcion": "Costa del Paraná al norte de San Pedro, sitio histórico de la batalla de Vuelta de Obligado. Diego Toscán lleva el proyecto 'Turismo Sideral' con charlas y observación con telescopio.",
+      "notas_acceso": "Pueblo más cercano: San Pedro (15 km al sur). Ruta 9 + Ruta 26. Servicios completos en San Pedro.",
+      "referencia": "Proyecto 'Turismo Sideral' de Diego Toscán",
+      "info_visitante": {
+        "mejor_epoca": "Primavera y verano (noches templadas). Coordinar con Turismo Sideral (Diego Toscán) por Facebook/Instagram según fase lunar.",
+        "donde_dormir": "Amplia oferta en San Pedro: hotelería, cabañas y complejos sobre el Paraná. Destino turístico consolidado de fin de semana.",
+        "tips": [
+          "Si querés guía: Diego Toscán hace charlas nocturnas mostrando Saturno, Júpiter, la Luna, lluvias de meteoros, satélites y la ISS.",
+          "Combinable con el turismo histórico de Vuelta de Obligado (la batalla) y la costa del Paraná.",
+          "San Pedro tiene playas de río, ideal para hacer base familiar."
+        ],
+        "experiencia": "Charlas que vinculan astronomía con historia y mitología, accesibles para principiantes y familias. Cielo 'muy limpio' según el propio guía."
+      }
+    },
+    {
+      "slug": "cielos-albertinos",
+      "nombre": "Observatorio Cielos Albertinos (Alberti rural)",
+      "partido": "Alberti",
+      "lat": -35.10,
+      "lng": -60.35,
+      "distancia_caba_km": 181,
+      "tipo": "pampa",
+      "bortle": 4,
+      "sqm": 20.4,
+      "acceso": { "tipo": "auto", "tipo_camino": "ripio" },
+      "descripcion": "Observatorio 'Cielos Albertinos' inaugurado en 2026 en el predio recuperado de la ex Escuela Rural N°8 'José Inocencio Arias', a 12 km de Alberti. Único en la provincia bajo jurisdicción de la Dirección General de Cultura y Educación. Astrofotógrafos vuelven cada luna nueva. Alberti es 'capital de la observación astronómica' bonaerense.",
+      "notas_acceso": "Pueblo más cercano: Alberti (12 km). Ruta 5 hasta Alberti, luego caminos rurales. Coordinar visita por adelantado.",
+      "referencia": "Cielos Albertinos — Director Marcos Santarosa, astrofotógrafo Maxi Falieres",
+      "info_visitante": {
+        "mejor_epoca": "Eventos coordinados alrededor de Luna nueva. Seguir las redes del proyecto para fechas de observación abiertas al público.",
+        "donde_dormir": "Alojamiento en Alberti (12 km). Acceso fácil por Ruta 5, ideal para escapada de fin de semana.",
+        "tips": [
+          "Observatorio público y educativo con instrumentos profesionales en predio de 1 hectárea: experiencia guiada, no improvisada.",
+          "Proyecto nacido en aulas y plazas hace más de 10 años: muy buena divulgación para principiantes y chicos.",
+          "Coordinar SIEMPRE la visita; no es de acceso libre permanente."
+        ],
+        "experiencia": "El destino con más 'sello astronómico oficial' de la provincia. Astrofotógrafos lo eligen cada luna nueva. Ideal si querés acompañamiento experto."
+      }
+    },
+    {
+      "slug": "yamay-pardo",
+      "nombre": "Yamay Ecoturismo (Pardo, Las Flores)",
+      "partido": "Las Flores",
+      "lat": -36.223,
+      "lng": -59.385,
+      "distancia_caba_km": 190,
+      "tipo": "pampa",
+      "bortle": 2,
+      "sqm": 21.6,
+      "acceso": { "tipo": "auto", "tipo_camino": "ripio" },
+      "descripcion": "Glamping y ecoturismo a 2,5 km de Pardo, sobre Canal 1 junto al puente Gallinal. Bortle 2 medido — uno de los cielos más oscuros del listado. Talleres de astroturismo y astrofotografía con el Planetario de Buenos Aires.",
+      "notas_acceso": "Pueblo más cercano: Pardo (2,5 km), partido Las Flores. Desde Las Flores (Ruta 3 + caminos rurales). Reservas: info@yamay.com.ar / +54 9 11 3681-4793.",
+      "referencia": "Yamay Ecoturismo — yamay.com.ar",
+      "info_visitante": {
+        "mejor_epoca": "Todo el año (las yurtas tienen calefacción). Reservar con anticipación, especialmente fines de semana de Luna nueva.",
+        "donde_dormir": "En el lugar: 4 yurtas tipo mongolas elevadas, con baño privado, agua caliente, piso de madera y DOMO CENITAL TRANSPARENTE para ver las estrellas desde la cama. Desayuno con productos locales.",
+        "tips": [
+          "El único punto donde dormís literalmente mirando el cielo desde la cama (cúpula transparente).",
+          "Bortle 2: de los cielos más oscuros y accesibles en auto de toda la lista.",
+          "Reseñas casi 5 estrellas; destacan al anfitrión (Juan Manuel) y la conexión con la naturaleza.",
+          "Actividades extra: huerta agroecológica, observación de aves, capilla antigua, caminatas."
+        ],
+        "experiencia": "La opción 'experiencia completa': no es solo ir a mirar, es quedarse a dormir bajo un cielo Bortle 2. Muy elogiado por desconexión y cantidad de estrellas visibles."
+      }
+    },
+    {
+      "slug": "bragado-rural",
+      "nombre": "Pampa rural de Bragado",
+      "partido": "Bragado",
+      "lat": -35.15,
+      "lng": -60.55,
+      "distancia_caba_km": 200,
+      "tipo": "pampa",
+      "bortle": 4,
+      "sqm": 20.4,
+      "acceso": { "tipo": "auto", "tipo_camino": "ripio" },
+      "descripcion": "Pampa rural en el partido de Bragado, citada por su lejanía de la contaminación lumínica. Acceso fácil por Autopista 5. El pueblo tiene laguna con centro náutico, museos y servicios completos.",
+      "notas_acceso": "Pueblo más cercano: Bragado (15 km). Autopista 5 (Au. Luján-Bragado).",
+      "referencia": "Citado por Meteored y Ámbito. Zona noroeste bonaerense (Junín, Lincoln, Alberdi).",
+      "info_visitante": {
+        "mejor_epoca": "Todo el año. La Autopista 5 hace el acceso cómodo y rápido. Noches de invierno más estables.",
+        "donde_dormir": "Hotelería y cabañas en Bragado, varias cerca de la laguna del Bragado. Servicios completos.",
+        "tips": [
+          "Acceso muy cómodo por autopista: bueno para quien viene del oeste/noroeste del GBA.",
+          "Salí de la ciudad y el alumbrado de la laguna hacia caminos rurales para ganar oscuridad.",
+          "Combinable con centro náutico y museos del pueblo durante el día."
+        ],
+        "experiencia": "Escapada clásica de pampa noroeste. Pueblo tranquilo, seguro y con buena hospitalidad, según los medios que lo recomiendan."
+      }
+    },
+    {
+      "slug": "pila-pampa-profunda",
+      "nombre": "Pampa profunda de Pila",
+      "partido": "Pila",
+      "lat": -36.05,
+      "lng": -58.25,
+      "distancia_caba_km": 285,
+      "tipo": "pampa",
+      "bortle": 2,
+      "sqm": 21.6,
+      "acceso": { "tipo": "auto", "tipo_camino": "ripio" },
+      "descripcion": "Uno de los partidos menos poblados de la Provincia (≈3.000 habitantes). Bortle 2 medido — cielo excelente en plena pampa, horizonte limpio en 360°.",
+      "notas_acceso": "Pueblo más cercano: Pila (15 km). Ruta 2 + provinciales 41 y 50. POCOS SERVICIOS — cargar combustible en Dolores o Las Flores.",
+      "referencia": "Punto de muy baja densidad poblacional. Bortle 2 confirmado.",
+      "info_visitante": {
+        "mejor_epoca": "Otoño-invierno por aire seco y estable; cualquier época con Luna nueva. Revisar pronóstico de nubes (zona de humedales cercanos).",
+        "donde_dormir": "Oferta muy limitada en el pueblo de Pila. Muchos hacen base en Dolores o Chascomús y viajan al punto. Considerar llevar equipo de camping autosuficiente.",
+        "tips": [
+          "Cielo Bortle 2 con acceso en auto: rareza para la zona pampeana.",
+          "POCOS SERVICIOS: cargá nafta, agua y comida ANTES. No cuentes con estaciones de servicio cerca de noche.",
+          "Avisá tu ubicación a alguien; es zona muy despoblada (eso es justo lo que la hace oscura).",
+          "Horizonte 360° limpio: ideal para fotografiar la Vía Láctea de horizonte a horizonte."
+        ],
+        "experiencia": "La 'pampa profunda' de verdad: silencio absoluto y cielo de los mejores del listado. Para quien prioriza oscuridad sobre comodidad."
+      }
+    },
+    {
+      "slug": "vedia-campos-estrellas",
+      "nombre": "Campos y Estrellas (Vedia)",
+      "partido": "Leandro N. Alem",
+      "lat": -34.50,
+      "lng": -61.55,
+      "distancia_caba_km": 319,
+      "tipo": "pampa",
+      "bortle": 4,
+      "sqm": 20.4,
+      "acceso": { "tipo": "auto", "tipo_camino": "ripio" },
+      "descripcion": "Emprendimiento de astroturismo de Juan Francisco Ceser (profesor y divulgador) en campos cercanos a Vedia. Observación nocturna, observación solar diurna y propuestas educativas.",
+      "notas_acceso": "Pueblo más cercano: Vedia (2 km). 319 km de CABA, ~3 h por Ruta 7. Coordinar con Juan Francisco Ceser (@campoyestrellas.astroturismo).",
+      "referencia": "Campos y Estrellas — Juan Francisco Ceser",
+      "info_visitante": {
+        "mejor_epoca": "Coordinar con el emprendimiento según fase lunar y clima. Ofrecen observación tanto nocturna como solar diurna.",
+        "donde_dormir": "Alojamiento en Vedia (2 km del punto). Localidad del partido de Leandro N. Alem.",
+        "tips": [
+          "Experiencia guiada por un divulgador local: bueno para principiantes y grupos/escuelas.",
+          "Ofrecen observación solar de día: plan distinto si vas con familia y no querés trasnochar.",
+          "Reservar por Instagram (@campoyestrellas.astroturismo) antes de viajar; no es acceso libre."
+        ],
+        "experiencia": "Astroturismo de pueblo, cálido y educativo. Referente del noroeste bonaerense citado por medios regionales."
+      }
+    },
+    {
+      "slug": "punta-rasa-samborombon",
+      "nombre": "Punta Rasa — Bahía Samborombón",
+      "partido": "La Costa",
+      "lat": -36.32,
+      "lng": -56.76,
+      "distancia_caba_km": 370,
+      "tipo": "costa",
+      "bortle": 5,
+      "sqm": 19.5,
+      "acceso": { "tipo": "auto_+_caminata_corta", "tipo_camino": "asfalto" },
+      "descripcion": "Entrada norte de la Bahía Samborombón, reserva natural enorme y deshabitada. El punto de acceso (faro) tiene algo de luz de San Clemente del Tuyú (Bortle 5). Hacia el interior de la bahía hay cielos Bortle 1-2 pero el acceso es de marisma.",
+      "notas_acceso": "Pueblo más cercano: San Clemente del Tuyú (10 km). Ruta 11 hasta San Clemente, luego camino al faro. Para máxima oscuridad alejarse hacia la bahía (difícil acceso).",
+      "referencia": "Reserva Natural Punta Rasa — destino de naturalistas y aficionados",
+      "info_visitante": {
+        "mejor_epoca": "Fuera de temporada alta (evitar enero-febrero por luz y tránsito de San Clemente). Llevar siempre rompevientos.",
+        "donde_dormir": "Amplia oferta en San Clemente del Tuyú y el resto del Partido de la Costa (10-20 km).",
+        "tips": [
+          "El faro tiene luz de San Clemente: para cielo oscuro de verdad hay que internarse hacia la bahía (zona de marisma, ir con precaución).",
+          "Combina avistaje de aves (reserva top a nivel mundial) de día con cielo de noche.",
+          "Mucho viento costero: abrigo y algo para fijar el equipo."
+        ],
+        "experiencia": "Más reserva natural que destino astronómico puro. Bueno si ya vas de vacaciones a la costa y querés sumar una noche de estrellas."
+      }
+    },
+    {
+      "slug": "tandilia-rural",
+      "nombre": "Sierras de Tandilia (rural al este de Tandil)",
+      "partido": "Tandil",
+      "lat": -37.37,
+      "lng": -58.95,
+      "distancia_caba_km": 380,
+      "tipo": "sierra",
+      "bortle": 4,
+      "sqm": 20.4,
+      "acceso": { "tipo": "auto", "tipo_camino": "ripio" },
+      "descripcion": "Zona rural de las Sierras de Tandilia al este de Tandil. Caminos vecinales sin alumbrado entre sierras bajas y campo abierto. Horizonte limpio salvo al oeste (luz de Tandil).",
+      "notas_acceso": "Pueblo más cercano: Tandil (25 km, ~30 min). Ruta 226 hacia el este y caminos vecinales.",
+      "referencia": "Tandil — citado por Time Out, La Nación y múltiples medios",
+      "info_visitante": {
+        "mejor_epoca": "Todo el año. Tandil tiene microclima serrano; revisar pronóstico. Muy concurrido en Semana Santa (evitar para observar).",
+        "donde_dormir": "Enorme oferta en Tandil: cabañas serranas, hoteles, estancias. Destino turístico top de la provincia.",
+        "tips": [
+          "Hay guías que hacen caminatas y cabalgatas nocturnas con interpretación astronómica: opción guiada disponible.",
+          "Apuntá el equipo hacia el este/sur (la luz de Tandil queda al oeste).",
+          "Combiná con gastronomía serrana (quesos, chacinados) y senderismo de día."
+        ],
+        "experiencia": "El destino serrano más 'completo' como escapada: cielo decente + turismo desarrollado. Bueno para quien quiere mezclar estrellas con buen comer y trekking."
+      }
+    },
+    {
+      "slug": "faro-querandi",
+      "nombre": "Faro Querandí (médanos costa atlántica)",
+      "partido": "Villa Gesell",
+      "lat": -37.486,
+      "lng": -57.138,
+      "distancia_caba_km": 400,
+      "tipo": "costa",
+      "bortle": 2,
+      "sqm": 21.6,
+      "acceso": { "tipo": "4x4_requerido", "tipo_camino": "tierra" },
+      "descripcion": "Faro de 1922 en plena Reserva Natural Faro Querandí, entre médanos vírgenes. Bortle 2 medido — cielo costero excepcional. Se llega en travesías 4x4 desde Villa Gesell / Mar de las Pampas.",
+      "notas_acceso": "Pueblo más cercano: Villa Gesell (20 km al norte) o Mar de las Pampas (10 km al sur). ACCESO SOLO EN 4x4 por playa o médanos. Sin servicios nocturnos.",
+      "referencia": "Reserva Natural Faro Querandí — popular entre astrofotógrafos",
+      "info_visitante": {
+        "mejor_epoca": "Primavera-verano-otoño. Las excursiones 4x4 operan principalmente en temporada y fines de semana. Llevar rompevientos siempre.",
+        "donde_dormir": "Base en Villa Gesell, Mar de las Pampas, Las Gaviotas o Mar Azul. Hay excursiones que se contratan en el centro de Gesell o Mar de las Pampas.",
+        "tips": [
+          "NO se llega en auto común: necesitás 4x4 propio con experiencia en médanos, o contratar excursión guiada (Land Rover/jeep, 2-4 hs).",
+          "La mayoría de las excursiones son de día; para observar de noche hay que coordinar una salida nocturna especial o ir con vehículo propio.",
+          "Llevá agua, abrigo, linterna ROJA (para no perder visión nocturna) y GPS.",
+          "Se puede hacer sandboard en los médanos de día: plan combinado familiar."
+        ],
+        "experiencia": "Aventura + cielo Bortle 2. La travesía por 10 km de playa y médanos hasta el faro de 1922 ya es un viaje en sí. Reseñas muy positivas en TripAdvisor."
+      }
+    },
+    {
+      "slug": "parque-tornquist",
+      "nombre": "Parque Provincial Tornquist (Sierra de la Ventana)",
+      "partido": "Tornquist",
+      "lat": -38.069,
+      "lng": -61.975,
+      "distancia_caba_km": 620,
+      "tipo": "sierra",
+      "bortle": 3,
+      "sqm": 21.3,
+      "acceso": { "tipo": "auto_+_caminata_corta", "tipo_camino": "asfalto" },
+      "descripcion": "Acceso al Cerro de la Ventana dentro del Parque Provincial Tornquist. Sierra abierta sin alumbrado, horizonte despejado en 360°. Referente histórico de la astronomía amateur bonaerense. La zona desarrolló una oferta astroturística fuerte (CIASIVE, planetario, star parties).",
+      "notas_acceso": "Pueblo más cercano: Sierra de la Ventana (15 km, ~20 min por Ruta 76). El parque cierra al atardecer; observar desde el área de acceso o puntos sobre la ruta. Frío de noche todo el año.",
+      "referencia": "Sierra de la Ventana / Tornquist — referente clásico (La Nación, Ámbito, Meteored, Time Out, La Ruta Natural). CIASIVE: Colectora José Hernández 132.",
+      "info_visitante": {
+        "mejor_epoca": "Todo el año, pero las noches son FRÍAS siempre (zona serrana): abrigo obligatorio incluso en verano. Otoño/invierno = aire más seco y transparente.",
+        "donde_dormir": "Gran oferta en Sierra de la Ventana, Villa Ventana y Tornquist: cabañas, hosterías, camping Base del Cerro Ventana (abierto todo el año, con baños, duchas y fogones).",
+        "tips": [
+          "Hay infraestructura astroturística seria: CIASIVE (cine 5D 4K, museo interactivo, telescopios, primer parque astronómico inclusivo de la provincia) y un planetario.",
+          "Experiencias guiadas: 'Star Party' al pie de las sierras con telescopios + fogón, y 'Astrotravesía 4x4' nocturna por Puente Blanco.",
+          "El parque cierra al atardecer: para observar de noche, hacerlo desde el camping, el pueblo o excursión organizada.",
+          "Se ve la Vía Láctea a simple vista en noches buenas. El punto más oscuro y 'serio' del listado."
+        ],
+        "experiencia": "El destino estrella (literal) del astroturismo bonaerense. Lejos (620 km) pero con la mejor combinación de cielo + infraestructura + paisaje serrano. Ideal para un viaje dedicado de varios días."
+      }
+    }
+  ]
+}
