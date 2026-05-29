@@ -15,6 +15,11 @@ export type MapPoint = {
   accesoTipo: string;
 };
 
+/** Devuelve un punto completo por su slug (o null si no existe). */
+export async function getPointBySlug(slug: string) {
+  return prisma.observationPoint.findUnique({ where: { slug } });
+}
+
 /** Devuelve los puntos para el mapa, ordenados del cielo más oscuro al menos. */
 export async function getMapPoints(): Promise<MapPoint[]> {
   return prisma.observationPoint.findMany({
