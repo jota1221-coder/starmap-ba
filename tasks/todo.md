@@ -2,6 +2,30 @@
 
 > Plan completo en [plan.md](./plan.md). Esta es la lista accionable actualizada tras revisión crítica.
 
+---
+
+## 📌 CHECKPOINT — 2026-05-29
+
+**Estado:** MVP funcional completo en local. 9 commits, 23 tests pasando, build limpio.
+Repo: github.com/jota1221-coder/starmap-ba (⚠️ 5 commits locales SIN pushear).
+
+**Flow end-to-end operativo:** landing → mapa (satélite + Bortle) → punto → guía con score en vivo.
+
+**Hecho más allá del plan original (mejoras no previstas):**
+- 🎨 Rediseño completo de dirección de arte (skills impeccable + ui-ux-pro-max):
+  paleta nocturna OKLCH, anti-slop, ver `DESIGN.md` — commit dc86165
+- 🛰️ Vista satélite Esri + toggle + zoom y panel de detalle al clickear — commit cae50e9
+- 🏛️ `ARCHITECTURE.md` + hardening de producción (env, /api/health, Next Data
+  Cache, cache headers) — commit d4cc1c0 / hardening
+- 🌌 Landing con foto real del cielo (ESO, CC BY 4.0) + animaciones de entrada — commit 75f4b57
+- 💬 Explicación en lenguaje natural de por qué la noche es buena/mala
+  (`explainScore`) — commit 46d28ee
+- 🚀 Deploy-readiness: `postinstall: prisma generate` + `DEPLOY.md`
+
+**Próximo paso inmediato:** `git push` (subir los 5 commits) → retomar deploy en Vercel (Task 13).
+
+---
+
 ## Fase 0: Foundation
 - [x] **Task 1** — Bootstrap Next.js 16 + Prisma 7 + TypeScript + Tailwind + Neon — ✅ commit 5c53e22
 
@@ -9,7 +33,7 @@
 - [x] **Task 1.5** — 13 puntos validados; contaminación lumínica MEDIDA vía VIIRS (MCP stargazing); coords verificadas con Google Maps — ✅
 - [x] **Task 2** — Schema `ObservationPoint` + seed 13 puntos (bortle/sqm/acceso/tips/experiencia) en Neon — ✅ commit c5460b7
 - [x] **Task 3** — Página `/mapa` con Leaflet (Client Component estricto, `ssr: false`) — ✅ commit a193b48
-- [ ] **Task 4** — Panel detalle del punto (sidebar / sheet mobile) — S — ⏸️ DIFERIDO (UI, después del backend)
+- [x] **Task 4** — Panel detalle del punto (sidebar desktop / sheet mobile) — ✅ commit cae50e9 (glass sobre el mapa, zoom al clickear)
 
 > Stack real: Next.js 16 + Prisma 7 (más nuevos que el plan original). Prisma 7 requiere driver adapter (`@prisma/adapter-neon`). El modelo suma info de visitante rica (tips, dónde dormir, mejor época, experiencia), mejora no prevista en el plan.
 
