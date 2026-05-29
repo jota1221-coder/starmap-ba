@@ -3,13 +3,15 @@
 > Plan completo en [plan.md](./plan.md). Esta es la lista accionable actualizada tras revisión crítica.
 
 ## Fase 0: Foundation
-- [ ] **Task 1** — Bootstrap Next.js 14 + Prisma + TypeScript + Tailwind + Neon — S
+- [x] **Task 1** — Bootstrap Next.js 16 + Prisma 7 + TypeScript + Tailwind + Neon — ✅ commit 5c53e22
 
 ## Fase 1: MVP Mapa con Datos Reales [Producto + DS]
-- [ ] **Task 1.5** — Lookup manual de Bortle para 15 puntos en lightpollutionmap.info — S
-- [ ] **Task 2** — Schema DB + seed 15 puntos (incluye `bortleScale`) — S-M
-- [ ] **Task 3** — Página `/mapa` con Leaflet (Client Component estricto, `ssr: false`) — M
+- [x] **Task 1.5** — 13 puntos validados; contaminación lumínica MEDIDA vía VIIRS (MCP stargazing); coords verificadas con Google Maps — ✅
+- [x] **Task 2** — Schema `ObservationPoint` + seed 13 puntos (bortle/sqm/acceso/tips/experiencia) en Neon — ✅ commit c5460b7
+- [ ] **Task 3** — Página `/mapa` con Leaflet (Client Component estricto, `ssr: false`) — M ← SIGUIENTE
 - [ ] **Task 4** — Panel detalle del punto (sidebar / sheet mobile) — S
+
+> Stack real: Next.js 16 + Prisma 7 (más nuevos que el plan original). Prisma 7 requiere driver adapter (`@prisma/adapter-neon`). El modelo suma info de visitante rica (tips, dónde dormir, mejor época, experiencia), mejora no prevista en el plan.
 
 ### ✋ Checkpoint: Mapa con datos de Bortle reales funcionando
 
