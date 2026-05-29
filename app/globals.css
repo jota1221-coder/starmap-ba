@@ -62,7 +62,7 @@ body {
     radial-gradient(1px 1px at 180px 160px, oklch(0.88 0.03 80 / 0.5), transparent),
     radial-gradient(1px 1px at 90px 200px, oklch(0.92 0.01 250 / 0.6), transparent);
   background-size: 240px 240px;
-  animation: twinkle 5s ease-in-out infinite;
+  animation: twinkle 5s ease-in-out infinite, drift 90s linear infinite alternate;
 }
 
 .starfield::after {
@@ -71,7 +71,7 @@ body {
     radial-gradient(1.5px 1.5px at 160px 40px, oklch(0.85 0.04 80 / 0.5), transparent),
     radial-gradient(1.5px 1.5px at 240px 180px, oklch(0.92 0.02 250 / 0.6), transparent);
   background-size: 340px 340px;
-  animation: twinkle 7s ease-in-out infinite reverse;
+  animation: twinkle 7s ease-in-out infinite reverse, drift 120s linear infinite alternate;
 }
 
 @keyframes twinkle {
@@ -79,9 +79,45 @@ body {
   50% { opacity: 0.9; }
 }
 
+/* Deriva lentísima del campo de estrellas (sensación de cielo vivo). */
+@keyframes drift {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-40px, -24px, 0); }
+}
+
+/* Entrada: aparecer subiendo, con la curva orgánica. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-rise {
+  opacity: 0;
+  animation: rise 0.8s var(--ease-organic) forwards;
+}
+
+/* Ken Burns: deriva/zoom lentísimo sobre la foto del cielo (sensación viva). */
+@keyframes kenburns {
+  from { transform: scale(1) translate3d(0, 0, 0); }
+  to { transform: scale(1.12) translate3d(-1.5%, -1.5%, 0); }
+}
+.kenburns {
+  animation: kenburns 40s ease-in-out infinite alternate;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .starfield::before,
   .starfield::after {
+    animation: none;
+  }
+  .animate-rise {
+    opacity: 1;
     animation: none;
   }
 }
