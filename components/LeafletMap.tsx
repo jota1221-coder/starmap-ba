@@ -86,30 +86,30 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
         })}
       </MapContainer>
 
-      {/* Toggle de capa */}
-      <div className="absolute right-3 top-3 z-[1000] flex overflow-hidden rounded-lg border border-slate-700 text-xs font-medium shadow-lg">
+      {/* Toggle de capa — glass legítimo: flota sobre el mapa */}
+      <div className="absolute right-3 top-3 z-[1000] flex overflow-hidden rounded-xl border border-white/10 bg-surface/60 text-xs font-medium backdrop-blur-md">
         <button
           onClick={() => setBase("satelite")}
-          className={`px-3 py-1.5 ${base === "satelite" ? "bg-slate-100 text-slate-950" : "bg-slate-900/90 text-slate-300"}`}
+          className={`px-3.5 py-2 transition-colors duration-200 ${base === "satelite" ? "bg-accent text-ink" : "text-fg-muted hover:text-fg"}`}
         >
           Satélite
         </button>
         <button
           onClick={() => setBase("oscuro")}
-          className={`px-3 py-1.5 ${base === "oscuro" ? "bg-slate-100 text-slate-950" : "bg-slate-900/90 text-slate-300"}`}
+          className={`px-3.5 py-2 transition-colors duration-200 ${base === "oscuro" ? "bg-accent text-ink" : "text-fg-muted hover:text-fg"}`}
         >
           Oscuro
         </button>
       </div>
 
       {/* Leyenda */}
-      <div className="pointer-events-none absolute left-3 top-3 z-[1000] rounded-lg border border-slate-700 bg-slate-900/85 p-3 text-xs text-slate-200 shadow-lg backdrop-blur">
-        <p className="mb-2 font-semibold">Calidad de cielo</p>
-        <ul className="space-y-1">
+      <div className="pointer-events-none absolute left-3 top-3 z-[1000] rounded-xl border border-white/10 bg-surface/60 p-3.5 text-xs text-fg-muted backdrop-blur-md">
+        <p className="mb-2.5 font-semibold tracking-tight text-fg">Calidad de cielo</p>
+        <ul className="space-y-1.5">
           {BORTLE_LEGEND.map((item) => (
-            <li key={item.bortle} className="flex items-center gap-2">
+            <li key={item.bortle} className="flex items-center gap-2.5">
               <span
-                className="inline-block h-3 w-3 rounded-full"
+                className="inline-block h-2.5 w-2.5 rounded-full"
                 style={{ backgroundColor: bortleColor(item.bortle) }}
               />
               {item.label}
@@ -118,52 +118,53 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
         </ul>
       </div>
 
-      {/* Panel de detalle */}
+      {/* Panel de detalle — glass legítimo: flota sobre el mapa */}
       {selected && (
-        <aside className="absolute inset-x-0 bottom-0 z-[1100] max-h-[60%] overflow-y-auto border-t border-slate-700 bg-slate-900/95 p-5 shadow-2xl backdrop-blur sm:inset-y-0 sm:left-auto sm:right-0 sm:max-h-none sm:w-96 sm:border-l sm:border-t-0">
+        <aside className="absolute inset-x-0 bottom-0 z-[1100] max-h-[62%] overflow-y-auto border-t border-white/10 bg-surface/70 p-6 backdrop-blur-xl transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] sm:inset-y-0 sm:left-auto sm:right-0 sm:max-h-none sm:w-[24rem] sm:border-l sm:border-t-0">
           <button
             onClick={() => setSelected(null)}
-            className="absolute right-3 top-3 rounded-full p-1 text-slate-400 hover:bg-slate-800 hover:text-slate-100"
+            className="absolute right-4 top-4 rounded-full p-1.5 text-fg-faint transition-colors duration-200 hover:bg-white/5 hover:text-fg"
             aria-label="Cerrar"
           >
-            ✕
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4">
+              <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+            </svg>
           </button>
 
-          <h2 className="pr-8 text-lg font-semibold text-slate-100">
+          <h2 className="pr-8 text-xl font-semibold tracking-tight text-fg">
             {selected.nombre}
           </h2>
-          <p className="text-sm text-slate-400">{selected.partido}</p>
+          <p className="mt-0.5 text-sm text-fg-muted">{selected.partido}</p>
 
-          <div className="mt-3 flex flex-wrap gap-2 text-xs">
+          <div className="mt-4 flex flex-wrap gap-1.5 text-xs">
             <span
-              className="rounded-full px-2.5 py-1 font-medium text-slate-950"
+              className="rounded-full px-2.5 py-1 font-medium text-ink"
               style={{ backgroundColor: bortleColor(selected.bortle) }}
             >
               Bortle {selected.bortle} · {bortleLabel(selected.bortle)}
             </span>
-            <span className="rounded-full border border-slate-700 px-2.5 py-1 text-slate-300">
+            <span className="rounded-full border border-white/10 px-2.5 py-1 text-fg-muted">
               {TIPO_LABEL[selected.tipo] ?? selected.tipo}
             </span>
-            <span className="rounded-full border border-slate-700 px-2.5 py-1 text-slate-300">
+            <span className="tnum rounded-full border border-white/10 px-2.5 py-1 text-fg-muted">
               {selected.distanciaCabaKm} km
             </span>
-            <span className="rounded-full border border-slate-700 px-2.5 py-1 text-slate-300">
+            <span className="rounded-full border border-white/10 px-2.5 py-1 text-fg-muted">
               {ACCESS_LABEL[selected.accesoTipo] ?? selected.accesoTipo}
             </span>
           </div>
 
-          <p className="mt-4 text-sm leading-relaxed text-slate-300">
+          <p className="mt-5 text-sm leading-relaxed text-fg-muted">
             {selected.descripcion}
           </p>
 
-          {/* Placeholder de fotos/reseñas — próxima iteración */}
-          <div className="mt-4 rounded-lg border border-dashed border-slate-700 p-3 text-center text-xs text-slate-500">
-            📷 Fotos y reseñas de la comunidad — próximamente
-          </div>
+          <p className="mt-5 text-xs text-fg-faint">
+            Fotos y reseñas de la comunidad, próximamente.
+          </p>
 
           <a
             href={`/punto/${selected.slug}`}
-            className="mt-4 block rounded-full bg-slate-100 px-4 py-2.5 text-center text-sm font-medium text-slate-950 hover:bg-white"
+            className="mt-5 block rounded-2xl bg-accent px-4 py-3 text-center text-sm font-semibold text-ink transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-accent-soft"
           >
             Ver guía de observación →
           </a>

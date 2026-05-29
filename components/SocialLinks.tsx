@@ -29,7 +29,7 @@ export default function SocialLinks() {
           aria-label={l.label}
           target="_blank"
           rel="noopener noreferrer"
-          className="rounded-full p-2 text-slate-400 transition-colors hover:bg-slate-800 hover:text-slate-100"
+          className="rounded-full p-2 text-fg-faint transition-colors duration-200 hover:text-accent"
         >
           <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
             {ICONS[l.name]}

@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { getMapPoints } from "@/lib/points";
 import MapView from "@/components/MapView";
+import Wordmark from "@/components/Wordmark";
 
 export const metadata = {
   title: "Mapa de cielos — StarMap BA",
@@ -15,16 +15,12 @@ export default async function MapaPage() {
   const points = await getMapPoints();
 
   return (
-    <div className="flex h-screen flex-col">
-      <header className="flex items-center justify-between border-b border-slate-800 bg-slate-950 px-4 py-3">
-        <Link href="/" className="text-sm font-semibold tracking-tight">
-          StarMap{" "}
-          <span className="bg-gradient-to-r from-sky-300 to-violet-300 bg-clip-text text-transparent">
-            BA
-          </span>
-        </Link>
-        <p className="text-xs text-slate-400">
-          {points.length} puntos en la Provincia de Buenos Aires
+    <div className="flex h-dvh flex-col">
+      <header className="flex items-center justify-between border-b border-white/5 bg-ink px-4 py-3">
+        <Wordmark className="text-sm" />
+        <p className="text-xs text-fg-faint">
+          <span className="tnum text-fg-muted">{points.length}</span> puntos
+          relevados
         </p>
       </header>
 

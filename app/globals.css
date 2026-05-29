@@ -1,32 +1,49 @@
 @import "tailwindcss";
 
-:root {
-  --background: #020617;
-  --foreground: #ededed;
-}
+/* ── Tokens de diseño (ver DESIGN.md) ──────────────────────────────
+   Paleta nocturna OKLCH. Sin #000/#fff. Neutros tintados hacia índigo.
+   Acento ámbar (preserva la visión nocturna mejor que el neón frío). */
+@theme {
+  --color-ink: oklch(0.15 0.014 265);
+  --color-surface: oklch(0.2 0.016 265);
+  --color-surface-2: oklch(0.25 0.018 265);
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-fg: oklch(0.95 0.006 250);
+  --color-fg-muted: oklch(0.74 0.02 265);
+  --color-fg-faint: oklch(0.55 0.022 265);
+
+  --color-accent: oklch(0.82 0.13 78);
+  --color-accent-soft: oklch(0.74 0.13 70);
+  --color-night: oklch(0.6 0.17 25);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* curva orgánica (ease-out exponencial) */
+  --ease-organic: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  background: var(--color-ink);
+  color: var(--color-fg);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* --- Fondo de estrellas (CSS puro, sin imágenes) --- */
+/* Datos numéricos: cifras tabulares para que no "bailen". */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* ── Fondo de estrellas (sutil, cálido, sin neón) ──────────────── */
 .starfield {
   position: absolute;
   inset: 0;
   overflow: hidden;
   background:
-    radial-gradient(ellipse at 50% 0%, rgba(56, 189, 248, 0.12), transparent 55%),
-    radial-gradient(ellipse at 80% 90%, rgba(168, 85, 247, 0.1), transparent 50%),
-    radial-gradient(ellipse at 10% 80%, rgba(236, 72, 153, 0.08), transparent 45%);
+    radial-gradient(ellipse at 50% -10%, oklch(0.3 0.05 265 / 0.35), transparent 60%),
+    radial-gradient(ellipse at 85% 110%, oklch(0.35 0.06 50 / 0.12), transparent 55%);
 }
 
 .starfield::before,
@@ -37,31 +54,29 @@ body {
   background-repeat: repeat;
 }
 
-/* Capa de estrellas chicas y densas */
 .starfield::before {
   background-image:
-    radial-gradient(1px 1px at 20px 30px, #fff, transparent),
-    radial-gradient(1px 1px at 60px 110px, #e0f2fe, transparent),
-    radial-gradient(1px 1px at 130px 70px, #fff, transparent),
-    radial-gradient(1px 1px at 180px 160px, #dbeafe, transparent),
-    radial-gradient(1px 1px at 90px 200px, #fff, transparent);
-  background-size: 220px 220px;
-  animation: twinkle 4s ease-in-out infinite;
+    radial-gradient(1px 1px at 20px 30px, oklch(0.92 0.01 250 / 0.8), transparent),
+    radial-gradient(1px 1px at 60px 110px, oklch(0.9 0.02 250 / 0.6), transparent),
+    radial-gradient(1px 1px at 130px 70px, oklch(0.95 0.01 250 / 0.7), transparent),
+    radial-gradient(1px 1px at 180px 160px, oklch(0.88 0.03 80 / 0.5), transparent),
+    radial-gradient(1px 1px at 90px 200px, oklch(0.92 0.01 250 / 0.6), transparent);
+  background-size: 240px 240px;
+  animation: twinkle 5s ease-in-out infinite;
 }
 
-/* Capa de estrellas más grandes y dispersas */
 .starfield::after {
   background-image:
-    radial-gradient(1.6px 1.6px at 50px 80px, #fff, transparent),
-    radial-gradient(2px 2px at 160px 40px, #bae6fd, transparent),
-    radial-gradient(1.6px 1.6px at 240px 180px, #fff, transparent);
-  background-size: 320px 320px;
-  animation: twinkle 6s ease-in-out infinite reverse;
+    radial-gradient(1.5px 1.5px at 50px 80px, oklch(0.95 0.01 250 / 0.7), transparent),
+    radial-gradient(1.5px 1.5px at 160px 40px, oklch(0.85 0.04 80 / 0.5), transparent),
+    radial-gradient(1.5px 1.5px at 240px 180px, oklch(0.92 0.02 250 / 0.6), transparent);
+  background-size: 340px 340px;
+  animation: twinkle 7s ease-in-out infinite reverse;
 }
 
 @keyframes twinkle {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.9; }
 }
 
 @media (prefers-reduced-motion: reduce) {

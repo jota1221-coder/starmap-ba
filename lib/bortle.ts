@@ -3,12 +3,14 @@
  * Verde = cielo excelente (oscuro), Rojo = muy contaminado.
  * Pensado para verse bien sobre un mapa de tema oscuro.
  */
+// Tonos apagados y sofisticados (no neón). Significado preservado;
+// siempre acompañados de etiqueta de texto (el color no es la única señal).
 export function bortleColor(bortle: number): string {
-  if (bortle <= 2) return "#22c55e"; // verde — excelente
-  if (bortle === 3) return "#84cc16"; // lima — muy bueno
-  if (bortle === 4) return "#eab308"; // amarillo — bueno
-  if (bortle === 5) return "#f97316"; // naranja — aceptable
-  return "#ef4444"; // rojo — contaminado (6+)
+  if (bortle <= 2) return "#7fb08a"; // verde sage — excelente
+  if (bortle === 3) return "#a9b97e"; // lima oliva — muy bueno
+  if (bortle === 4) return "#d6a862"; // ámbar — bueno
+  if (bortle === 5) return "#c8804b"; // naranja terroso — aceptable
+  return "#b65c4d"; // rojo ladrillo — contaminado (6+)
 }
 
 /** Etiqueta corta de calidad de cielo por Bortle. */

@@ -23,17 +23,17 @@ export default function DatePicker({ current, min, max }: DatePickerProps) {
   }
 
   return (
-    <label className="flex items-center gap-2 text-sm text-slate-300">
-      <span className="text-slate-400">Noche del</span>
+    <label className="flex items-center gap-2 text-sm text-fg-muted">
+      <span className="text-fg-faint">Noche del</span>
       <input
         type="date"
         value={current}
         min={min}
         max={max}
         onChange={onChange}
-        className="rounded-md border border-slate-700 bg-slate-900 px-2 py-1 text-slate-100 [color-scheme:dark] focus:border-sky-500 focus:outline-none"
+        className="tnum rounded-xl border border-white/10 bg-surface px-3 py-1.5 text-fg [color-scheme:dark] transition-colors duration-200 focus:border-accent focus:outline-none"
       />
-      {isPending && <span className="text-xs text-slate-500">actualizando…</span>}
+      {isPending && <span className="text-xs text-fg-faint">actualizando…</span>}
     </label>
   );
 }
