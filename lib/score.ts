@@ -98,6 +98,45 @@ function moonLabel(illumination: number, altitude: number): string {
   return `Luna iluminada al ${pct}%`;
 }
 
+/**
+ * Explicación en lenguaje natural de por qué la noche es buena o mala.
+ * Se arma a partir de qué factores ayudan y cuáles complican.
+ */
+export function explainScore(result: ScoreResult): string {
+  const byFactor = Object.fromEntries(
+    result.breakdown.map((f) => [f.factor, f.value]),
+  ) as Record<"nubes" | "bortle" | "luna", number>;
+
+  const positivos: string[] = [];
+  const negativos: string[] = [];
+
+  if (byFactor.nubes >= 0.8) positivos.push("el cielo va a estar despejado");
+  else if (byFactor.nubes < 0.5) negativos.push("hay nubes que tapan el cielo");
+
+  if (byFactor.luna >= 0.85) positivos.push("la Luna casi no va a interferir");
+  else if (byFactor.luna < 0.6) negativos.push("la Luna va a iluminar mucho");
+
+  if (byFactor.bortle >= 0.85)
+    positivos.push("es un cielo naturalmente muy oscuro");
+  else if (byFactor.bortle <= 0.45)
+    negativos.push("el lugar tiene contaminación lumínica");
+
+  if (result.score >= 70) {
+    const motivo = positivos.length
+      ? positivos.join(" y ")
+      : "las condiciones acompañan";
+    return `Buena noche para observar: ${motivo}.`;
+  }
+  if (result.score >= 40) {
+    const motivo = negativos[0] ?? "las condiciones son intermedias";
+    return `Noche aceptable, aunque ${motivo}.`;
+  }
+  const motivo = negativos.length
+    ? negativos.join(" y ")
+    : "las condiciones no acompañan";
+  return `No es buena noche para observar: ${motivo}.`;
+}
+
 export function computeScore(input: ScoreInput): ScoreResult {
   const fNubes = cloudFactor(
     input.cloudCoverLow,

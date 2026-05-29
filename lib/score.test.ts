@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { computeScore, type ScoreInput } from "./score";
+import { computeScore, explainScore, type ScoreInput } from "./score";
 
 const base: ScoreInput = {
   cloudCoverLow: 0,
@@ -71,5 +71,32 @@ describe("computeScore — casos extremos", () => {
       "bortle",
       "luna",
     ]);
+  });
+});
+
+describe("explainScore", () => {
+  it("noche buena: explica los motivos favorables", () => {
+    const r = computeScore({ ...base, bortle: 2 }); // despejado, luna nueva, oscuro
+    const exp = explainScore(r);
+    expect(exp).toMatch(/^Buena noche/);
+    expect(exp).toMatch(/despejado/);
+  });
+
+  it("noche mala por nubes: lo explica", () => {
+    const r = computeScore({ ...base, bortle: 3, cloudCoverLow: 100 });
+    const exp = explainScore(r);
+    expect(exp).toMatch(/No es buena noche/);
+    expect(exp).toMatch(/nubes/);
+  });
+
+  it("noche mala por Luna: lo explica", () => {
+    const r = computeScore({
+      ...base,
+      bortle: 2,
+      moonIllumination: 1,
+      moonAltitude: 75,
+    });
+    const exp = explainScore(r);
+    expect(exp).toMatch(/Luna/);
   });
 });
