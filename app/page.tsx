@@ -90,7 +90,7 @@ export default function Home() {
         <p>
           Hecho por{" "}
           <a
-            href="https://github.com/joaquinrao"
+            href="https://github.com/jota1221-coder"
             className="text-slate-400 hover:text-slate-200"
           >
             Joaquin Rao

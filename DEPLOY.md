@@ -21,7 +21,7 @@ Da CI/CD automático (cada push redeploya) y suma presencia en tu GitHub.
 
 ### 2. Conectar y pushear (desde la carpeta del proyecto)
 ```bash
-git remote add origin https://github.com/joaquinrao/starmap-ba.git
+git remote add origin https://github.com/jota1221-coder/starmap-ba.git
 git branch -M main
 git push -u origin main
 ```

@@ -28,7 +28,7 @@ App web para amateurs de astronomía que combina **mapa interactivo**, **score d
 
 ```bash
 # 1. Clonar
-git clone https://github.com/joaquinrao/starmap-ba.git
+git clone https://github.com/jota1221-coder/starmap-ba.git
 cd starmap-ba
 
 # 2. Instalar dependencias
@@ -74,7 +74,7 @@ Ver [tasks/todo.md](./tasks/todo.md) para el detalle. Hitos principales:
 
 ## Autor
 
-[Joaquin Rao](https://github.com/joaquinrao) — Data Analyst en construcción.
+[Joaquin Rao](https://github.com/jota1221-coder) — Data Analyst en construcción.
 
 ## Licencia
 

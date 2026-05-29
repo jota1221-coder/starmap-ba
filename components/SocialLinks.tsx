@@ -16,7 +16,7 @@ const ICONS = {
 const LINKS: { name: keyof typeof ICONS; href: string; label: string }[] = [
   { name: "instagram", href: "#", label: "Instagram" },
   { name: "x", href: "#", label: "X (Twitter)" },
-  { name: "github", href: "https://github.com/joaquinrao", label: "GitHub" },
+  { name: "github", href: "https://github.com/jota1221-coder", label: "GitHub" },
 ];
 
 export default function SocialLinks() {
