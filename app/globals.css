@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #020617;
+  --foreground: #ededed;
 }
 
 @theme inline {
@@ -12,15 +12,61 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* --- Fondo de estrellas (CSS puro, sin imágenes) --- */
+.starfield {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(56, 189, 248, 0.12), transparent 55%),
+    radial-gradient(ellipse at 80% 90%, rgba(168, 85, 247, 0.1), transparent 50%),
+    radial-gradient(ellipse at 10% 80%, rgba(236, 72, 153, 0.08), transparent 45%);
+}
+
+.starfield::before,
+.starfield::after {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  background-repeat: repeat;
+}
+
+/* Capa de estrellas chicas y densas */
+.starfield::before {
+  background-image:
+    radial-gradient(1px 1px at 20px 30px, #fff, transparent),
+    radial-gradient(1px 1px at 60px 110px, #e0f2fe, transparent),
+    radial-gradient(1px 1px at 130px 70px, #fff, transparent),
+    radial-gradient(1px 1px at 180px 160px, #dbeafe, transparent),
+    radial-gradient(1px 1px at 90px 200px, #fff, transparent);
+  background-size: 220px 220px;
+  animation: twinkle 4s ease-in-out infinite;
+}
+
+/* Capa de estrellas más grandes y dispersas */
+.starfield::after {
+  background-image:
+    radial-gradient(1.6px 1.6px at 50px 80px, #fff, transparent),
+    radial-gradient(2px 2px at 160px 40px, #bae6fd, transparent),
+    radial-gradient(1.6px 1.6px at 240px 180px, #fff, transparent);
+  background-size: 320px 320px;
+  animation: twinkle 6s ease-in-out infinite reverse;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .starfield::before,
+  .starfield::after {
+    animation: none;
+  }
 }
