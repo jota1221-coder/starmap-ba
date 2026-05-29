@@ -13,6 +13,7 @@ export type MapPoint = {
   distanciaCabaKm: number;
   tipo: string;
   accesoTipo: string;
+  descripcion: string;
 };
 
 /** Devuelve un punto completo por su slug (o null si no existe). */
@@ -36,6 +37,7 @@ export async function getMapPoints(): Promise<MapPoint[]> {
       distanciaCabaKm: true,
       tipo: true,
       accesoTipo: true,
+      descripcion: true,
     },
   });
 }
