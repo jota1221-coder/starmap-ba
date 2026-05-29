@@ -11,6 +11,7 @@ import {
   Equator,
   Horizon,
   SearchRiseSet,
+  SearchAltitude,
 } from "astronomy-engine";
 
 const DEFAULT_HEIGHT_M = 30;
@@ -160,6 +161,34 @@ export function getRiseSet(
   const rise = SearchRiseSet(bodyKey, observer, +1, date, limitDays);
   const set = SearchRiseSet(bodyKey, observer, -1, date, limitDays);
   return { rise: rise?.date ?? null, set: set?.date ?? null };
+}
+
+/**
+ * Ventana de noche astronómica (sol bajo -18°) para la fecha dada.
+ * `date` debe caer en la tarde/noche de la jornada de observación.
+ * Devuelve dusk (cae la noche cerrada) y dawn (empieza a aclarar).
+ */
+export function getNightWindow(
+  date: Date,
+  lat: number,
+  lon: number,
+): { dusk: Date; dawn: Date } {
+  const observer = makeObserver(lat, lon);
+  // Arrancamos la búsqueda unas horas antes (≈ media tarde) para tomar
+  // el atardecer de esa misma jornada.
+  const searchStart = new Date(date.getTime() - 6 * 60 * 60 * 1000);
+
+  const duskT = SearchAltitude(Body.Sun, observer, -1, searchStart, 1, -18);
+  const dawnSearchFrom = duskT ? duskT.date : date;
+  const dawnT = SearchAltitude(Body.Sun, observer, +1, dawnSearchFrom, 1, -18);
+
+  // Fallback razonable para latitudes/fechas sin noche astronómica (no aplica a BA).
+  const dusk =
+    duskT?.date ?? new Date(date.getTime() - 1 * 60 * 60 * 1000);
+  const dawn =
+    dawnT?.date ?? new Date(date.getTime() + 7 * 60 * 60 * 1000);
+
+  return { dusk, dawn };
 }
 
 /** Condiciones de cielo agregadas para un punto y momento. */

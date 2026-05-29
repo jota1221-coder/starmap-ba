@@ -13,6 +13,7 @@ interface SkyPointerProps {
   altitude: number;
   deviceHeading: number | null; // null = sin giroscopio activo
   color?: string;
+  timeLabel?: string; // hora del mejor momento (HH:mm)
 }
 
 const CARDINALS = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE",
@@ -28,6 +29,7 @@ export default function SkyPointer({
   altitude,
   deviceHeading,
   color = "#d6a862",
+  timeLabel,
 }: SkyPointerProps) {
   // Ángulo de la flecha relativo a la pantalla.
   // Si deviceHeading está activo, rotamos para compensar la orientación real.
@@ -39,7 +41,7 @@ export default function SkyPointer({
   const altPct = Math.min(100, Math.max(0, (altitude / 90) * 100));
 
   return (
-    <div className="flex items-start gap-4 py-4 border-b border-white/5 last:border-0">
+    <div className="flex items-start gap-4">
 
       {/* Indicador de dirección — arco circular con flecha */}
       <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-white/10 bg-surface">
@@ -80,16 +82,17 @@ export default function SkyPointer({
       {/* Texto */}
       <div className="flex-1 pt-0.5">
         <p className="font-semibold tracking-tight text-fg">{nombre}</p>
-        <p className="tnum mt-0.5 text-sm text-fg-muted">
-          <span className="text-fg">{Math.round(altitude)}°</span> sobre el
-          horizonte
-        </p>
+        {timeLabel && (
+          <p className="tnum mt-0.5 text-sm">
+            <span className="text-accent">★</span> Mejor momento:{" "}
+            <span className="text-fg">{timeLabel}</span>
+          </p>
+        )}
         <p className="tnum text-sm text-fg-muted">
-          mirá al <span className="text-fg">{azToCardinal(azimuth)}</span>
-          {" "}
-          <span className="text-fg-faint">
-            ({Math.round(azimuth)}°)
-          </span>
+          <span className="text-fg">{Math.round(altitude)}°</span> sobre el
+          horizonte · mirá al{" "}
+          <span className="text-fg">{azToCardinal(azimuth)}</span>{" "}
+          <span className="text-fg-faint">({Math.round(azimuth)}°)</span>
         </p>
         {deviceHeading !== null && (
           <p className="mt-0.5 text-xs text-accent">

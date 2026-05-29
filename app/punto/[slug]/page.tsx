@@ -6,8 +6,8 @@ import { explainScore } from "@/lib/score";
 import { bortleColor, bortleLabel } from "@/lib/bortle";
 import DatePicker from "@/components/DatePicker";
 import Wordmark from "@/components/Wordmark";
-import SkyCompass from "@/components/SkyCompass";
-import { azimuthToCardinal } from "@/lib/astronomy";
+import NightPlan from "@/components/NightPlan";
+import { getObservationPlan } from "@/lib/observation-plan";
 import {
   nightOf,
   todayInBA,
@@ -82,11 +82,16 @@ export default async function PuntoPage({
   if (!point) notFound();
 
   const { date, dateStr } = nightOf(dateParam);
+
+  // Plan de la noche completa (recorrido de cada astro + mejor momento).
+  const plan = getObservationPlan(date, point.lat, point.lng);
+
+  // El score representa la noche; se calcula en la medianoche astronómica.
   const conditions = await getConditions({
     lat: point.lat,
     lng: point.lng,
     bortle: point.bortle,
-    date,
+    date: plan.midnight,
   });
 
   const { score, sky, weather } = conditions;
@@ -138,9 +143,11 @@ export default async function PuntoPage({
         {/* Selector de fecha */}
         <section className="flex flex-col gap-3 border-y border-white/5 py-4 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm text-fg-muted">
-            Condiciones para la{" "}
+            Noche del{" "}
             <span className="font-medium text-fg">{formatBADate(dateStr)}</span>{" "}
-            <span className="text-fg-faint">· 22:00 hs</span>
+            <span className="tnum text-fg-faint">
+              · {plan.duskLabel}–{plan.dawnLabel}
+            </span>
           </p>
           <DatePicker current={dateStr} min={todayInBA()} max={maxForecastDate()} />
         </section>
@@ -230,17 +237,8 @@ export default async function PuntoPage({
                 </dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-fg-muted">Posición</dt>
-                <dd className="text-fg">
-                  {moon.isUp ? (
-                    <>
-                      <span className="tnum">{Math.round(moon.altitude)}°</span>{" "}
-                      hacia el {azimuthToCardinal(moon.azimuth)}
-                    </>
-                  ) : (
-                    "Bajo el horizonte"
-                  )}
-                </dd>
+                <dt className="text-fg-muted">Recorrido</dt>
+                <dd className="text-fg-faint">ver abajo ↓</dd>
               </div>
             </dl>
           </div>
@@ -278,10 +276,19 @@ export default async function PuntoPage({
 
         {/* Dónde apuntar esta noche */}
         <section>
-          <SectionTitle>Dónde apuntar esta noche</SectionTitle>
-          <div className="mt-4">
-            <SkyCompass moon={sky.moon} planets={sky.visiblePlanets} />
-          </div>
+          <SectionTitle>Dónde apuntar y a qué hora</SectionTitle>
+          <p className="mt-2 mb-5 text-sm text-fg-muted">
+            Recorrido de cada astro durante la noche. El{" "}
+            <span className="text-accent">★</span> marca su mejor momento (cuando
+            está más alto).
+          </p>
+          <NightPlan
+            objects={plan.objects}
+            duskMs={plan.duskMs}
+            dawnMs={plan.dawnMs}
+            duskLabel={plan.duskLabel}
+            dawnLabel={plan.dawnLabel}
+          />
         </section>
 
         {/* Cómo llegar */}
