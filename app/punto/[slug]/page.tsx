@@ -3,10 +3,11 @@ import Link from "next/link";
 import { getPointBySlug } from "@/lib/points";
 import { getConditions } from "@/lib/conditions";
 import { explainScore } from "@/lib/score";
-import { azimuthToCardinal } from "@/lib/astronomy";
 import { bortleColor, bortleLabel } from "@/lib/bortle";
 import DatePicker from "@/components/DatePicker";
 import Wordmark from "@/components/Wordmark";
+import SkyCompass from "@/components/SkyCompass";
+import { azimuthToCardinal } from "@/lib/astronomy";
 import {
   nightOf,
   todayInBA,
@@ -275,31 +276,12 @@ export default async function PuntoPage({
           </div>
         </section>
 
-        {/* Planetas visibles */}
+        {/* Dónde apuntar esta noche */}
         <section>
-          <SectionTitle>Planetas visibles a las 22:00</SectionTitle>
-          {sky.visiblePlanets.length > 0 ? (
-            <ul className="mt-3 divide-y divide-white/5">
-              {sky.visiblePlanets.map((p) => (
-                <li
-                  key={p.key}
-                  className="flex items-center justify-between py-2.5 text-sm"
-                >
-                  <span className="font-medium text-fg">{p.nombre}</span>
-                  <span className="text-fg-muted">
-                    <span className="tnum">{Math.round(p.altitude)}°</span> sobre
-                    el horizonte · mirá al{" "}
-                    <span className="text-fg">{p.direccion}</span>
-                  </span>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="mt-3 text-sm text-fg-faint">
-              Ningún planeta mayor sobre el horizonte a esta hora. Probá otra
-              fecha o consultá más tarde en la noche.
-            </p>
-          )}
+          <SectionTitle>Dónde apuntar esta noche</SectionTitle>
+          <div className="mt-4">
+            <SkyCompass moon={sky.moon} planets={sky.visiblePlanets} />
+          </div>
         </section>
 
         {/* Cómo llegar */}
