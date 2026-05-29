@@ -57,7 +57,7 @@ Repo: github.com/jota1221-coder/starmap-ba (⚠️ 5 commits locales SIN pushear
 ## Fase 4: Polish del MVP [Producto]
 - [ ] **Task 11** — Tips por objeto (15-25, redacción manual en rioplatense) — M
 - [ ] **Task 12** — Mobile-first responsive + PWA — M
-- [ ] **Task 13** — Deploy a `starmapba.vercel.app` + Sentry + Analytics — S
+- [x] **Task 13** — Deploy a Vercel — ✅ LIVE: https://starmap-ba-ajp5.vercel.app
 
 ### 🚩 Checkpoint: MVP EN PRODUCCIÓN
 - [ ] Compartir en Espacio Profundo + grupos FB astrofotografía + Twitter divulgación
