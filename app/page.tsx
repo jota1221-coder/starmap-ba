@@ -49,10 +49,10 @@ export default function Home() {
 
         <Link
           href="/mapa"
-          className="group mt-10 inline-flex items-center gap-2 rounded-2xl bg-accent px-7 py-3.5 text-base font-semibold text-ink transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-accent-soft"
+          className="group mt-10 inline-flex items-center gap-3 border border-white/70 bg-transparent px-9 py-4 text-base font-medium tracking-tight text-fg transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-accent hover:bg-accent hover:text-ink"
         >
           Abrir el mapa
-          <span className="transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5">
+          <span className="transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1">
             →
           </span>
         </Link>
@@ -62,20 +62,21 @@ export default function Home() {
         </p>
       </main>
 
-      {/* Features — separados por aire y hairlines, no por cajas */}
-      <section className="relative z-10 mx-auto w-full max-w-5xl px-6 pb-20">
-        <div className="grid gap-px overflow-hidden rounded-2xl border border-white/5 bg-white/5 sm:grid-cols-3">
-          {FEATURES.map((f) => (
-            <div key={f.title} className="bg-ink p-6">
-              <h2 className="text-base font-semibold tracking-tight text-fg">
-                {f.title}
-              </h2>
-              <p className="mt-2 text-sm leading-relaxed text-fg-muted">
-                {f.desc}
-              </p>
-            </div>
-          ))}
-        </div>
+      {/* Features — columnas abiertas, sin cajas, solo aire */}
+      <section className="relative z-10 mx-auto grid w-full max-w-5xl gap-10 px-6 pb-24 sm:grid-cols-3 sm:gap-12">
+        {FEATURES.map((f, i) => (
+          <div key={f.title}>
+            <span className="tnum text-sm font-medium text-accent">
+              0{i + 1}
+            </span>
+            <h2 className="mt-3 text-lg font-semibold tracking-tight text-fg">
+              {f.title}
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-fg-muted">
+              {f.desc}
+            </p>
+          </div>
+        ))}
       </section>
 
       {/* Footer */}

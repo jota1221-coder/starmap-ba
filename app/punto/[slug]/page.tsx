@@ -89,6 +89,10 @@ export default async function PuntoPage({
 
   const { score, sky, weather } = conditions;
   const moon = sky.moon;
+  // Factor que más limita la noche (el de menor valor en el breakdown).
+  const worstFactor = score
+    ? [...score.breakdown].sort((a, b) => a.value - b.value)[0]
+    : null;
   const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${point.lat},${point.lng}`;
 
   return (
@@ -160,20 +164,37 @@ export default async function PuntoPage({
                   <span className="text-[10px] text-fg-faint">de 100</span>
                 </div>
                 <div>
-                  <SectionTitle>Score de observación</SectionTitle>
+                  <SectionTitle>Pronóstico de esta noche</SectionTitle>
                   <p
                     className="mt-1 text-2xl font-semibold tracking-tight"
                     style={{ color: scoreColor(score.score) }}
                   >
                     {score.rating}
                   </p>
+                  <p className="mt-1 text-xs text-fg-faint">
+                    Mide cómo va a estar el cielo{" "}
+                    <span className="text-fg-muted">esta noche</span> (nubes y
+                    Luna), no la calidad del lugar.
+                  </p>
                   {!sky.isNight && (
                     <p className="mt-1 text-xs text-night">
-                      A esta hora todavía no es noche cerrada
+                      A esta hora todavía no es noche cerrada.
                     </p>
                   )}
                 </div>
               </div>
+
+              {/* El "puente" que explica la aparente contradicción */}
+              {score.score < 60 && worstFactor && (
+                <p className="mt-4 text-sm text-fg-muted">
+                  El lugar tiene un cielo{" "}
+                  <span className="text-fg">
+                    {bortleLabel(point.bortle).toLowerCase()}
+                  </span>
+                  , pero esta noche se complica:{" "}
+                  <span className="text-fg">{worstFactor.label.toLowerCase()}</span>.
+                </p>
+              )}
               <ul className="mt-6 space-y-3">
                 {score.breakdown.map((f) => (
                   <li key={f.factor}>

@@ -9,7 +9,7 @@ import { bortleColor, bortleLabel, BORTLE_LEGEND } from "@/lib/bortle";
 
 const BA_CENTER: [number, number] = [-36.2, -59.5];
 const INITIAL_ZOOM = 6;
-const POINT_ZOOM = 11;
+const POINT_ZOOM = 14; // bien cerca, para ver el relieve del punto
 
 const ACCESS_LABEL: Record<string, string> = {
   auto: "Auto",
