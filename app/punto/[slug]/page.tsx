@@ -10,7 +10,7 @@ import { bortleColor, bortleLabel } from "@/lib/bortle";
 import DatePicker from "@/components/DatePicker";
 import Wordmark from "@/components/Wordmark";
 import NightPlan from "@/components/NightPlan";
-import { getObservationPlan } from "@/lib/observation-plan";
+import { getCachedObservationPlan } from "@/lib/observation-plan";
 import {
   nightOf,
   todayInBA,
@@ -84,26 +84,33 @@ export default async function PuntoPage({
   const point = await getPointBySlug(slug);
   if (!point) notFound();
 
-  const { date, dateStr } = nightOf(dateParam);
+  const { dateStr } = nightOf(dateParam);
 
-  // Plan de la noche completa (recorrido de cada astro + mejor momento).
-  const plan = getObservationPlan(date, point.lat, point.lng);
+  // Plan de la noche (cacheado: es determinístico para slug+fecha).
+  const plan = await getCachedObservationPlan(
+    point.slug,
+    dateStr,
+    point.lat,
+    point.lng,
+  );
 
+  // Llamadas independientes en paralelo (antes eran 3 round-trips en serie).
   // El score representa la noche; se calcula en la medianoche astronómica.
-  const conditions = await getConditions({
-    lat: point.lat,
-    lng: point.lng,
-    bortle: point.bortle,
-    date: plan.midnight,
-  });
+  const [conditions, session, reviews] = await Promise.all([
+    getConditions({
+      lat: point.lat,
+      lng: point.lng,
+      bortle: point.bortle,
+      date: new Date(plan.midnightMs),
+    }),
+    auth(),
+    getReviews(point.id),
+  ]);
 
   const { score, sky, weather } = conditions;
   const moon = sky.moon;
   const explanation = score ? explainScore(score) : null;
 
-  // Reseñas de la comunidad
-  const session = await auth();
-  const reviews = await getReviews(point.id);
   const myReview = session?.user?.id
     ? await getUserReview(point.id, session.user.id)
     : null;

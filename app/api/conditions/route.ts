@@ -1,5 +1,6 @@
 import type { NextRequest } from "next/server";
 import { getConditions } from "@/lib/conditions";
+import { checkRateLimit, clientIp } from "@/lib/rate-limit";
 
 /**
  * GET /api/conditions?lat=&lng=&bortle=&date=
@@ -7,6 +8,14 @@ import { getConditions } from "@/lib/conditions";
  * `date` es opcional (ISO); por defecto, ahora.
  */
 export async function GET(request: NextRequest) {
+  const { ok } = await checkRateLimit("conditions", clientIp(request.headers));
+  if (!ok) {
+    return Response.json(
+      { error: "Demasiadas consultas. Esperá un momento." },
+      { status: 429, headers: { "Cache-Control": "no-store" } },
+    );
+  }
+
   const sp = request.nextUrl.searchParams;
   const lat = Number(sp.get("lat"));
   const lng = Number(sp.get("lng"));

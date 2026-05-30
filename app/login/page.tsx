@@ -1,11 +1,23 @@
+import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { signIn } from "@/auth";
 import Wordmark from "@/components/Wordmark";
+import { checkRateLimit, clientIp } from "@/lib/rate-limit";
 
 export const metadata = { title: "Entrar — StarMap BA" };
 
-export default function LoginPage() {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>;
+}) {
+  const { error } = await searchParams;
+
   async function sendMagicLink(formData: FormData) {
     "use server";
+    const ip = clientIp(await headers());
+    const { ok } = await checkRateLimit("login", ip);
+    if (!ok) redirect("/login?error=rate");
     await signIn("email", formData);
   }
 
@@ -39,6 +51,12 @@ export default function LoginPage() {
             Enviarme el enlace
           </button>
         </form>
+
+        {error === "rate" && (
+          <p className="mt-4 text-center text-sm text-night">
+            Demasiados intentos. Esperá unos minutos y probá de nuevo.
+          </p>
+        )}
 
         <p className="mt-6 text-center text-xs text-fg-faint">
           Al entrar aceptás que guardemos tu email para identificarte. Nada más.

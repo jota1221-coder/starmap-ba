@@ -3,6 +3,7 @@
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 /** Recalcula el rating promedio denormalizado del punto. */
 async function recomputeRating(pointId: number) {
@@ -27,6 +28,10 @@ export async function submitReview(
   const session = await auth();
   const userId = session?.user?.id;
   if (!userId) return { error: "Tenés que iniciar sesión para reseñar." };
+
+  const { ok } = await checkRateLimit("review", userId);
+  if (!ok)
+    return { error: "Demasiadas reseñas seguidas. Esperá unos minutos." };
 
   const pointId = Number(formData.get("pointId"));
   const slug = String(formData.get("slug") ?? "");

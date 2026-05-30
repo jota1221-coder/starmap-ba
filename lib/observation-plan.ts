@@ -3,9 +3,10 @@
  * Para cada astro (Luna + planetas) calcula su recorrido hora por hora a lo
  * largo de la noche astronómica y su MEJOR momento (máxima altitud).
  */
+import { unstable_cache } from "next/cache";
 import { Body } from "astronomy-engine";
 import { getNightWindow, getObjectPosition } from "./astronomy";
-import { formatBATime } from "./observation-time";
+import { formatBATime, nightOf } from "./observation-time";
 
 const STEP_MIN = 20; // resolución del muestreo
 const MIN_PEAK_ALT = 10; // grados — debajo de esto no vale la pena observar
@@ -53,7 +54,7 @@ export interface NightPlan {
   dawnLabel: string;
   duskMs: number;
   dawnMs: number;
-  midnight: Date; // momento representativo de la noche (para el score)
+  midnightMs: number; // momento representativo de la noche (para el score)
   objects: ObjectPlan[];
 }
 
@@ -109,7 +110,25 @@ export function getObservationPlan(
     dawnLabel: formatBATime(dawn),
     duskMs: dusk.getTime(),
     dawnMs: dawn.getTime(),
-    midnight: new Date((dusk.getTime() + dawn.getTime()) / 2),
+    midnightMs: (dusk.getTime() + dawn.getTime()) / 2,
     objects,
   };
+}
+
+/**
+ * Versión cacheada del plan. Es determinístico para (slug, fecha, lat, lon):
+ * la astronomía no cambia para un instante dado. Cachear saca el cómputo
+ * pesado (~180 cálculos) del request path en visitas repetidas.
+ */
+export function getCachedObservationPlan(
+  slug: string,
+  dateStr: string,
+  lat: number,
+  lon: number,
+): Promise<NightPlan> {
+  return unstable_cache(
+    async () => getObservationPlan(nightOf(dateStr).date, lat, lon),
+    ["observation-plan", slug, dateStr],
+    { revalidate: 60 * 60 * 6 }, // 6 h; la fecha está en la key
+  )();
 }
