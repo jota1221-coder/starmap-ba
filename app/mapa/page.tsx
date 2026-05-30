@@ -1,6 +1,7 @@
 import { getMapPoints } from "@/lib/points";
 import MapView from "@/components/MapView";
 import Wordmark from "@/components/Wordmark";
+import AuthStatus from "@/components/AuthStatus";
 
 export const metadata = {
   title: "Mapa de cielos — StarMap BA",
@@ -18,10 +19,12 @@ export default async function MapaPage() {
     <div className="flex h-dvh flex-col">
       <header className="flex items-center justify-between border-b border-white/5 bg-ink px-4 py-3">
         <Wordmark className="text-sm" />
-        <p className="text-xs text-fg-faint">
-          <span className="tnum text-fg-muted">{points.length}</span> puntos
-          relevados
-        </p>
+        <div className="flex items-center gap-4">
+          <p className="hidden text-xs text-fg-faint sm:block">
+            <span className="tnum text-fg-muted">{points.length}</span> puntos
+          </p>
+          <AuthStatus />
+        </div>
       </header>
 
       <main className="relative min-h-0 flex-1">
