@@ -4,6 +4,27 @@
 
 ---
 
+## 🎯 PRÓXIMO ORDEN (post-review) — ver [plan-next.md](./plan-next.md)
+
+**Veredicto: parar de construir features, cerrar el círculo y validar.**
+
+### Fase 0 — Cerrar el círculo (que lo construido sea usable)
+- [ ] **A** — Pushear commits locales (auth + reseñas + hardening) → Vercel redeploya
+- [ ] **B** — `AUTH_SECRET` + `AUTH_URL` en Vercel + redeploy
+- [ ] **C** — Resend: activar emails de login reales en prod
+- [ ] **D** — Separar DB dev/prod (Neon branching)
+### ✋ Checkpoint: producto realmente usable en prod (login funciona)
+
+### Fase 1 — Validar (lo postergado)
+- [ ] **E** — Vercel Analytics + canal de feedback
+- [ ] **F** — Compartir en Espacio Profundo + FB + X · documentar `feedback-mvp.md`
+### 🚩 Checkpoint: usuarios reales + feedback → DECIDIR Fase 2 con datos
+
+### Fase 2 — Features según feedback (candidatos, NO compromisos)
+- [ ] Puntos enviados por usuarios (diferido: el más riesgoso) · brújula visual · mobile/PWA · alertas · showcase DS
+
+---
+
 ## 📌 CHECKPOINT — 2026-05-29
 
 **Estado:** MVP funcional completo en local. 9 commits, 23 tests pasando, build limpio.
