@@ -21,6 +21,31 @@ export async function getPointBySlug(slug: string) {
   return prisma.observationPoint.findUnique({ where: { slug } });
 }
 
+/** Reseñas de un punto, más recientes primero. */
+export async function getReviews(pointId: number) {
+  return prisma.review.findMany({
+    where: { pointId },
+    orderBy: { createdAt: "desc" },
+    take: 50,
+    select: {
+      id: true,
+      rating: true,
+      cuerpo: true,
+      consejo: true,
+      createdAt: true,
+      user: { select: { name: true, email: true } },
+    },
+  });
+}
+
+/** Reseña del usuario para un punto (para precargar el formulario de edición). */
+export async function getUserReview(pointId: number, userId: string) {
+  return prisma.review.findUnique({
+    where: { pointId_userId: { pointId, userId } },
+    select: { rating: true, cuerpo: true, consejo: true },
+  });
+}
+
 /** Devuelve los puntos para el mapa, ordenados del cielo más oscuro al menos. */
 export async function getMapPoints(): Promise<MapPoint[]> {
   return prisma.observationPoint.findMany({

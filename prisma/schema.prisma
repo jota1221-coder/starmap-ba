@@ -46,11 +46,34 @@ model ObservationPoint {
   tips        String[] // lista de consejos prácticos
   experiencia String?
 
+  // Reseñas de la comunidad (rating denormalizado para lectura O(1))
+  ratingAvg   Float    @default(0)
+  ratingCount Int      @default(0)
+  reviews     Review[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([bortle])
   @@index([distanciaCabaKm])
+}
+
+/// Reseña de un usuario sobre un punto de observación.
+model Review {
+  id        String   @id @default(cuid())
+  pointId   Int
+  userId    String
+  rating    Int // 1-5 estrellas
+  cuerpo    String // comentario
+  consejo   String? // tip de experiencia (opcional)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  point ObservationPoint @relation(fields: [pointId], references: [id], onDelete: Cascade)
+  user  User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([pointId, userId]) // una reseña por usuario por punto
+  @@index([pointId, createdAt])
 }
 
 // ── Auth.js (NextAuth v5) — modelos estándar ──────────────────────
@@ -62,6 +85,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  reviews       Review[]
   createdAt     DateTime  @default(now())
 }
 

@@ -1,6 +1,9 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getPointBySlug } from "@/lib/points";
+import { auth } from "@/auth";
+import { getPointBySlug, getReviews, getUserReview } from "@/lib/points";
+import Stars from "@/components/Stars";
+import ReviewForm from "@/components/ReviewForm";
 import { getConditions } from "@/lib/conditions";
 import { explainScore } from "@/lib/score";
 import { bortleColor, bortleLabel } from "@/lib/bortle";
@@ -97,6 +100,13 @@ export default async function PuntoPage({
   const { score, sky, weather } = conditions;
   const moon = sky.moon;
   const explanation = score ? explainScore(score) : null;
+
+  // Reseñas de la comunidad
+  const session = await auth();
+  const reviews = await getReviews(point.id);
+  const myReview = session?.user?.id
+    ? await getUserReview(point.id, session.user.id)
+    : null;
   const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${point.lat},${point.lng}`;
 
   return (
@@ -357,6 +367,83 @@ export default async function PuntoPage({
 
           {point.referencia && (
             <p className="text-xs text-fg-faint">Fuente: {point.referencia}</p>
+          )}
+        </section>
+
+        {/* Reseñas de la comunidad */}
+        <section className="border-t border-white/5 pt-8">
+          <div className="flex items-center justify-between">
+            <SectionTitle>Reseñas de la comunidad</SectionTitle>
+            {point.ratingCount > 0 && (
+              <div className="flex items-center gap-2 text-sm">
+                <Stars value={point.ratingAvg} />
+                <span className="tnum font-medium text-fg">
+                  {point.ratingAvg.toFixed(1)}
+                </span>
+                <span className="tnum text-fg-faint">({point.ratingCount})</span>
+              </div>
+            )}
+          </div>
+
+          {/* Formulario o prompt de login */}
+          <div className="mt-5">
+            {session?.user ? (
+              <ReviewForm
+                pointId={point.id}
+                slug={point.slug}
+                initial={myReview}
+              />
+            ) : (
+              <p className="text-sm text-fg-muted">
+                <Link
+                  href="/login"
+                  className="text-accent underline-offset-2 hover:underline"
+                >
+                  Entrá
+                </Link>{" "}
+                para dejar tu reseña y ayudar a otros a elegir.
+              </p>
+            )}
+          </div>
+
+          {/* Lista de reseñas */}
+          {reviews.length > 0 ? (
+            <ul className="mt-8 space-y-5">
+              {reviews.map((r) => {
+                const autor =
+                  r.user.name ?? r.user.email?.split("@")[0] ?? "Anónimo";
+                const fecha = new Intl.DateTimeFormat("es-AR", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                }).format(r.createdAt);
+                return (
+                  <li
+                    key={r.id}
+                    className="border-t border-white/5 pt-5 first:border-0 first:pt-0"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-fg">{autor}</span>
+                      <Stars value={r.rating} size={14} />
+                    </div>
+                    <p className="mt-2 text-sm leading-relaxed text-fg-muted">
+                      {r.cuerpo}
+                    </p>
+                    {r.consejo && (
+                      <p className="mt-2 text-xs text-fg-faint">
+                        <span className="text-accent">Consejo:</span> {r.consejo}
+                      </p>
+                    )}
+                    <p className="mt-1.5 text-xs text-fg-faint">{fecha}</p>
+                  </li>
+                );
+              })}
+            </ul>
+          ) : (
+            <p className="mt-6 text-sm text-fg-faint">
+              Todavía no hay reseñas. Si fuiste, sé el primero en contar cómo te
+              fue.
+            </p>
           )}
         </section>
       </main>

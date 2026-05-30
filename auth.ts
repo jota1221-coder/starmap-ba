@@ -67,4 +67,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   session: { strategy: "database" },
   providers: [magicLink],
   pages: { signIn: "/login", verifyRequest: "/login/revisa" },
+  callbacks: {
+    // Con sesiones en DB, exponemos el id del usuario en la sesión.
+    session({ session, user }) {
+      if (session.user) session.user.id = user.id;
+      return session;
+    },
+  },
 });
