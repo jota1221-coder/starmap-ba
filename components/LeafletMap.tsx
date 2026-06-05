@@ -31,7 +31,6 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
   const mapRef = useRef<LMap | null>(null);
   const [selected, setSelected] = useState<MapPoint | null>(null);
   const [base, setBase] = useState<BaseLayer>("satelite");
-  const [showLP, setShowLP] = useState(false);
 
   function selectPoint(p: MapPoint) {
     setSelected(p);
@@ -67,15 +66,6 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
           />
         )}
 
-        {/* ── Capa de contaminación lumínica (VIIRS 2022) ── */}
-        {showLP && (
-          <TileLayer
-            url="https://djlorenz.github.io/astronomy/lp2022/overlay/tiles/{z}/{x}/{y}.png"
-            opacity={0.45}
-            attribution='Contaminación lumínica: <a href="https://djlorenz.github.io/astronomy/lp2022/">Light Pollution Atlas 2022</a>'
-          />
-        )}
-
         {/* ── Puntos de observación ── */}
         {points.map((p) => {
           const isSelected = selected?.id === p.id;
@@ -100,46 +90,19 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
         })}
       </MapContainer>
 
-      {/* ── Controles top-right ── */}
-      <div className="absolute right-3 top-3 z-[1000] flex flex-col items-end gap-2">
-        {/* Toggle de capa base */}
-        <div className="flex overflow-hidden rounded-xl border border-white/10 bg-surface/60 text-xs font-medium backdrop-blur-md">
-          <button
-            onClick={() => setBase("satelite")}
-            className={`px-3.5 py-2 transition-colors duration-200 ${base === "satelite" ? "bg-accent text-ink" : "text-fg-muted hover:text-fg"}`}
-          >
-            Satélite
-          </button>
-          <button
-            onClick={() => setBase("oscuro")}
-            className={`px-3.5 py-2 transition-colors duration-200 ${base === "oscuro" ? "bg-accent text-ink" : "text-fg-muted hover:text-fg"}`}
-          >
-            Oscuro
-          </button>
-        </div>
-
-        {/* Toggle contaminación lumínica */}
+      {/* ── Toggle de capa base ── */}
+      <div className="absolute right-3 top-3 z-[1000] flex overflow-hidden rounded-xl border border-white/10 bg-surface/60 text-xs font-medium backdrop-blur-md">
         <button
-          onClick={() => setShowLP((v) => !v)}
-          title={showLP ? "Ocultar contaminación lumínica" : "Ver contaminación lumínica (VIIRS)"}
-          className={`flex items-center gap-2 rounded-xl border px-3.5 py-2 text-xs font-medium backdrop-blur-md transition-all duration-200 ${
-            showLP
-              ? "border-amber-400/50 bg-amber-400/15 text-amber-300"
-              : "border-white/10 bg-surface/60 text-fg-muted hover:text-fg"
-          }`}
+          onClick={() => setBase("satelite")}
+          className={`px-3.5 py-2 transition-colors duration-200 ${base === "satelite" ? "bg-accent text-ink" : "text-fg-muted hover:text-fg"}`}
         >
-          {/* Icono "ojo" minimalista */}
-          <svg
-            viewBox="0 0 20 20"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            className="h-3.5 w-3.5 shrink-0"
-          >
-            <path d="M2 10s3-6 8-6 8 6 8 6-3 6-8 6-8-6-8-6Z" strokeLinecap="round" strokeLinejoin="round" />
-            <circle cx="10" cy="10" r="2.5" />
-          </svg>
-          Contam. lumínica
+          Satélite
+        </button>
+        <button
+          onClick={() => setBase("oscuro")}
+          className={`px-3.5 py-2 transition-colors duration-200 ${base === "oscuro" ? "bg-accent text-ink" : "text-fg-muted hover:text-fg"}`}
+        >
+          Oscuro
         </button>
       </div>
 
