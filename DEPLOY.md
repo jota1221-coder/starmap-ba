@@ -64,6 +64,34 @@ vercel --prod       # deploy a producción
 - [ ] `/punto/parque-tornquist` muestra score, clima y cielo en vivo
 - [ ] Probar en el celular
 
+## ⚠️ Migraciones de DB (IMPORTANTE: dev y prod están separadas)
+
+Desde que separamos las DBs (Neon branching), `prisma migrate dev` en local
+**solo afecta al branch `dev`**. Producción (branch `main`) NO se migra sola
+en el build de Vercel. Después de cada migración, hay que aplicarla a prod.
+
+**Endpoints Neon (rol `neondb_owner`, misma password):**
+- `dev` (local): `ep-shy-pine-apmdf046` · pooled en `.env`
+- `main` (prod/Vercel): `ep-dawn-bird-apsk7hi7`
+
+**Aplicar una migración a producción** (usar la conexión DIRECTA, sin `-pooler`,
+porque las migraciones de Prisma fallan sobre el pooler — advisory lock):
+
+```bash
+# 1. Crear la migración en local (va al branch dev)
+npx prisma migrate dev --name <nombre>
+
+# 2. Aplicarla a prod (main), conexión DIRECTA (sin -pooler):
+DATABASE_URL="postgresql://neondb_owner:<PASS>@ep-dawn-bird-apsk7hi7.c-7.us-east-1.aws.neon.tech/starmap_ba?sslmode=require" \
+  npx prisma migrate deploy
+
+# 3. git push → Vercel deploya el código (que ya espera el schema nuevo)
+```
+
+> NO meter `prisma migrate deploy` en el script `build` con la URL pooled:
+> falla por advisory lock y rompe el deploy. Si se quisiera automatizar,
+> haría falta una env var `DIRECT_DATABASE_URL` (unpooled) y configurarla.
+
 ## Notas
 - El free tier de Vercel + Neon alcanza de sobra para validar.
 - Dominio `.com.ar`: recién cuando haya tracción real (20+ usuarios).
