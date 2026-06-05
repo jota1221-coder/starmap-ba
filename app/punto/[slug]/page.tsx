@@ -6,7 +6,7 @@ import Stars from "@/components/Stars";
 import ReviewForm from "@/components/ReviewForm";
 import { getConditions } from "@/lib/conditions";
 import { explainScore } from "@/lib/score";
-import { bortleColor, bortleLabel } from "@/lib/bortle";
+import { bortleColor, bortleLabel, scoreColor } from "@/lib/bortle";
 import DatePicker from "@/components/DatePicker";
 import Wordmark from "@/components/Wordmark";
 import NightPlan from "@/components/NightPlan";
@@ -40,13 +40,6 @@ const CAMINO_LABEL: Record<string, string> = {
   tierra: "tierra",
 };
 
-function scoreColor(score: number): string {
-  if (score >= 80) return "#7fb08a";
-  if (score >= 60) return "#a9b97e";
-  if (score >= 40) return "#d6a862";
-  if (score >= 20) return "#c8804b";
-  return "#b65c4d";
-}
 
 export async function generateMetadata({
   params,

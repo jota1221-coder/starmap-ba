@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -12,10 +13,43 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://starmap-ba-12.vercel.app";
+
+const TITLE = "StarMap BA — Los mejores cielos de la Provincia de Buenos Aires";
+const DESCRIPTION =
+  "Encontrá el mejor lugar y la mejor noche para ver las estrellas en la Provincia de Buenos Aires. Mapa de cielos oscuros, pronóstico de observación y guía de qué mirar.";
+
 export const metadata: Metadata = {
-  title: "StarMap BA — Los mejores cielos de la Provincia de Buenos Aires",
-  description:
-    "Encontrá el mejor lugar para ver las estrellas en la Provincia de Buenos Aires. Mapa interactivo con clima, contaminación lumínica y guía de observación.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: TITLE,
+    template: "%s · StarMap BA",
+  },
+  description: DESCRIPTION,
+  keywords: [
+    "astronomía",
+    "estrellas",
+    "cielo oscuro",
+    "contaminación lumínica",
+    "Buenos Aires",
+    "astroturismo",
+    "Vía Láctea",
+    "observación",
+  ],
+  openGraph: {
+    type: "website",
+    locale: "es_AR",
+    siteName: "StarMap BA",
+    title: TITLE,
+    description: DESCRIPTION,
+    url: SITE_URL,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
 };
 
 export default function RootLayout({
@@ -30,6 +64,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-ink text-fg">
         {children}
+        <Analytics />
       </body>
     </html>
   );

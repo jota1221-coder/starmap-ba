@@ -1,7 +1,6 @@
 import Link from "next/link";
 import SocialLinks from "@/components/SocialLinks";
 import Wordmark from "@/components/Wordmark";
-import AuthStatus from "@/components/AuthStatus";
 
 const FEATURES = [
   {
@@ -33,10 +32,7 @@ export default function Home() {
       {/* Header */}
       <header className="relative z-10 flex items-center justify-between px-5 py-5 sm:px-8">
         <Wordmark className="text-base" />
-        <div className="flex items-center gap-4">
-          <AuthStatus />
-          <SocialLinks />
-        </div>
+        <SocialLinks />
       </header>
 
       {/* Hero */}
@@ -103,6 +99,13 @@ export default function Home() {
             className="text-fg-muted transition-colors duration-200 hover:text-fg"
           >
             Joaquin Rao
+          </a>{" "}
+          ·{" "}
+          <a
+            href="mailto:joaquinrao@gmail.com?subject=Feedback%20StarMap%20BA"
+            className="text-fg-muted transition-colors duration-200 hover:text-accent"
+          >
+            Sugerencias o reportar algo
           </a>{" "}
           · Datos: Open-Meteo, NASA VIIRS, astronomy-engine
         </p>

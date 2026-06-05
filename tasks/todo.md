@@ -8,12 +8,12 @@
 
 **Veredicto: parar de construir features, cerrar el círculo y validar.**
 
-### Fase 0 — Cerrar el círculo (que lo construido sea usable)
-- [ ] **A** — Pushear commits locales (auth + reseñas + hardening) → Vercel redeploya
-- [ ] **B** — `AUTH_SECRET` + `AUTH_URL` en Vercel + redeploy
-- [ ] **C** — Resend: activar emails de login reales en prod
-- [ ] **D** — Separar DB dev/prod (Neon branching)
-### ✋ Checkpoint: producto realmente usable en prod (login funciona)
+### Fase 0 — Cerrar el círculo (que lo construido sea usable) — ✅ COMPLETA
+- [x] **A** — Pushear commits locales → Vercel redeploya ✅
+- [x] **B** — `AUTH_SECRET` + `AUTH_URL` en Vercel ✅
+- [x] **C** — Resend: login real en prod ✅ (verificado: mail llega + login + reseña)
+- [x] **D** — DB dev/prod separadas ✅ (local→ep-shy-pine/dev, prod→ep-dawn-bird/main)
+### ✅ Checkpoint: producto USABLE en prod. Login + reseñas funcionan end-to-end.
 
 ### Fase 1 — Validar (lo postergado)
 - [ ] **E** — Vercel Analytics + canal de feedback

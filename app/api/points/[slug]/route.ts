@@ -1,6 +1,7 @@
 import type { NextRequest } from "next/server";
 import { getPointBySlug } from "@/lib/points";
 import { getConditions } from "@/lib/conditions";
+import { checkRateLimit, clientIp } from "@/lib/rate-limit";
 
 /**
  * GET /api/points/[slug]?date=
@@ -10,6 +11,14 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ slug: string }> },
 ) {
+  const { ok } = await checkRateLimit("conditions", clientIp(request.headers));
+  if (!ok) {
+    return Response.json(
+      { error: "Demasiadas consultas. Esperá un momento." },
+      { status: 429, headers: { "Cache-Control": "no-store" } },
+    );
+  }
+
   const { slug } = await params;
   const point = await getPointBySlug(slug);
 

@@ -13,6 +13,18 @@ export function bortleColor(bortle: number): string {
   return "#b65c4d"; // rojo ladrillo — contaminado (6+)
 }
 
+/**
+ * Color por score de observación (0-100). Misma familia de tonos apagados
+ * que la escala Bortle. Verde = excelente, rojo = malo.
+ */
+export function scoreColor(score: number): string {
+  if (score >= 80) return "#7fb08a";
+  if (score >= 60) return "#a9b97e";
+  if (score >= 40) return "#d6a862";
+  if (score >= 20) return "#c8804b";
+  return "#b65c4d";
+}
+
 /** Etiqueta corta de calidad de cielo por Bortle. */
 export function bortleLabel(bortle: number): string {
   if (bortle <= 2) return "Excelente";
