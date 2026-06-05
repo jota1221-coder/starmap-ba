@@ -66,14 +66,21 @@ model Review {
   rating    Int // 1-5 estrellas
   cuerpo    String // comentario
   consejo   String? // tip de experiencia (opcional)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  status    ModerationStatus @default(APPROVED) // moderación
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
 
   point ObservationPoint @relation(fields: [pointId], references: [id], onDelete: Cascade)
   user  User             @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([pointId, userId]) // una reseña por usuario por punto
-  @@index([pointId, createdAt])
+  @@index([pointId, status, createdAt]) // listado de aprobadas, paginado
+}
+
+enum ModerationStatus {
+  APPROVED
+  PENDING
+  REJECTED
 }
 
 // ── Auth.js (NextAuth v5) — modelos estándar ──────────────────────

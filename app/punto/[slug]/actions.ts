@@ -4,11 +4,12 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { checkRateLimit } from "@/lib/rate-limit";
+import { contieneEnlace } from "@/lib/moderation";
 
-/** Recalcula el rating promedio denormalizado del punto. */
+/** Recalcula el rating promedio denormalizado contando solo aprobadas. */
 async function recomputeRating(pointId: number) {
   const agg = await prisma.review.aggregate({
-    where: { pointId },
+    where: { pointId, status: "APPROVED" },
     _avg: { rating: true },
     _count: true,
   });
@@ -48,6 +49,8 @@ export async function submitReview(
     return { error: "Escribí un comentario (mínimo 3 caracteres)." };
   if (cuerpo.length > 1000)
     return { error: "El comentario es demasiado largo (máx. 1000)." };
+  if (contieneEnlace(cuerpo) || (consejo && contieneEnlace(consejo)))
+    return { error: "No se permiten enlaces en las reseñas." };
 
   try {
     await prisma.review.upsert({

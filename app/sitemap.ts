@@ -1,8 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getMapPoints } from "@/lib/points";
-
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://starmap-ba-12.vercel.app";
+import { SITE_URL } from "@/lib/site";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const points = await getMapPoints();

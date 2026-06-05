@@ -21,10 +21,10 @@ export async function getPointBySlug(slug: string) {
   return prisma.observationPoint.findUnique({ where: { slug } });
 }
 
-/** Reseñas de un punto, más recientes primero. */
+/** Reseñas APROBADAS de un punto, más recientes primero. */
 export async function getReviews(pointId: number) {
   return prisma.review.findMany({
-    where: { pointId },
+    where: { pointId, status: "APPROVED" },
     orderBy: { createdAt: "desc" },
     take: 50,
     select: {
