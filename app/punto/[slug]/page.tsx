@@ -295,7 +295,7 @@ export default async function PuntoPage({
 
             {point.experiencia && (
               <p className="text-base leading-relaxed text-fg italic">
-                "{point.experiencia}"
+                &ldquo;{point.experiencia}&rdquo;
               </p>
             )}
 
