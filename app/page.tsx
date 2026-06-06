@@ -1,6 +1,7 @@
-import Link from "next/link";
 import SocialLinks from "@/components/SocialLinks";
 import Wordmark from "@/components/Wordmark";
+import CTAButton from "@/components/CTAButton";
+import FadeIn from "@/components/FadeIn";
 
 const FEATURES = [
   {
@@ -26,7 +27,7 @@ export default function Home() {
           className="kenburns absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: "url(/sky-hero.jpg)" }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-ink/50 via-ink/70 to-ink" />
+        <div className="absolute inset-0 bg-gradient-to-b from-ink/30 via-ink/55 to-ink/95" />
       </div>
 
       {/* Header */}
@@ -42,7 +43,10 @@ export default function Home() {
           Provincia de Buenos Aires
         </span>
 
-        <h1 className="animate-rise text-5xl font-semibold leading-[0.95] tracking-tight text-balance [animation-delay:160ms] sm:text-7xl">
+        <h1
+          className="animate-rise text-5xl font-semibold leading-[0.95] tracking-tight text-balance [animation-delay:160ms] sm:text-7xl"
+          style={{ fontFamily: "var(--font-display)" }}
+        >
           Encontrá el cielo
           <br />
           <span className="text-fg-muted">más oscuro cerca tuyo</span>
@@ -54,15 +58,7 @@ export default function Home() {
           estrellas.
         </p>
 
-        <Link
-          href="/mapa"
-          className="group animate-rise mt-10 inline-flex items-center gap-3 border border-white/70 bg-transparent px-9 py-4 text-base font-medium tracking-tight text-fg transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] [animation-delay:400ms] hover:border-accent hover:bg-accent hover:text-ink"
-        >
-          Abrir el mapa
-          <span className="transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1">
-            →
-          </span>
-        </Link>
+        <CTAButton />
 
         <p className="animate-rise mt-4 text-xs text-fg-faint [animation-delay:520ms]">
           13 puntos relevados · gratis · sin registro
@@ -72,11 +68,7 @@ export default function Home() {
       {/* Features — columnas abiertas, sin cajas, solo aire */}
       <section className="relative z-10 mx-auto grid w-full max-w-5xl gap-10 px-6 pb-24 sm:grid-cols-3 sm:gap-12">
         {FEATURES.map((f, i) => (
-          <div
-            key={f.title}
-            className="animate-rise"
-            style={{ animationDelay: `${600 + i * 120}ms` }}
-          >
+          <FadeIn key={f.title} delay={i * 0.12}>
             <span className="tnum text-sm font-medium text-accent">
               0{i + 1}
             </span>
@@ -86,7 +78,7 @@ export default function Home() {
             <p className="mt-2 text-sm leading-relaxed text-fg-muted">
               {f.desc}
             </p>
-          </div>
+          </FadeIn>
         ))}
       </section>
 
