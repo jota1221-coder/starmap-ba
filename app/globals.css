@@ -112,6 +112,21 @@ body {
   animation: kenburns 40s ease-in-out infinite alternate;
 }
 
+/* ── Mapa nocturno ─────────────────────────────────────────────────
+   Filtro sobre las tiles satelitales: las oscurece, desatura y les da
+   un tinte frío de noche. Todo en un solo lugar para poder calibrar. */
+.sat-nocturnal {
+  /* Levemente oscurecido y desaturado — sin tinte de color.
+     El satélite se lee bien, solo con tono de noche suave. */
+  filter: brightness(0.78) saturate(0.82);
+  transition: filter 0.4s ease;
+}
+/* Etiquetas y rutas: plena legibilidad, ligera atenuación. */
+.sat-nocturnal-labels {
+  filter: brightness(0.9) saturate(0.85);
+  opacity: 0.92;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .starfield::before,
   .starfield::after {
