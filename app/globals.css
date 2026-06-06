@@ -127,6 +127,16 @@ body {
   opacity: 0.92;
 }
 
+/* Pulso de los puntos en el preview del producto (SVG de la landing). */
+@keyframes preview-pulse {
+  0%, 100% { opacity: 0.16; }
+  50% { opacity: 0.5; }
+}
+.preview-halo {
+  opacity: 0.16;
+  animation: preview-pulse 4s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .starfield::before,
   .starfield::after {
@@ -135,5 +145,9 @@ body {
   .animate-rise {
     opacity: 1;
     animation: none;
+  }
+  .preview-halo {
+    animation: none;
+    opacity: 0.32;
   }
 }

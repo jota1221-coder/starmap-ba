@@ -2,6 +2,9 @@ import SocialLinks from "@/components/SocialLinks";
 import Wordmark from "@/components/Wordmark";
 import CTAButton from "@/components/CTAButton";
 import FadeIn from "@/components/FadeIn";
+import HeroBackdrop from "@/components/HeroBackdrop";
+import ProductPreview from "@/components/ProductPreview";
+import { bortleColor, BORTLE_LEGEND } from "@/lib/bortle";
 
 const FEATURES = [
   {
@@ -21,14 +24,8 @@ const FEATURES = [
 export default function Home() {
   return (
     <div className="relative flex min-h-dvh flex-col">
-      {/* Fondo: foto real del cielo (ESO) + overlay para legibilidad */}
-      <div aria-hidden className="fixed inset-0 -z-10 overflow-hidden">
-        <div
-          className="kenburns absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url(/sky-hero.jpg)" }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-ink/30 via-ink/55 to-ink/95" />
-      </div>
+      {/* Fondo del hero: foto ESO con parallax + glow + viñeta */}
+      <HeroBackdrop />
 
       {/* Header */}
       <header className="relative z-10 flex items-center justify-between px-5 py-5 sm:px-8">
@@ -38,11 +35,6 @@ export default function Home() {
 
       {/* Hero */}
       <main className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 py-20 text-center">
-        <span className="animate-rise mb-7 inline-flex items-center gap-2 rounded-full border border-white/10 px-3.5 py-1.5 text-xs font-medium text-fg-muted [animation-delay:80ms]">
-          <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-          Provincia de Buenos Aires
-        </span>
-
         <h1
           className="animate-rise text-5xl font-semibold leading-[0.95] tracking-tight text-balance [animation-delay:160ms] sm:text-7xl"
           style={{ fontFamily: "var(--font-display)" }}
@@ -64,6 +56,48 @@ export default function Home() {
           13 puntos relevados · gratis · sin registro
         </p>
       </main>
+
+      {/* Showcase del producto: mapa real de BA con los puntos */}
+      <section className="relative z-10 mx-auto w-full max-w-5xl px-6 pb-24 pt-4">
+        <div className="grid items-center gap-10 sm:grid-cols-2 sm:gap-14">
+          <FadeIn from="left">
+            <p className="text-sm font-semibold uppercase tracking-[0.16em] text-accent">
+              El mapa
+            </p>
+            <h2
+              className="mt-3 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl"
+              style={{ fontFamily: "var(--font-display)" }}
+            >
+              Trece cielos,
+              <br />
+              rankeados
+            </h2>
+            <p className="mt-4 max-w-sm text-sm leading-relaxed text-fg-muted">
+              Cada punto es un lugar real y accesible en auto, medido por
+              contaminación lumínica satelital. Cuanto más verde, más oscuro el
+              cielo. La ciudad queda atrás; las estrellas, adelante.
+            </p>
+            <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-2">
+              {BORTLE_LEGEND.map((item) => (
+                <li
+                  key={item.bortle}
+                  className="flex items-center gap-2 text-xs text-fg-muted"
+                >
+                  <span
+                    className="inline-block h-2.5 w-2.5 rounded-full"
+                    style={{ backgroundColor: bortleColor(item.bortle) }}
+                  />
+                  {item.label}
+                </li>
+              ))}
+            </ul>
+          </FadeIn>
+
+          <FadeIn delay={0.1}>
+            <ProductPreview />
+          </FadeIn>
+        </div>
+      </section>
 
       {/* Features — columnas abiertas, sin cajas, solo aire */}
       <section className="relative z-10 mx-auto grid w-full max-w-5xl gap-10 px-6 pb-24 sm:grid-cols-3 sm:gap-12">
