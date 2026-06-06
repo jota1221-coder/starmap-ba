@@ -94,6 +94,7 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
         center={BA_CENTER}
         zoom={INITIAL_ZOOM}
         minZoom={6}
+        maxZoom={14}
         maxBounds={PAN_BOUNDS}
         maxBoundsViscosity={0.75}
         scrollWheelZoom
@@ -103,14 +104,15 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
         {/* ── Capas base ── */}
         {base === "satelite" && (
           <>
-            {/* Base satelital levemente atenuada.
-                maxNativeZoom=13: Esri no tiene cobertura a zoom 14+ en Argentina
-                interior — upscalea las tiles de 13 en vez de mostrar "not available". */}
+            {/* Base: Sentinel-2 cloudless (EOX). Satélite global UNIFORME —
+                el campo bonaerense se ve tan nítido como la ciudad, a diferencia
+                de Esri (foto aérea con huecos en zona rural). 10m/px → detalle
+                real hasta z14. URL WMTS: .../g/{z}/{y}/{x} (TileRow antes que Col). */}
             <TileLayer
-              attribution="Tiles &copy; Esri — Esri, Maxar, Earthstar Geographics"
-              url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+              attribution='Sentinel-2 cloudless 2024 by <a href="https://s2maps.eu">EOX</a> (Modified Copernicus Sentinel data)'
+              url="https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless-2024_3857/default/g/{z}/{y}/{x}.jpg"
               className="sat-nocturnal"
-              maxNativeZoom={13}
+              maxNativeZoom={14}
             />
             {/* Rutas (Ruta 2, Ruta 3, autopistas…) — blancas sobre satélite */}
             <TileLayer
