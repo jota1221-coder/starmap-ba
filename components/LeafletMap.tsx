@@ -1,11 +1,92 @@
 "use client";
 
 import { useRef, useState } from "react";
-import type { Map as LMap } from "leaflet";
-import { MapContainer, TileLayer, CircleMarker, Tooltip } from "react-leaflet";
+import type { Map as LMap, PathOptions } from "leaflet";
+import { MapContainer, TileLayer, CircleMarker, Tooltip, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import type { MapPoint } from "@/lib/points";
 import { bortleColor, bortleLabel, BORTLE_LEGEND } from "@/lib/bortle";
+
+// ── Máscara de Buenos Aires Province ─────────────────────────────────────
+// Polígono simplificado de la Provincia de Buenos Aires [lng, lat].
+// Fuente: aproximación basada en límites oficiales INDEC.
+const BA_COORDS: [number, number][] = [
+  [-57.85, -34.10],
+  [-58.40, -34.00],
+  [-59.00, -33.70],
+  [-59.70, -33.50],
+  [-60.50, -33.55],
+  [-61.40, -34.00],
+  [-62.00, -34.20],
+  [-62.90, -34.80],
+  [-63.30, -35.60],
+  [-63.70, -37.00],
+  [-63.75, -38.50],
+  [-63.80, -39.50],
+  [-63.80, -40.70],
+  [-63.40, -40.82],
+  [-62.95, -40.82],
+  [-62.23, -40.73],
+  [-62.10, -40.60],
+  [-62.28, -39.88],
+  [-62.42, -39.20],
+  [-62.28, -38.72],
+  [-61.85, -38.90],
+  [-61.20, -39.10],
+  [-60.80, -39.02],
+  [-59.90, -38.77],
+  [-59.25, -38.73],
+  [-58.48, -38.51],
+  [-57.90, -38.20],
+  [-57.54, -38.00],
+  [-57.42, -37.55],
+  [-57.05, -37.02],
+  [-56.80, -36.83],
+  [-56.72, -36.30],
+  [-56.85, -36.05],
+  [-57.00, -35.60],
+  [-57.35, -35.00],
+  [-57.55, -34.70],
+  [-57.85, -34.10],
+];
+
+// Máscara invertida: rectángulo mundial con BA Province como hueco.
+// fillRule evenodd (default en Leaflet) hace que el hueco quede sin relleno.
+const WORLD_MASK = {
+  type: "Feature" as const,
+  geometry: {
+    type: "Polygon" as const,
+    coordinates: [
+      [[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]],
+      BA_COORDS,
+    ],
+  },
+  properties: {},
+};
+
+// Solo el polígono de la provincia — para dibujar el contorno.
+const BA_BORDER = {
+  type: "Feature" as const,
+  geometry: {
+    type: "Polygon" as const,
+    coordinates: [BA_COORDS],
+  },
+  properties: {},
+};
+
+const maskStyle: PathOptions = {
+  fillColor: "#0a0e1a",
+  fillOpacity: 0.72,
+  stroke: false,
+  weight: 0,
+};
+
+const borderStyle: PathOptions = {
+  fill: false,
+  stroke: true,
+  color: "rgba(255, 255, 255, 0.18)",
+  weight: 1.5,
+};
 
 const BA_CENTER: [number, number] = [-36.2, -59.5];
 const INITIAL_ZOOM = 6;
@@ -65,6 +146,12 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
             url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
           />
         )}
+
+        {/* ── Máscara: oscurece todo fuera de BA Province ── */}
+        <GeoJSON data={WORLD_MASK} style={maskStyle} />
+
+        {/* ── Contorno sutil de la provincia ── */}
+        <GeoJSON data={BA_BORDER} style={borderStyle} />
 
         {/* ── Puntos de observación ── */}
         {points.map((p) => {
