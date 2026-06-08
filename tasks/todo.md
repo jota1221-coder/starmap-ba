@@ -1,6 +1,31 @@
 # StarMap BA — Todo List (v2)
 
 > Plan completo en [plan.md](./plan.md). Esta es la lista accionable actualizada tras revisión crítica.
+> **Visión de cierre + auditoría 2026-06-06 → [roadmap.md](./roadmap.md)** (Fases A–E + top 5 / must-do 5).
+
+---
+
+## 📌 CHECKPOINT — 2026-06-06 (auditoría integral)
+
+**Estado:** producto LIVE y sólido. Auditoría completa (código, seguridad, auth,
+DB, datos, diseño) en `roadmap.md`. Repo al día, build + lint limpios.
+
+**Verificado:** 13 ubicaciones dentro de BA (geocoding + ray casting), cero
+secretos filtrados, Sentinel-2 con cobertura uniforme.
+
+**Hecho desde el último checkpoint (rediseño mayor):**
+- 🗺️ Mapa rediseñado: máscara real IGN (277 pts), base Sentinel-2 (EOX, sin key,
+  nítida en todo BA), rutas Esri, filtro nocturno calibrado, maxZoom 14
+- 🎬 Animaciones: `/punto` con score ring + conteo + fade-in scroll; landing con
+  parallax (HeroBackdrop), glow/viñeta, Space Grotesk, transiciones de página
+- 🌌 Showcase del producto en la landing (`ProductPreview`: mapa SVG real con los
+  13 puntos brillando por Bortle)
+- 🧹 Prolijidad: fix lint, eliminados SVG default, `scripts/verify-points.ts`
+
+**Próximo paso recomendado:** Fase A (dominio + Resend) — ver `roadmap.md`.
+
+**Pendientes vivos (must-do):** dominio+Resend · notebook DS (Fase C) · tests+CI ·
+reseñas sembradas · pulido diseño (#4 tipografía, #5 íconos features).
 
 ---
 
