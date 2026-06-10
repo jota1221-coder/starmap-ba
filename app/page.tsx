@@ -23,42 +23,72 @@ const FEATURES = [
 
 export default function Home() {
   return (
-    <div className="relative flex min-h-dvh flex-col">
+    <div className="relative">
       {/* Fondo del hero: foto ESO con parallax + glow + viñeta */}
       <HeroBackdrop />
 
-      {/* Header */}
-      <header className="relative z-10 flex items-center justify-between px-5 py-5 sm:px-8">
-        <Wordmark className="text-base" />
-        <SocialLinks />
-      </header>
+      {/* Primera pantalla: el hero ocupa el viewport completo y queda centrado.
+          Todo lo demás (mapa, features, footer) cae debajo del fold. */}
+      <section className="relative z-10 flex min-h-dvh flex-col">
+        {/* Header */}
+        <header className="flex items-center justify-between px-5 py-5 sm:px-8">
+          <Wordmark className="text-base" />
+          <SocialLinks />
+        </header>
 
-      {/* Hero */}
-      <main className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 py-20 text-center">
-        <h1
-          className="animate-rise text-5xl font-semibold leading-[0.95] tracking-tight text-balance [animation-delay:160ms] sm:text-7xl"
-          style={{ fontFamily: "var(--font-display)" }}
+        {/* Hero */}
+        <main className="flex flex-1 flex-col items-center justify-center px-6 pb-16 text-center">
+          <h1
+            className="animate-rise text-5xl font-semibold leading-[0.95] tracking-tight text-balance [animation-delay:160ms] sm:text-7xl"
+            style={{ fontFamily: "var(--font-display)" }}
+          >
+            Encontrá el cielo
+            <br />
+            <span className="text-fg-muted">más oscuro cerca tuyo</span>
+          </h1>
+
+          <p className="animate-rise mt-6 max-w-xl text-lg leading-relaxed text-fg-muted text-balance [animation-delay:280ms]">
+            StarMap BA combina contaminación lumínica, clima y posición de los
+            astros para decirte el mejor lugar y la mejor noche para mirar las
+            estrellas.
+          </p>
+
+          <CTAButton />
+
+          <p className="animate-rise mt-4 text-xs text-fg-faint [animation-delay:520ms]">
+            13 puntos relevados · gratis · sin registro
+          </p>
+        </main>
+
+        {/* Indicador de scroll: invita a bajar al mapa. CSS puro, respeta
+            prefers-reduced-motion. */}
+        <a
+          href="#el-mapa"
+          aria-label="Ver el mapa"
+          className="animate-rise absolute inset-x-0 bottom-6 z-10 mx-auto flex w-fit justify-center text-fg-faint transition-colors duration-200 [animation-delay:760ms] hover:text-fg-muted"
         >
-          Encontrá el cielo
-          <br />
-          <span className="text-fg-muted">más oscuro cerca tuyo</span>
-        </h1>
-
-        <p className="animate-rise mt-6 max-w-xl text-lg leading-relaxed text-fg-muted text-balance [animation-delay:280ms]">
-          StarMap BA combina contaminación lumínica, clima y posición de los
-          astros para decirte el mejor lugar y la mejor noche para mirar las
-          estrellas.
-        </p>
-
-        <CTAButton />
-
-        <p className="animate-rise mt-4 text-xs text-fg-faint [animation-delay:520ms]">
-          13 puntos relevados · gratis · sin registro
-        </p>
-      </main>
+          <svg
+            className="scroll-cue"
+            width="26"
+            height="26"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden
+          >
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </a>
+      </section>
 
       {/* Showcase del producto: mapa real de BA con los puntos */}
-      <section className="relative z-10 mx-auto w-full max-w-5xl px-6 pb-24 pt-4">
+      <section
+        id="el-mapa"
+        className="relative z-10 mx-auto w-full max-w-5xl scroll-mt-10 px-6 pb-24 pt-4"
+      >
         <div className="grid items-center gap-10 sm:grid-cols-2 sm:gap-14">
           <FadeIn from="left">
             <p className="text-sm font-semibold uppercase tracking-[0.16em] text-accent">

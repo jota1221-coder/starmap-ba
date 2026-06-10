@@ -24,6 +24,10 @@
   --ease-organic: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: var(--color-ink);
   color: var(--color-fg);
@@ -137,6 +141,15 @@ body {
   animation: preview-pulse 4s ease-in-out infinite;
 }
 
+/* Indicador de scroll del hero: chevron con leve rebote y atenuación. */
+@keyframes scroll-cue {
+  0%, 100% { transform: translateY(0); opacity: 0.5; }
+  50% { transform: translateY(6px); opacity: 0.9; }
+}
+.scroll-cue {
+  animation: scroll-cue 2.2s var(--ease-organic) infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .starfield::before,
   .starfield::after {
@@ -149,5 +162,11 @@ body {
   .preview-halo {
     animation: none;
     opacity: 0.32;
+  }
+  .scroll-cue {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
   }
 }
