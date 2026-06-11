@@ -83,6 +83,14 @@ enum ModerationStatus {
   REJECTED
 }
 
+/// Nivel de experiencia en astronomía del usuario (perfil de comunidad).
+enum AstronomyExperience {
+  nada
+  basico
+  intermedio
+  avanzado
+}
+
 // ── Auth.js (NextAuth v5) — modelos estándar ──────────────────────
 model User {
   id            String    @id @default(cuid())
@@ -90,6 +98,13 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+
+  // Perfil de la comunidad — se completa en el onboarding tras el primer login.
+  firstName  String?
+  lastName   String?
+  nickname   String?
+  experience AstronomyExperience?
+
   accounts      Account[]
   sessions      Session[]
   reviews       Review[]

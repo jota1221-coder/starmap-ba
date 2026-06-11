@@ -1,7 +1,14 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { auth } from "@/auth";
-import { getPointBySlug, getReviews, getUserReview } from "@/lib/points";
+import {
+  getPointBySlug,
+  getReviews,
+  getUserReview,
+  getProfile,
+} from "@/lib/points";
+import { isProfileComplete, reviewerName, experienceLabel } from "@/lib/profile";
+import Avatar from "@/components/Avatar";
 import Stars from "@/components/Stars";
 import ReviewForm from "@/components/ReviewForm";
 import { getConditions } from "@/lib/conditions";
@@ -109,6 +116,10 @@ export default async function PuntoPage({
   const myReview = session?.user?.id
     ? await getUserReview(point.id, session.user.id)
     : null;
+  const myProfile = session?.user?.id
+    ? await getProfile(session.user.id)
+    : null;
+  const canReview = isProfileComplete(myProfile);
   const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${point.lat},${point.lng}`;
 
   return (
@@ -351,13 +362,7 @@ export default async function PuntoPage({
             </div>
 
             <div className="mt-5">
-              {session?.user ? (
-                <ReviewForm
-                  pointId={point.id}
-                  slug={point.slug}
-                  initial={myReview}
-                />
-              ) : (
+              {!session?.user ? (
                 <p className="text-sm text-fg-muted">
                   <Link
                     href="/login"
@@ -367,14 +372,30 @@ export default async function PuntoPage({
                   </Link>{" "}
                   para dejar tu reseña y ayudar a otros a elegir.
                 </p>
+              ) : canReview ? (
+                <ReviewForm
+                  pointId={point.id}
+                  slug={point.slug}
+                  initial={myReview}
+                />
+              ) : (
+                <p className="text-sm text-fg-muted">
+                  <Link
+                    href="/perfil"
+                    className="text-accent underline-offset-2 hover:underline"
+                  >
+                    Completá tu perfil
+                  </Link>{" "}
+                  para poder dejar reseñas.
+                </p>
               )}
             </div>
 
             {reviews.length > 0 ? (
               <ul className="mt-8 space-y-5">
                 {reviews.map((r) => {
-                  const autor =
-                    r.user.name ?? r.user.email?.split("@")[0] ?? "Anónimo";
+                  const autor = reviewerName(r.user);
+                  const nivel = experienceLabel(r.user.experience);
                   const fecha = new Intl.DateTimeFormat("es-AR", {
                     day: "numeric",
                     month: "long",
@@ -385,8 +406,18 @@ export default async function PuntoPage({
                       key={r.id}
                       className="border-t border-white/5 pt-5 first:border-0 first:pt-0"
                     >
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-fg">{autor}</span>
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex min-w-0 items-center gap-2.5">
+                          <Avatar name={autor} size={32} />
+                          <span className="truncate text-sm font-medium text-fg">
+                            {autor}
+                          </span>
+                          {nivel && (
+                            <span className="shrink-0 rounded-full border border-white/10 px-2 py-0.5 text-[11px] text-fg-faint">
+                              {nivel}
+                            </span>
+                          )}
+                        </div>
                         <Stars value={r.rating} size={14} />
                       </div>
                       <p className="mt-2 text-sm leading-relaxed text-fg-muted">

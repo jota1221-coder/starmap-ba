@@ -35,7 +35,7 @@ export default async function LoginPage({
         </div>
 
         <form action={sendMagicLink} className="space-y-3">
-          <input type="hidden" name="redirectTo" value="/mapa" />
+          <input type="hidden" name="redirectTo" value="/perfil" />
           <input
             type="email"
             name="email"

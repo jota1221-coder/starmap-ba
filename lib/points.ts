@@ -33,7 +33,9 @@ export async function getReviews(pointId: number) {
       cuerpo: true,
       consejo: true,
       createdAt: true,
-      user: { select: { name: true, email: true } },
+      user: {
+        select: { nickname: true, firstName: true, experience: true },
+      },
     },
   });
 }
@@ -63,6 +65,19 @@ export async function getMapPoints(): Promise<MapPoint[]> {
       tipo: true,
       accesoTipo: true,
       descripcion: true,
+    },
+  });
+}
+
+/** Campos de perfil de comunidad de un usuario (o null si no existe). */
+export async function getProfile(userId: string) {
+  return prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      firstName: true,
+      lastName: true,
+      nickname: true,
+      experience: true,
     },
   });
 }

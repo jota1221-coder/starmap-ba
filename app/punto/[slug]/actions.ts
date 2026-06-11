@@ -5,6 +5,8 @@ import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { contieneEnlace } from "@/lib/moderation";
+import { getProfile } from "@/lib/points";
+import { isProfileComplete } from "@/lib/profile";
 
 /** Recalcula el rating promedio denormalizado contando solo aprobadas. */
 async function recomputeRating(pointId: number) {
@@ -33,6 +35,9 @@ export async function submitReview(
   const { ok } = await checkRateLimit("review", userId);
   if (!ok)
     return { error: "Demasiadas reseñas seguidas. Esperá unos minutos." };
+
+  if (!isProfileComplete(await getProfile(userId)))
+    return { error: "Completá tu perfil antes de reseñar." };
 
   const pointId = Number(formData.get("pointId"));
   const slug = String(formData.get("slug") ?? "");
