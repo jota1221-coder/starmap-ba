@@ -33,7 +33,7 @@ export default function ProfileForm({ initial }: { initial: ProfileFields }) {
             minLength={2}
             maxLength={40}
             defaultValue={initial.firstName ?? ""}
-            placeholder="Joaquín"
+            placeholder="Juan"
             className={inputClass}
           />
         </div>
@@ -48,7 +48,7 @@ export default function ProfileForm({ initial }: { initial: ProfileFields }) {
             minLength={2}
             maxLength={40}
             defaultValue={initial.lastName ?? ""}
-            placeholder="Rao"
+            placeholder="Pérez"
             className={inputClass}
           />
         </div>

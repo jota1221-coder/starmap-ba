@@ -6,7 +6,7 @@
 
 A web app that helps amateur astronomers in Buenos Aires Province, Argentina decide *where* and *when* to go stargazing — combining satellite light-pollution data, weather forecasts, and real-time astronomical calculations into a single 0–100 observation score.
 
-[![Live demo](https://img.shields.io/badge/demo-live-22c55e?style=for-the-badge)](https://starmap-ba-12.vercel.app)
+[![Live demo](https://img.shields.io/badge/demo-live-22c55e?style=for-the-badge)](https://starmapba.com.ar)
 &nbsp;
 ![License: MIT](https://img.shields.io/badge/license-MIT-e0a96d?style=for-the-badge)
 
