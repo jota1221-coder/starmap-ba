@@ -43,3 +43,9 @@ next-env.d.ts
 
 /app/generated/prisma
 .dev-magic-link.txt
+
+# python / data science (notebooks/)
+notebooks/.venv/
+notebooks/data/*.tif.gz
+**/__pycache__/
+**/.ipynb_checkpoints/

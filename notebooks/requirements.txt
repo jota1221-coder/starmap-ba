@@ -1,0 +1,9 @@
+# Entorno del análisis VIIRS de StarMap BA — Python 3.12
+# Crear con:  uv venv --python 3.12 && uv pip install -r requirements.txt
+jupyterlab>=4.5
+pandas>=3.0
+numpy>=2.0
+matplotlib>=3.8
+rasterio>=1.5
+geopandas>=1.1
+shapely>=2.1
