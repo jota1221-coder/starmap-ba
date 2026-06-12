@@ -1,3 +1,4 @@
+import Link from "next/link";
 import SocialLinks from "@/components/SocialLinks";
 import Wordmark from "@/components/Wordmark";
 import CTAButton from "@/components/CTAButton";
@@ -33,7 +34,15 @@ export default function Home() {
         {/* Header */}
         <header className="flex items-center justify-between px-5 py-5 sm:px-8">
           <Wordmark className="text-base" />
-          <SocialLinks />
+          <div className="flex items-center gap-5">
+            <Link
+              href="/data-science"
+              className="text-sm text-fg-muted transition-colors duration-200 hover:text-accent"
+            >
+              Data Science
+            </Link>
+            <SocialLinks />
+          </div>
         </header>
 
         {/* Hero */}
@@ -148,6 +157,14 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="relative z-10 border-t border-white/5 px-6 py-6 text-center text-xs text-fg-faint">
+        <p className="mb-3">
+          <Link
+            href="/data-science"
+            className="text-fg-muted transition-colors duration-200 hover:text-accent"
+          >
+            Cómo validamos los cielos con datos satelitales →
+          </Link>
+        </p>
         <p>
           Hecho por{" "}
           <a
