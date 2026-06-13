@@ -65,7 +65,7 @@ export default function Home() {
           <CTAButton />
 
           <p className="animate-rise mt-4 text-xs text-fg-faint [animation-delay:520ms]">
-            13 puntos relevados · gratis · sin registro
+            21 puntos relevados · gratis · sin registro
           </p>
         </main>
 
@@ -107,14 +107,15 @@ export default function Home() {
               className="mt-3 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl"
               style={{ fontFamily: "var(--font-display)" }}
             >
-              Trece cielos,
+              Veintiún cielos,
               <br />
               rankeados
             </h2>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-fg-muted">
-              Cada punto es un lugar real y accesible en auto, medido por
-              contaminación lumínica satelital. Cuanto más verde, más oscuro el
-              cielo. La ciudad queda atrás; las estrellas, adelante.
+              Escapadas de cielo oscuro y observatorios con visitas guiadas:
+              cada punto es un lugar real y accesible en auto, medido por
+              contaminación lumínica satelital. Cuanto más verde, más oscuro
+              el cielo.
             </p>
             <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-2">
               {BORTLE_LEGEND.map((item) => (

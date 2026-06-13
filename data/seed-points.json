@@ -1,7 +1,8 @@
 {
   "_meta": {
-    "version": 5,
-    "descripcion": "Puntos de observación astronómica en Provincia de Buenos Aires para escapadas desde CABA. v5 agrega info para visitantes (mejor época, dónde dormir, tips, experiencias) recopilada de medios, sitios de turismo y reseñas.",
+    "version": 6,
+    "descripcion": "Puntos de observación astronómica en Buenos Aires para escapadas desde CABA. v5 agregó info para visitantes. v6 agrega `categoria` (escapada | observatorio) y 8 puntos nuevos: 3 observatorios urbanos con visitas y 5 escapadas identificadas por análisis VIIRS 2024 (celda de radiancia mínima cerca de un pueblo conocido) + verificación de paraje/camino por geocoding.",
+    "fuente_categorias": "Observatorios: cielo urbano a propósito (el valor es el instrumento y la visita). Escapadas nuevas: Bortle asignado por radiancia VIIRS local + contexto de resplandor regional, por analogía con los 13 puntos validados (Spearman +0.76).",
     "fuente_bortle": "MCP stargazing light_pollution_map (grilla VIIRS ~5.5 km). Coordenadas ajustadas a la celda oscura accesible.",
     "leccion_clave": "Medir en el pueblo o la costanera da Bortle 6-8 por luz urbana; 5-15 km hacia el campo baja a Bortle 3-4. Las coordenadas apuntan a la celda oscura accesible.",
     "campos_info_visitante": {
@@ -147,7 +148,7 @@
       "partido": "Las Flores",
       "lat": -36.223,
       "lng": -59.385,
-      "distancia_caba_km": 190,
+      "distancia_caba_km": 215,
       "tipo": "pampa",
       "bortle": 2,
       "sqm": 21.6,
@@ -343,6 +344,214 @@
           "Se ve la Vía Láctea a simple vista en noches buenas. El punto más oscuro y 'serio' del listado."
         ],
         "experiencia": "El destino estrella (literal) del astroturismo bonaerense. Lejos (620 km) pero con la mejor combinación de cielo + infraestructura + paisaje serrano. Ideal para un viaje dedicado de varios días."
+      }
+    },
+    {
+      "slug": "observatorio-parque-centenario",
+      "nombre": "Observatorio AAAA — Parque Centenario",
+      "partido": "CABA",
+      "lat": -34.605,
+      "lng": -58.435,
+      "distancia_caba_km": 6,
+      "tipo": "urbano",
+      "categoria": "observatorio",
+      "bortle": 8,
+      "sqm": 17.8,
+      "acceso": { "tipo": "auto", "tipo_camino": "asfalto" },
+      "descripcion": "Sede de la Asociación Argentina Amigos de la Astronomía (fundada en 1929, la primera institución de aficionados del continente), en pleno Parque Centenario. Telescopios históricos, cursos y observación guiada. El cielo es de ciudad: acá venís por los instrumentos, las visitas y la comunidad, no por el cielo oscuro.",
+      "notas_acceso": "Av. Patricias Argentinas 550, CABA (Parque Centenario, Caballito). Subte B (Ángel Gallardo) o colectivos. Las visitas requieren reserva previa.",
+      "referencia": "Asociación Argentina Amigos de la Astronomía (AAAA)",
+      "info_visitante": {
+        "mejor_epoca": "Todo el año. La observación depende del cielo despejado: confirmá por sus redes antes de ir.",
+        "donde_dormir": "Es CABA: plan de noche en la ciudad, no hace falta alojamiento.",
+        "tips": [
+          "Reservá la visita guiada con anticipación: las hacen socios de la Asociación, de noche.",
+          "Dictan cursos de introducción a la astronomía, astrofotografía, construcción de telescopios y observación solar.",
+          "Ideal primer contacto con telescopios de verdad antes de invertir en equipo propio."
+        ],
+        "experiencia": "El club de astronomía más antiguo de América: instrumental histórico, socios apasionados y la puerta de entrada perfecta al hobby sin salir de Capital."
+      }
+    },
+    {
+      "slug": "observatorio-la-plata",
+      "nombre": "Observatorio Astronómico de La Plata",
+      "partido": "La Plata",
+      "lat": -34.9084,
+      "lng": -57.935,
+      "distancia_caba_km": 60,
+      "tipo": "urbano",
+      "categoria": "observatorio",
+      "bortle": 8,
+      "sqm": 17.8,
+      "acceso": { "tipo": "auto", "tipo_camino": "asfalto" },
+      "descripcion": "Observatorio profesional de la UNLP (1883) en el Paseo del Bosque. Visitas guiadas diurnas y nocturnas con el telescopio Gran Ecuatorial Gautier, charlas públicas los viernes y el planetario al lado. Cielo urbano: el valor es el patrimonio científico y mirar por un instrumento centenario.",
+      "notas_acceso": "Paseo del Bosque s/n, La Plata. ~60 km de CABA por Autopista Buenos Aires–La Plata. Estacionamiento en el Bosque.",
+      "referencia": "Observatorio Astronómico de La Plata — UNLP",
+      "info_visitante": {
+        "mejor_epoca": "De abril a diciembre hay visitas regulares; las nocturnas dependen del clima. Viernes 19 h: charlas abiertas (marzo–diciembre).",
+        "donde_dormir": "Hotelería completa en La Plata; desde CABA es ida y vuelta en el día sin problema.",
+        "tips": [
+          "Las visitas nocturnas (lunes a jueves, a pedido) incluyen observación por el Gran Ecuatorial Gautier si el cielo acompaña.",
+          "Combinalo con el Planetario de La Plata, pegado al observatorio.",
+          "Plan ideal con chicos: museo de ciencias, bosque y telescopios en el mismo paseo."
+        ],
+        "experiencia": "Mirar por un telescopio de 1882 bajo una cúpula centenaria: historia viva de la ciencia argentina."
+      }
+    },
+    {
+      "slug": "observatorio-mercedes",
+      "nombre": "Observatorio Municipal Ing. Ángel Di Palma (Mercedes)",
+      "partido": "Mercedes",
+      "lat": -34.633,
+      "lng": -59.434,
+      "distancia_caba_km": 100,
+      "tipo": "urbano",
+      "categoria": "observatorio",
+      "bortle": 7,
+      "sqm": 18.2,
+      "acceso": { "tipo": "auto", "tipo_camino": "asfalto" },
+      "descripcion": "Observatorio municipal en el Parque Independencia de Mercedes, con observación pública guiada los viernes a la noche. Cielo de ciudad chica: el plan astronómico guiado más accesible del corredor oeste, a una hora y media de CABA.",
+      "notas_acceso": "Parque Municipal Independencia, Mercedes. Ruta 5 hasta Mercedes (~100 km). Confirmar la visita de los viernes por los canales municipales.",
+      "referencia": "Observatorio Astronómico Municipal de Mercedes Ing. Ángel Di Palma",
+      "info_visitante": {
+        "mejor_epoca": "Viernes a la noche (observación pública). Confirmar horarios según la época del año.",
+        "donde_dormir": "Hotelería y cabañas en Mercedes; también funciona como escapada de día completo desde CABA.",
+        "tips": [
+          "La observación pública de los viernes es ideal para ir en familia, sin equipo propio.",
+          "Mercedes tiene gastronomía típica (el salame quintero es religión) para completar la salida.",
+          "Si después querés cielo oscuro de verdad, alejate 15-20 km del casco urbano hacia el campo."
+        ],
+        "experiencia": "El plan 'observatorio de pueblo': cercano, guiado y sin pretensiones — perfecto para una primera vez con telescopio."
+      }
+    },
+    {
+      "slug": "domselaar-san-vicente",
+      "nombre": "Campo en Domselaar (San Vicente)",
+      "partido": "San Vicente",
+      "lat": -35.121,
+      "lng": -58.337,
+      "distancia_caba_km": 70,
+      "tipo": "pampa",
+      "categoria": "escapada",
+      "bortle": 5,
+      "sqm": 19.5,
+      "acceso": { "tipo": "auto", "tipo_camino": "ripio" },
+      "descripcion": "Zona rural alrededor de Domselaar: el cielo decente más cercano a CABA que detectó nuestro análisis satelital (radiancia local mínima a ~70 km). No es pampa profunda — el resplandor de CABA y La Plata se nota — pero en noches secas ya se insinúa la Vía Láctea. La salida exprés para probar equipo sin viajar lejos.",
+      "notas_acceso": "Por RP 210 hasta Domselaar (~70 km, asfalto hasta el pueblo). Desde ahí, 2-4 km por caminos rurales hacia el oeste para dejar atrás las luces. Estacionar bien a un costado, en banquina ancha de camino secundario.",
+      "referencia": "Identificado por análisis VIIRS 2024 (celda de radiancia mínima) + verificación de paraje por geocoding",
+      "info_visitante": {
+        "mejor_epoca": "Todo el año por cercanía. Noches de invierno más secas y transparentes. Siempre con Luna nueva.",
+        "donde_dormir": "A 70 km es ida y vuelta en la misma noche. Hay opciones rurales en San Vicente y Brandsen si querés quedarte.",
+        "tips": [
+          "La escapada más corta del mapa: salís 21:00, observás 23:00, volvés a la 1:30.",
+          "El resplandor de CABA y La Plata queda al norte/este: apuntá el equipo al sur y al oeste.",
+          "Llevá balizas y estacioná fuera de la calzada; es zona de tránsito rural ocasional."
+        ],
+        "experiencia": "No es cielo de pampa profunda, pero a 70 km del Obelisco, ver aparecer estrellas que en la ciudad no existen ya sorprende. El mejor km-por-estrella de la lista."
+      }
+    },
+    {
+      "slug": "francisco-berra-monte",
+      "nombre": "Campo en Francisco Berra (Monte)",
+      "partido": "Monte",
+      "lat": -35.321,
+      "lng": -58.908,
+      "distancia_caba_km": 125,
+      "tipo": "pampa",
+      "categoria": "escapada",
+      "bortle": 4,
+      "sqm": 20.4,
+      "acceso": { "tipo": "auto", "tipo_camino": "ripio" },
+      "descripcion": "Paraje rural Francisco Berra, ~15 km al noroeste de San Miguel del Monte. El satélite lo marca como la celda más oscura accesible de la zona (radiancia ≈ 0). Combina perfecto con la laguna y el glamping de Monte para un finde completo.",
+      "notas_acceso": "Pueblo más cercano: San Miguel del Monte (15 km; Ruta 3 / RP 41). Desde Monte, caminos rurales hacia el NO en dirección al paraje Francisco Berra (ripio/tierra; evitar después de lluvias fuertes).",
+      "referencia": "Identificado por análisis VIIRS 2024 + geocoding (paraje Francisco Berra)",
+      "info_visitante": {
+        "mejor_epoca": "Todo el año; tras lluvias consultar el estado del camino rural.",
+        "donde_dormir": "Glamping del Monte (domos geodésicos junto a la laguna), cabañas y hotelería en San Miguel del Monte.",
+        "tips": [
+          "Dormí en el glamping de la laguna y manejá 15 minutos al campo oscuro: combo de pareja perfecto.",
+          "La luz del casco urbano queda al sureste: apuntá hacia el norte y el oeste.",
+          "Campo abierto sin servicios: llevá termo, reposera y abrigo."
+        ],
+        "experiencia": "El plan romántico de la lista: laguna + domo transparente + 15 minutos de auto a un cielo Bortle 4 de verdad."
+      }
+    },
+    {
+      "slug": "sur-general-belgrano",
+      "nombre": "Campo al sur de General Belgrano",
+      "partido": "General Belgrano",
+      "lat": -35.85,
+      "lng": -58.43,
+      "distancia_caba_km": 170,
+      "tipo": "pampa",
+      "categoria": "escapada",
+      "bortle": 3,
+      "sqm": 21.3,
+      "acceso": { "tipo": "auto", "tipo_camino": "ripio" },
+      "descripcion": "Pampa abierta unos 10 km al sur de General Belgrano, rumbo a Pila por la RP 29. La antesala de la 'pampa profunda': cielo muy bueno con horizonte limpio en casi todas las direcciones, y termas en el pueblo para el plan de día.",
+      "notas_acceso": "Pueblo más cercano: General Belgrano (10 km). Autovía 2 + RP 29 (asfalto) y desvío a camino rural. Elegir banquina amplia sobre camino secundario, no sobre la ruta.",
+      "referencia": "Identificado por análisis VIIRS 2024; corredor oscuro hacia Pila (Bortle 2 ya validado)",
+      "info_visitante": {
+        "mejor_epoca": "Otoño-invierno por aire más seco y estable. Cualquier época con Luna nueva.",
+        "donde_dormir": "Complejo termal, hotelería y cabañas en General Belgrano.",
+        "tips": [
+          "Termas de día + estrellas de noche: General Belgrano tiene complejo termal y eso redondea el finde.",
+          "Si querés más oscuridad, seguí 40 minutos hacia Pila (Bortle 2, ya está en el mapa).",
+          "La RP 29 tiene poco tránsito de noche: igual estacioná fuera de la calzada y con balizas."
+        ],
+        "experiencia": "El escalón intermedio entre la escapada corta y la pampa profunda: cielo Bortle 3 sin resignar servicios ni termas."
+      }
+    },
+    {
+      "slug": "la-luisa-capitan-sarmiento",
+      "nombre": "Campo en La Luisa (Capitán Sarmiento)",
+      "partido": "Capitán Sarmiento",
+      "lat": -34.063,
+      "lng": -59.9,
+      "distancia_caba_km": 155,
+      "tipo": "pampa",
+      "categoria": "escapada",
+      "bortle": 4,
+      "sqm": 20.4,
+      "acceso": { "tipo": "auto", "tipo_camino": "ripio" },
+      "descripcion": "Paraje rural La Luisa, ~12 km al norte de Capitán Sarmiento. La celda oscura del corredor norte según el satélite: la opción de cielo bueno para quienes viven en zona norte o suben por Ruta 8, con San Antonio de Areco como base con encanto a media hora.",
+      "notas_acceso": "Pueblo más cercano: Capitán Sarmiento (12 km; Ruta 8, asfalto hasta el pueblo). Caminos rurales de ripio hacia el paraje La Luisa.",
+      "referencia": "Identificado por análisis VIIRS 2024 + geocoding (paraje La Luisa)",
+      "info_visitante": {
+        "mejor_epoca": "Todo el año. Tras lluvias, consultar el estado de los caminos rurales.",
+        "donde_dormir": "Hotelería en Capitán Sarmiento y San Antonio de Areco (30 min): día de tradición + noche de estrellas.",
+        "tips": [
+          "Areco queda a media hora: plan gaucho de día y cielo Bortle 4 de noche, finde redondo.",
+          "El resplandor de Pergamino queda al noroeste: mejor cielo mirando al sur y al este.",
+          "Zona de campos activos: respetá tranqueras y no entres a propiedad privada."
+        ],
+        "experiencia": "El punto del corredor norte: cielo bueno sin cruzar media provincia, con Areco de base."
+      }
+    },
+    {
+      "slug": "noroeste-chivilcoy",
+      "nombre": "Campo al noroeste de Chivilcoy",
+      "partido": "Chivilcoy",
+      "lat": -34.792,
+      "lng": -60.129,
+      "distancia_caba_km": 175,
+      "tipo": "pampa",
+      "categoria": "escapada",
+      "bortle": 4,
+      "sqm": 20.4,
+      "acceso": { "tipo": "auto", "tipo_camino": "ripio" },
+      "descripcion": "Campo abierto ~15 km al noroeste de Chivilcoy, zona de los parajes Gorostiaga y Ramón Biaus. Es de las zonas con leve altura de la pampa local (≈60 m) y queda lejos de la luz de la ciudad: cielo bueno con horizonte despejado y autopista casi puerta a puerta.",
+      "notas_acceso": "Pueblo más cercano: Chivilcoy (15 km; Autopista 5, asfalto, ~2 h desde CABA). Desde Chivilcoy, caminos rurales hacia el NO en dirección a Gorostiaga (ripio firme en seco).",
+      "referencia": "Identificado por análisis VIIRS 2024; celda de radiancia mínima del partido",
+      "info_visitante": {
+        "mejor_epoca": "Todo el año. El acceso por Autopista 5 lo hace cómodo incluso en invierno.",
+        "donde_dormir": "Hotelería completa en Chivilcoy (ciudad grande, todos los servicios).",
+        "tips": [
+          "Chivilcoy es brillante (Bortle 7): no observes desde el casco urbano, hacé los 15 km al campo.",
+          "Es de las pocas zonas con leve altura (≈60 m): horizonte un poco más limpio hacia el oeste.",
+          "Combinable con el observatorio Di Palma de Mercedes en el camino de vuelta por Ruta 5."
+        ],
+        "experiencia": "La escapada del oeste: autopista casi todo el viaje y un salto enorme de cielo respecto a la ciudad."
       }
     }
   ]

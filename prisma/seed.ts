@@ -11,6 +11,7 @@ import { join } from "node:path";
 import {
   PrismaClient,
   PointType,
+  PointCategory,
   AccessType,
   RoadType,
 } from "@prisma/client";
@@ -44,6 +45,7 @@ interface SeedPunto {
   lng: number;
   distancia_caba_km: number;
   tipo: string;
+  categoria?: string; // "escapada" (default) | "observatorio"
   bortle: number;
   sqm: number;
   acceso: SeedAcceso;
@@ -66,10 +68,17 @@ function mapPointType(tipo: string): PointType {
     reserva: PointType.reserva,
     pampa: PointType.pampa,
     laguna: PointType.laguna,
+    urbano: PointType.urbano,
   };
   const value = map[tipo];
   if (!value) throw new Error(`Tipo de punto desconocido: "${tipo}"`);
   return value;
+}
+
+function mapCategoria(categoria: string | undefined): PointCategory {
+  if (!categoria || categoria === "escapada") return PointCategory.escapada;
+  if (categoria === "observatorio") return PointCategory.observatorio;
+  throw new Error(`Categoría desconocida: "${categoria}"`);
 }
 
 function mapAccessType(tipo: string): AccessType {
@@ -111,6 +120,7 @@ async function main() {
       lng: p.lng,
       distanciaCabaKm: p.distancia_caba_km,
       tipo: mapPointType(p.tipo),
+      categoria: mapCategoria(p.categoria),
       bortle: p.bortle,
       sqm: p.sqm,
       accesoTipo: mapAccessType(p.acceso.tipo),

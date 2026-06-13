@@ -12,6 +12,7 @@ export type MapPoint = {
   sqm: number;
   distanciaCabaKm: number;
   tipo: string;
+  categoria: string;
   accesoTipo: string;
   descripcion: string;
 };
@@ -63,6 +64,7 @@ export async function getMapPoints(): Promise<MapPoint[]> {
       sqm: true,
       distanciaCabaKm: true,
       tipo: true,
+      categoria: true,
       accesoTipo: true,
       descripcion: true,
     },

@@ -45,7 +45,8 @@ for (const p of seed.puntos) {
   const recta = haversine(p.lat, p.lng);
   const bortleOk = p.bortle >= 1 && p.bortle <= 9;
   const flags: string[] = [];
-  if (!dentro) flags.push("FUERA DE BA");
+  // Los observatorios urbanos pueden caer fuera del polígono provincial (CABA).
+  if (!dentro && p.categoria !== "observatorio") flags.push("FUERA DE BA");
   if (!bortleOk) flags.push("BORTLE INVÁLIDO");
   // La distancia guardada es por ruta; la recta debe ser MENOR. Si la recta
   // es mayor que la guardada, algo está mal en las coordenadas.
@@ -63,6 +64,6 @@ for (const p of seed.puntos) {
 console.log("─".repeat(70));
 console.log(
   problemas === 0
-    ? "✓ Las 13 ubicaciones están dentro de BA, con Bortle y distancias coherentes."
+    ? `✓ Las ${seed.puntos.length} ubicaciones son coherentes (polígono BA, Bortle y distancias).`
     : `⚠ ${problemas} punto(s) con problemas — revisar arriba.`,
 );

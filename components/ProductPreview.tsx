@@ -78,7 +78,7 @@ export default function ProductPreview() {
             viewBox={`0 0 ${W} ${H}`}
             className="h-auto w-full"
             role="img"
-            aria-label="Mapa de la Provincia de Buenos Aires con 13 puntos de observación"
+            aria-label={`Mapa de la Provincia de Buenos Aires con ${PTS.length} puntos de observación`}
           >
             <defs>
               <radialGradient id="caba-glow">

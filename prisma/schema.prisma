@@ -27,6 +27,10 @@ model ObservationPoint {
   distanciaCabaKm Int
   tipo            PointType
 
+  // Categoría del lugar: escapada de cielo oscuro u observatorio con visitas.
+  // Define el color del borde en el mapa y el encuadre de la ficha.
+  categoria PointCategory @default(escapada)
+
   // Calidad de cielo (medida)
   bortle Int // 1 (excelente) – 9 (cielo de gran ciudad)
   sqm    Float // Sky Quality Meter, mag/arcsec². Mayor = más oscuro.
@@ -151,6 +155,13 @@ enum PointType {
   reserva
   pampa
   laguna
+  urbano
+}
+
+/// Categoría: escapada de cielo oscuro vs observatorio urbano con visitas.
+enum PointCategory {
+  escapada
+  observatorio
 }
 
 enum AccessType {

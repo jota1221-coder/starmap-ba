@@ -73,6 +73,18 @@ const TIPO_LABEL: Record<string, string> = {
   reserva: "Reserva",
   pampa: "Pampa",
   laguna: "Laguna",
+  urbano: "Urbano",
+};
+
+// Borde del marker según categoría: violeta = observatorio, azul = escapada.
+const CATEGORIA_COLOR: Record<string, string> = {
+  observatorio: "#a78bfa",
+  escapada: "#60a5fa",
+};
+
+const CATEGORIA_LABEL: Record<string, string> = {
+  observatorio: "Observatorio (visitas)",
+  escapada: "Escapada de cielo oscuro",
 };
 
 type BaseLayer = "satelite" | "oscuro";
@@ -149,8 +161,10 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
               center={[p.lat, p.lng]}
               radius={isSelected ? 12 : 9}
               pathOptions={{
-                color: isSelected ? "#ffffff" : "#0f172a",
-                weight: isSelected ? 2.5 : 1.5,
+                color: isSelected
+                  ? "#ffffff"
+                  : (CATEGORIA_COLOR[p.categoria] ?? "#0f172a"),
+                weight: isSelected ? 2.5 : 2,
                 fillColor: bortleColor(p.bortle),
                 fillOpacity: 0.95,
               }}
@@ -194,6 +208,20 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
             </li>
           ))}
         </ul>
+        <p className="mb-2 mt-3.5 font-semibold tracking-tight text-fg">
+          Tipo de lugar
+        </p>
+        <ul className="space-y-1.5">
+          {Object.entries(CATEGORIA_LABEL).map(([key, label]) => (
+            <li key={key} className="flex items-center gap-2.5">
+              <span
+                className="inline-block h-2.5 w-2.5 rounded-full"
+                style={{ border: `2px solid ${CATEGORIA_COLOR[key]}` }}
+              />
+              {label}
+            </li>
+          ))}
+        </ul>
       </div>
 
       {/* ── Panel de detalle del punto ── */}
@@ -220,6 +248,14 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
               style={{ backgroundColor: bortleColor(selected.bortle) }}
             >
               Bortle {selected.bortle} · {bortleLabel(selected.bortle)}
+            </span>
+            <span
+              className="rounded-full border px-2.5 py-1 text-fg-muted"
+              style={{
+                borderColor: CATEGORIA_COLOR[selected.categoria] ?? "rgba(255,255,255,0.1)",
+              }}
+            >
+              {selected.categoria === "observatorio" ? "Observatorio" : "Escapada"}
             </span>
             <span className="rounded-full border border-white/10 px-2.5 py-1 text-fg-muted">
               {TIPO_LABEL[selected.tipo] ?? selected.tipo}
