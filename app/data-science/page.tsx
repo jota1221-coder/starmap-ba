@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Wordmark from "@/components/Wordmark";
 import FadeIn from "@/components/FadeIn";
+import BeforeAfterSlider from "@/components/BeforeAfterSlider";
 
 export const metadata = {
   title: "Data Science — Validando los cielos con datos satelitales · StarMap BA",
@@ -80,7 +81,7 @@ export default function DataSciencePage() {
               valores los asigné a mano con una grilla gruesa. La pregunta de este
               análisis: <strong className="text-fg">¿el satélite me da la razón?</strong>{" "}
               Tomé el producto VIIRS de luz nocturna de la NASA/NOAA (463 m) y lo
-              contrasté con mis 13 puntos.
+              contrasté con mis puntos de observación.
             </p>
 
             {/* Stats */}
@@ -88,7 +89,7 @@ export default function DataSciencePage() {
               {[
                 ["+0.76", "correlación Bortle ↔ satélite (Spearman)"],
                 ["94.5%", "de la Provincia bajo el umbral de detección"],
-                ["13", "puntos validados con dato independiente"],
+                ["21", "puntos en el mapa (escapadas + observatorios)"],
               ].map(([n, label]) => (
                 <div key={n}>
                   <p
@@ -119,7 +120,7 @@ export default function DataSciencePage() {
               width={975}
               height={1105}
               narrow
-              caption="Radiancia VIIRS 2024 recortada a la Provincia (escala log). En cyan, los 13 puntos de StarMap BA. El AMBA concentra casi toda la luz; el resto del territorio es mayormente oscuro."
+              caption="Radiancia VIIRS 2024 recortada a la Provincia (escala log). En cyan, los puntos de StarMap BA. El AMBA concentra casi toda la luz; el resto del territorio es mayormente oscuro."
             />
             <p className="text-sm leading-relaxed text-fg-muted">
               El <strong className="text-fg">94.5%</strong> de la Provincia está por
@@ -201,6 +202,83 @@ export default function DataSciencePage() {
           </section>
         </FadeIn>
 
+        {/* Forecast */}
+        <FadeIn>
+          <section className="space-y-5 border-t border-white/5 pt-8">
+            <div>
+              <Eyebrow>El futuro</Eyebrow>
+              <h2 className="mt-2 text-2xl font-semibold tracking-tight">
+                ¿Qué pasa con el cielo oscuro en 10 años?
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-fg-muted">
+                Conseguí cuatro fotos satelitales de la misma Provincia, separadas
+                en el tiempo (2012, 2016, 2020 y 2024), y miré cómo se movió la luz.
+              </p>
+            </div>
+
+            <BeforeAfterSlider
+              beforeSrc="/data-science/radiancia_2012.png"
+              afterSrc="/data-science/radiancia_2024.png"
+              beforeLabel="2012"
+              afterLabel="2024"
+              width={910}
+              height={1049}
+              alt="Comparación de la contaminación lumínica de Buenos Aires entre 2012 y 2024"
+              caption="Arrastrá la barra: la misma Provincia en 2012 y en 2024 (radiancia VIIRS, escala log). El Gran Buenos Aires y las ciudades del interior se encienden con más fuerza; el campo sigue oscuro."
+            />
+
+            {/* Cómo proyectamos — en simple */}
+            <div className="rounded-2xl border border-white/10 bg-surface p-5">
+              <p className="text-sm font-medium text-fg">
+                ¿Cómo proyectamos el 2035?
+              </p>
+              <p className="mt-2 text-sm leading-relaxed text-fg-muted">
+                Para cada pedacito del mapa tengo cuatro números: cuánta luz tenía
+                en 2012, 2016, 2020 y 2024. Es como marcar cuatro puntos en un
+                gráfico y trazar la recta que mejor los une — después la estiro once
+                años más, hasta 2035. Si una zona viene sumando luz a cierto ritmo,
+                asumo que sigue al mismo ritmo.
+              </p>
+              <p className="mt-2 text-sm leading-relaxed text-fg-muted">
+                El único ingrediente es la{" "}
+                <strong className="text-fg">tendencia que ya muestra cada lugar</strong>.
+                No metí supuestos sobre nuevas ciudades, crecimiento de población ni
+                recambio a LED: es seguir la inercia del dato, no adivinar el futuro.
+              </p>
+            </div>
+
+            <Figure
+              src="/data-science/tendencia.png"
+              alt="Porcentaje de la Provincia con cielo oscuro por año, con proyección a 2035"
+              width={975}
+              height={598}
+              caption="El porcentaje de la Provincia con cielo oscuro, año a año (VIIRS) y proyectado a 2035 estirando esa tendencia."
+            />
+
+            <p className="text-sm leading-relaxed text-fg-muted">
+              El cielo oscuro se achicó de <strong className="text-fg">97.2%</strong>{" "}
+              (2012) a <strong className="text-fg">95.2%</strong> (2024), y la
+              huella iluminada creció <strong className="text-fg">+22%</strong> en
+              12 años. Si la inercia se mantiene, la proyección da{" "}
+              <strong className="text-fg">94.6%</strong> para 2035.
+            </p>
+
+            <div className="space-y-3 text-sm leading-relaxed text-fg-muted">
+              <p>
+                <strong className="text-fg">La buena noticia para el observador:</strong>{" "}
+                las escapadas de cielo oscuro están lejos de ese avance. Las más
+                oscuras se proyectan <strong className="text-fg">estables</strong> —
+                seguirán siendo Bortle 2-3 en 2035.
+              </p>
+              <p className="text-xs text-fg-faint">
+                Es una proyección de tendencia, no un pronóstico exacto: extrapolar
+                10 años es incierto, y la serie mezcla VNL v2.1 (2012-2020) con v2.2
+                (2024).
+              </p>
+            </div>
+          </section>
+        </FadeIn>
+
         {/* Conclusiones */}
         <FadeIn>
           <section className="space-y-4 border-t border-white/5 pt-8">
@@ -218,9 +296,9 @@ export default function DataSciencePage() {
               </li>
               <li className="flex gap-2.5">
                 <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" />
-                Es una <strong className="text-fg">primera validación sobre 13 puntos</strong>:
-                el próximo paso es calibrar un modelo radiancia→Bortle para toda la
-                Provincia y sugerir puntos nuevos en los mínimos de luz.
+                De esa validación nacieron <strong className="text-fg">8 puntos nuevos</strong>{" "}
+                (rateados con el satélite) y una <strong className="text-fg">proyección a 2035</strong>:
+                el cielo oscuro se achica, pero las escapadas lejanas seguirán oscuras.
               </li>
             </ul>
           </section>
@@ -247,7 +325,7 @@ export default function DataSciencePage() {
         </FadeIn>
 
         <p className="pt-4 text-center text-xs text-fg-faint">
-          Dato: VIIRS VNL v2.2 (EOG/NOAA, dominio público) · Análisis: Joaquin Rao
+          Dato: VIIRS VNL 2012–2024 (EOG/NOAA, dominio público) · Análisis: Joaquin Rao
         </p>
       </main>
     </div>

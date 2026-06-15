@@ -121,6 +121,7 @@
       "slug": "cielos-albertinos",
       "nombre": "Observatorio Cielos Albertinos (Alberti rural)",
       "partido": "Alberti",
+      "categoria": "observatorio",
       "lat": -35.10,
       "lng": -60.35,
       "distancia_caba_km": 181,

@@ -78,8 +78,8 @@ const TIPO_LABEL: Record<string, string> = {
 
 // Borde del marker según categoría: violeta = observatorio, azul = escapada.
 const CATEGORIA_COLOR: Record<string, string> = {
-  observatorio: "#a78bfa",
-  escapada: "#60a5fa",
+  observatorio: "#7c3aed", // violeta intenso (distinto del azul)
+  escapada: "#1e40af", // azul oscuro
 };
 
 const CATEGORIA_LABEL: Record<string, string> = {

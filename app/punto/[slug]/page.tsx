@@ -156,7 +156,7 @@ export default async function PuntoPage({
               {point.categoria === "observatorio" && (
                 <span
                   className="rounded-full border px-2.5 py-1 text-fg-muted"
-                  style={{ borderColor: "#a78bfa" }}
+                  style={{ borderColor: "#7c3aed" }}
                 >
                   Observatorio
                 </span>
@@ -190,8 +190,8 @@ export default async function PuntoPage({
 
         {/* Score — animado */}
         <section>
-          {point.categoria === "observatorio" && (
-            <p className="mb-5 rounded-xl border border-[#a78bfa]/30 bg-surface px-4 py-3 text-sm leading-relaxed text-fg-muted">
+          {point.categoria === "observatorio" && point.bortle >= 6 && (
+            <p className="mb-5 rounded-xl border border-[#7c3aed]/40 bg-surface px-4 py-3 text-sm leading-relaxed text-fg-muted">
               <span className="font-medium text-[#a78bfa]">Observatorio:</span>{" "}
               acá el valor es el instrumento y la visita guiada, no el cielo
               oscuro. El score refleja un cielo urbano — coordiná la visita y
