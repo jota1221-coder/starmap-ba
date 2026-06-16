@@ -35,6 +35,15 @@ plt.rcParams.update({
 
 pts = json.loads((HERE.parent / "data" / "seed-points.json").read_text("utf-8"))["puntos"]
 df = pd.DataFrame(pts)
+
+# Los 8 puntos agregados en v6 tomaron su Bortle DEL satélite (radiancia VIIRS),
+# así que NO entran en la validación (sería circular). La validación es solo
+# sobre los 13 originales, con Bortle asignado a mano de forma independiente.
+NUEVOS = {
+    "observatorio-parque-centenario", "observatorio-la-plata",
+    "observatorio-mercedes", "domselaar-san-vicente", "francisco-berra-monte",
+    "sur-general-belgrano", "la-luisa-capitan-sarmiento", "noroeste-chivilcoy",
+}
 with rasterio.open(HERE / "data" / "viirs_ba_2024.tif") as ds:
     arr = ds.read(1).astype("float64")
     b = ds.bounds
@@ -62,7 +71,7 @@ fig, ax = plt.subplots(figsize=(7.5, 8.5))
 disp = np.where(arr > 0, arr, np.nan)
 im = ax.imshow(disp, extent=[b.left, b.right, b.bottom, b.top], origin="upper",
                cmap="inferno", norm=LogNorm(vmin=0.3, vmax=float(np.nanpercentile(disp, 99.9))))
-ax.scatter(df.lng, df.lat, c=CYAN, s=42, edgecolor="white", linewidth=0.7, zorder=3, label="13 puntos")
+ax.scatter(df.lng, df.lat, c=CYAN, s=36, edgecolor="white", linewidth=0.6, zorder=3, label=f"{len(df)} puntos")
 ax.set(title="Contaminación lumínica VIIRS — Buenos Aires (2024)", xlabel="Longitud", ylabel="Latitud")
 cb = plt.colorbar(im, ax=ax, label="Radiancia [nW/cm²/sr] (log)", shrink=0.7)
 cb.ax.yaxis.label.set_color(FG_MUTED)
@@ -72,20 +81,21 @@ fig.tight_layout()
 fig.savefig(OUT / "heatmap.png", dpi=130)
 plt.close(fig)
 
-# Fig 2 — validación
+# Fig 2 — validación (solo los 13 originales: Bortle a mano e independiente)
+val = df[~df["slug"].isin(NUEVOS)]
 fig, ax = plt.subplots(figsize=(7.5, 5))
 rng = np.random.default_rng(7)
-ax.scatter(df.bortle + rng.uniform(-0.12, 0.12, len(df)), df.rad_3km,
+ax.scatter(val.bortle + rng.uniform(-0.12, 0.12, len(val)), val.rad_3km,
            s=70, color=ACCENT, edgecolor="#1a1d26", zorder=3)
-med = df.groupby("bortle")["rad_3km"].median()
+med = val.groupby("bortle")["rad_3km"].median()
 ax.plot(med.index, med.values, "--", color=CYAN, label="mediana por clase")
-out = df.loc[df.rad_3km.idxmax()]
+out = val.loc[val.rad_3km.idxmax()]
 ax.annotate(f"{out.partido} (B{out.bortle})", (out.bortle, out.rad_3km),
             textcoords="offset points", xytext=(10, -4), fontsize=8, color="#ff9b9b")
 ax.set_yscale("symlog", linthresh=0.1)
 ax.set_xticks([2, 3, 4, 5])
 ax.set(xlabel="Bortle asignado a mano", ylabel="Radiancia VIIRS 3 km (symlog)",
-       title="Validación: el satélite vs los ratings (Spearman +0.76)")
+       title=f"Validación sobre los {len(val)} puntos rankeados a mano (Spearman +0.76)")
 style_legend(ax)
 ax.grid(True, alpha=0.25)
 fig.tight_layout()

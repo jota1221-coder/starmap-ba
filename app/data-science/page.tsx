@@ -122,11 +122,11 @@ export default function DataSciencePage() {
             </div>
             <Figure
               src="/data-science/heatmap.png"
-              alt="Mapa de contaminación lumínica VIIRS de la Provincia de Buenos Aires, con los 13 puntos de observación"
+              alt="Mapa de contaminación lumínica VIIRS de la Provincia de Buenos Aires, con los 21 puntos de observación"
               width={975}
               height={1105}
               narrow
-              caption="Radiancia VIIRS 2024 recortada a la Provincia (escala log). En cyan, los puntos de StarMap BA. El AMBA concentra casi toda la luz; el resto del territorio es mayormente oscuro."
+              caption="Radiancia VIIRS 2024 recortada a la Provincia (escala log). En cyan, los 21 puntos de StarMap BA. El AMBA concentra casi toda la luz; el resto del territorio es mayormente oscuro."
             />
             <p className="text-sm leading-relaxed text-fg-muted">
               El <strong className="text-fg">94.5%</strong> de la Provincia está por
@@ -150,9 +150,15 @@ export default function DataSciencePage() {
               alt="Gráfico de radiancia satelital contra el Bortle asignado a mano, mostrando correlación positiva"
               width={975}
               height={650}
-              caption="Radiancia satelital (promedio en 3 km) según el Bortle asignado a mano. La mediana por clase sube de forma monótona: más Bortle, más luz."
+              caption="Radiancia satelital (promedio en 3 km) según el Bortle asignado a mano, en los 13 puntos originales. La mediana por clase sube de forma monótona: más Bortle, más luz."
             />
             <div className="space-y-3 text-sm leading-relaxed text-fg-muted">
+              <p>
+                Validé sobre los <strong className="text-fg">13 puntos originales</strong>,
+                que rankeé a mano de forma independiente. (Los otros 8 del mapa nacieron
+                después, usando el satélite, así que no entran acá: validarlos contra el
+                mismo dato sería trampa.)
+              </p>
               <p>
                 La relación es fuerte y monótona:{" "}
                 <strong className="text-fg">Spearman +0.76</strong>. Los puntos Bortle
@@ -166,9 +172,9 @@ export default function DataSciencePage() {
                 resplandor del pueblo cercano (que es lo que define el Bortle del lugar).
               </p>
               <p>
-                Y un hallazgo honesto: <strong className="text-fg">Vedia</strong> (Bortle
-                4) sale más brillante de lo esperado — está a 2 km del pueblo. El dato
-                sugiere revisarlo.
+                Y un hallazgo honesto: <strong className="text-fg">Vedia</strong> (partido
+                de Leandro N. Alem, Bortle 4) sale más brillante de lo esperado — está a
+                2 km del pueblo. El dato sugiere revisarlo.
               </p>
               <p>
                 <a
