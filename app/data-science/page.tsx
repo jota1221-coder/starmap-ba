@@ -279,6 +279,66 @@ export default function DataSciencePage() {
           </section>
         </FadeIn>
 
+        {/* Predicción operativa */}
+        <FadeIn>
+          <section className="space-y-5 border-t border-white/5 pt-8">
+            <div>
+              <Eyebrow>Predicción · corto plazo</Eyebrow>
+              <h2 className="mt-2 text-2xl font-semibold tracking-tight">
+                Predecir si vale la pena salir esta noche
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-fg-muted">
+                La otra cara de &ldquo;predecir&rdquo; no es a 10 años, es a 10
+                días. Para cada lugar y cada noche, StarMap BA convierte el
+                pronóstico meteorológico (Open-Meteo) en una predicción de{" "}
+                <strong className="text-fg">calidad de cielo</strong>: un score
+                de 0 a 100.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-white/10 bg-surface p-5">
+              <p className="text-sm font-medium text-fg">
+                No es un modelo del clima — es feature engineering
+              </p>
+              <p className="mt-2 text-sm leading-relaxed text-fg-muted">
+                El pronóstico del tiempo ya lo hace el servicio meteorológico. Mi
+                aporte es transformar esas variables crudas en una decisión, con
+                pesos pensados para astronomía:
+              </p>
+              <ul className="mt-3 space-y-2 text-sm leading-relaxed text-fg-muted">
+                <li className="flex gap-2.5">
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                  Las <strong className="text-fg">nubes bajas</strong> penalizan
+                  ~3× más que las altas: tapan más para observar.
+                </li>
+                <li className="flex gap-2.5">
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                  La <strong className="text-fg">Luna</strong> resta según fase y
+                  altura: llena y alta arruina la noche; nueva no molesta.
+                </li>
+                <li className="flex gap-2.5">
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                  El <strong className="text-fg">Bortle</strong> del lugar pone el
+                  piso: el mejor pronóstico no salva a un cielo urbano.
+                </li>
+              </ul>
+            </div>
+
+            <p className="text-sm leading-relaxed text-fg-muted">
+              Así se cierra el arco del análisis:{" "}
+              <strong className="text-fg">describir</strong> (el mapa) →{" "}
+              <strong className="text-fg">validar</strong> (Bortle vs. satélite) →{" "}
+              <strong className="text-fg">predecir</strong>, tanto a largo plazo
+              (2035) como noche a noche.
+            </p>
+            <p className="text-xs text-fg-faint">
+              Su techo de acierto es el del pronóstico de Open-Meteo. El próximo
+              paso sería validar el score contra observaciones reales de la
+              comunidad.
+            </p>
+          </section>
+        </FadeIn>
+
         {/* Conclusiones */}
         <FadeIn>
           <section className="space-y-4 border-t border-white/5 pt-8">

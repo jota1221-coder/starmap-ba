@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import type { Map as LMap, PathOptions } from "leaflet";
-import { MapContainer, TileLayer, CircleMarker, Tooltip, GeoJSON } from "react-leaflet";
+import { MapContainer, TileLayer, CircleMarker, Tooltip, GeoJSON, ImageOverlay } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import type { MapPoint } from "@/lib/points";
 import { bortleColor, bortleLabel, BORTLE_LEGEND } from "@/lib/bortle";
@@ -87,16 +87,75 @@ const CATEGORIA_LABEL: Record<string, string> = {
   escapada: "Escapada de cielo oscuro",
 };
 
+// Bounds del overlay VIIRS (EPSG:3857, de notebooks/make_overlay.py).
+const VIIRS_BOUNDS: [[number, number], [number, number]] = [
+  [-41.037166, -63.397916],
+  [-33.281251, -56.673410],
+];
+
+// Distancia en km entre dos coordenadas (haversine).
+function distanciaKm(a: [number, number], b: [number, number]): number {
+  const R = 6371;
+  const dLat = ((b[0] - a[0]) * Math.PI) / 180;
+  const dLng = ((b[1] - a[1]) * Math.PI) / 180;
+  const lat1 = (a[0] * Math.PI) / 180;
+  const lat2 = (b[0] * Math.PI) / 180;
+  const h =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(h));
+}
+
+// Link a Google Maps con la ruta desde la ubicación del usuario (si la tenemos).
+function comoLlegarUrl(p: MapPoint, from: [number, number] | null): string {
+  const origin = from ? `&origin=${from[0]},${from[1]}` : "";
+  return `https://www.google.com/maps/dir/?api=1${origin}&destination=${p.lat},${p.lng}`;
+}
+
 type BaseLayer = "satelite" | "oscuro";
 
 export default function LeafletMap({ points }: { points: MapPoint[] }) {
   const mapRef = useRef<LMap | null>(null);
   const [selected, setSelected] = useState<MapPoint | null>(null);
   const [base, setBase] = useState<BaseLayer>("satelite");
+  const [showOverlay, setShowOverlay] = useState(true);
+  const [userLoc, setUserLoc] = useState<[number, number] | null>(null);
+  const [locStatus, setLocStatus] = useState<"idle" | "loading" | "error">("idle");
+  const [locMsg, setLocMsg] = useState<string | null>(null);
 
   function selectPoint(p: MapPoint) {
     setSelected(p);
     mapRef.current?.flyTo([p.lat, p.lng], POINT_ZOOM, { duration: 1.2 });
+  }
+
+  function locateMe() {
+    if (!("geolocation" in navigator)) {
+      setLocStatus("error");
+      setLocMsg("Tu navegador no soporta geolocalización.");
+      return;
+    }
+    setLocStatus("loading");
+    setLocMsg(null);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const c: [number, number] = [pos.coords.latitude, pos.coords.longitude];
+        setUserLoc(c);
+        setLocStatus("idle");
+        mapRef.current?.flyTo(c, 9, { duration: 1.2 });
+      },
+      (err) => {
+        setLocStatus("error");
+        setLocMsg(
+          err.code === err.PERMISSION_DENIED
+            ? "Permiso denegado. Tocá el candado de la barra de direcciones y permití la ubicación."
+            : err.code === err.POSITION_UNAVAILABLE
+              ? "No se pudo ubicarte (en PC sin GPS depende del WiFi y de la ubicación de Windows)."
+              : "La ubicación tardó demasiado. Probá de nuevo.",
+        );
+        console.error("Geolocation error", err.code, err.message);
+      },
+      { enableHighAccuracy: false, timeout: 12000, maximumAge: 60000 },
+    );
   }
 
   return (
@@ -146,6 +205,11 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
           />
         )}
 
+        {/* ── Overlay de contaminación lumínica (VIIRS 2024) ── */}
+        {showOverlay && (
+          <ImageOverlay url="/mapa/viirs-overlay.png" bounds={VIIRS_BOUNDS} opacity={0.7} />
+        )}
+
         {/* ── Máscara: oscurece todo fuera de BA Province ── */}
         <GeoJSON data={WORLD_MASK} style={maskStyle} />
 
@@ -176,6 +240,19 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
             </CircleMarker>
           );
         })}
+
+        {/* ── Tu ubicación ── */}
+        {userLoc && (
+          <CircleMarker
+            center={userLoc}
+            radius={8}
+            pathOptions={{ color: "#ffffff", weight: 2, fillColor: "#22d3ee", fillOpacity: 1 }}
+          >
+            <Tooltip direction="top" offset={[0, -6]}>
+              Tu ubicación
+            </Tooltip>
+          </CircleMarker>
+        )}
       </MapContainer>
 
       {/* ── Toggle de capa base ── */}
@@ -192,6 +269,27 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
         >
           Oscuro
         </button>
+      </div>
+
+      {/* ── Controles: overlay de luz + mi ubicación ── */}
+      <div className="absolute right-3 top-14 z-[1000] flex flex-col items-end gap-2 text-xs font-medium">
+        <button
+          onClick={() => setShowOverlay((v) => !v)}
+          className={`rounded-xl border border-white/10 px-3.5 py-2 backdrop-blur-md transition-colors duration-200 ${showOverlay ? "bg-accent text-ink" : "bg-surface/60 text-fg-muted hover:text-fg"}`}
+        >
+          Luz urbana
+        </button>
+        <button
+          onClick={locateMe}
+          className="rounded-xl border border-white/10 bg-surface/60 px-3.5 py-2 text-fg-muted backdrop-blur-md transition-colors duration-200 hover:text-fg"
+        >
+          {locStatus === "loading" ? "Buscando…" : "Mi ubicación"}
+        </button>
+        {locStatus === "error" && locMsg && (
+          <span className="max-w-[13rem] rounded-lg bg-surface/80 px-2.5 py-1.5 text-right text-[11px] leading-snug text-[#ff9b9b] backdrop-blur-md">
+            {locMsg}
+          </span>
+        )}
       </div>
 
       {/* ── Leyenda Bortle ── */}
@@ -222,6 +320,15 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
             </li>
           ))}
         </ul>
+        {showOverlay && (
+          <p className="mt-3 flex items-center gap-2.5 border-t border-white/10 pt-2.5">
+            <span
+              className="inline-block h-2.5 w-2.5 rounded-full"
+              style={{ background: "linear-gradient(135deg, #fed976, #e31a1c)" }}
+            />
+            Halo cálido = luz urbana
+          </p>
+        )}
       </div>
 
       {/* ── Panel de detalle del punto ── */}
@@ -266,6 +373,11 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
             <span className="rounded-full border border-white/10 px-2.5 py-1 text-fg-muted">
               {ACCESS_LABEL[selected.accesoTipo] ?? selected.accesoTipo}
             </span>
+            {userLoc && (
+              <span className="tnum rounded-full border border-cyan-400/40 px-2.5 py-1 text-fg-muted">
+                a {Math.round(distanciaKm(userLoc, [selected.lat, selected.lng]))} km de vos
+              </span>
+            )}
           </div>
 
           <p className="mt-5 text-sm leading-relaxed text-fg-muted">
@@ -276,12 +388,22 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
             Fotos y reseñas de la comunidad, próximamente.
           </p>
 
-          <a
-            href={`/punto/${selected.slug}`}
-            className="mt-5 block rounded-2xl bg-accent px-4 py-3 text-center text-sm font-semibold text-ink transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-accent-soft"
-          >
-            Ver guía de observación →
-          </a>
+          <div className="mt-5 flex flex-col gap-2">
+            <a
+              href={`/punto/${selected.slug}`}
+              className="block rounded-2xl bg-accent px-4 py-3 text-center text-sm font-semibold text-ink transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-accent-soft"
+            >
+              Ver guía de observación →
+            </a>
+            <a
+              href={comoLlegarUrl(selected, userLoc)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block rounded-2xl border border-white/10 px-4 py-3 text-center text-sm font-medium text-fg transition-colors duration-200 hover:border-accent hover:text-accent"
+            >
+              Cómo llegar{userLoc ? " desde donde estás" : ""} →
+            </a>
+          </div>
         </aside>
       )}
     </div>
