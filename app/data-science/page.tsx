@@ -13,6 +13,9 @@ export const metadata = {
 const NOTEBOOK_URL =
   "https://github.com/jota1221-coder/starmap-ba/blob/main/notebooks/01_contaminacion_luminica_ba.ipynb";
 
+const NOTEBOOK_2_URL =
+  "https://github.com/jota1221-coder/starmap-ba/blob/main/notebooks/02_pronostico_2035_ba.ipynb";
+
 function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
     <p className="text-sm font-semibold uppercase tracking-[0.16em] text-accent">
@@ -274,6 +277,16 @@ export default function DataSciencePage() {
                 Es una proyección de tendencia, no un pronóstico exacto: extrapolar
                 10 años es incierto, y la serie mezcla VNL v2.1 (2012-2020) con v2.2
                 (2024).
+              </p>
+              <p>
+                <a
+                  href={NOTEBOOK_2_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-medium text-accent transition-colors duration-200 hover:text-accent-soft"
+                >
+                  Ver el notebook del pronóstico en GitHub →
+                </a>
               </p>
             </div>
           </section>
