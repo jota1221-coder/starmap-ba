@@ -16,6 +16,9 @@ const NOTEBOOK_URL =
 const NOTEBOOK_2_URL =
   "https://github.com/jota1221-coder/starmap-ba/blob/main/notebooks/02_pronostico_2035_ba.ipynb";
 
+const NOTEBOOK_3_URL =
+  "https://github.com/jota1221-coder/starmap-ba/blob/main/notebooks/03_modelo_radiancia_bortle.ipynb";
+
 function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
     <p className="text-sm font-semibold uppercase tracking-[0.16em] text-accent">
@@ -166,6 +169,16 @@ export default function DataSciencePage() {
                 Y un hallazgo honesto: <strong className="text-fg">Vedia</strong> (Bortle
                 4) sale más brillante de lo esperado — está a 2 km del pueblo. El dato
                 sugiere revisarlo.
+              </p>
+              <p>
+                <a
+                  href={NOTEBOOK_3_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-medium text-accent transition-colors duration-200 hover:text-accent-soft"
+                >
+                  Ver el modelo radiancia → Bortle en GitHub →
+                </a>
               </p>
             </div>
           </section>
