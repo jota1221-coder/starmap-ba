@@ -10,6 +10,8 @@ A web app that helps amateur astronomers in Buenos Aires Province, Argentina dec
 &nbsp;
 ![License: MIT](https://img.shields.io/badge/license-MIT-e0a96d?style=for-the-badge)
 
+[![CI](https://github.com/jota1221-coder/starmap-ba/actions/workflows/ci.yml/badge.svg)](https://github.com/jota1221-coder/starmap-ba/actions/workflows/ci.yml)
+
 ![Next.js](https://img.shields.io/badge/Next.js_16-000?logo=nextdotjs&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
 ![Prisma](https://img.shields.io/badge/Prisma_7-2D3748?logo=prisma&logoColor=white)
@@ -25,7 +27,7 @@ A web app that helps amateur astronomers in Buenos Aires Province, Argentina dec
 
 ## What it is
 
-Light pollution makes most of the night sky invisible from cities. StarMap BA maps **13 real, car-accessible observation spots** across Buenos Aires Province, ranks them by how dark their sky actually is (from satellite data), and for any given night tells you how good viewing conditions will be and what you'll be able to see.
+Light pollution makes most of the night sky invisible from cities. StarMap BA maps **21 real, car-accessible observation spots** across Buenos Aires Province, ranks them by how dark their sky actually is (from satellite data), and for any given night tells you how good viewing conditions will be and what you'll be able to see.
 
 It's both a **real product** for the local amateur-astronomy community and a **portfolio project** showcasing full-stack engineering and a data-driven scoring model.
 

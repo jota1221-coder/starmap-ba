@@ -364,8 +364,8 @@ export default function DataSciencePage() {
               </li>
               <li className="flex gap-2.5">
                 <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" />
-                La metodología de "apuntar a la celda oscura accesible" se sostiene con
-                el dato.
+                La metodología de &ldquo;apuntar a la celda oscura accesible&rdquo; se
+                sostiene con el dato.
               </li>
               <li className="flex gap-2.5">
                 <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" />

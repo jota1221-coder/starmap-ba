@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Entorno Python + datos del análisis (no es código del front).
+    "notebooks/**",
   ]),
 ]);
 

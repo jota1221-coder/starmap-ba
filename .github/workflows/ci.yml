@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    name: Lint · Typecheck · Test
+    runs-on: ubuntu-latest
+    env:
+      # prisma generate (postinstall) lee la datasource; un valor dummy alcanza.
+      # CI no se conecta a ninguna base de datos: solo lint, typecheck y tests.
+      DATABASE_URL: "postgresql://user:pass@localhost:5432/db?schema=public"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
