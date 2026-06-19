@@ -70,9 +70,9 @@ Desde que separamos las DBs (Neon branching), `prisma migrate dev` en local
 **solo afecta al branch `dev`**. Producción (branch `main`) NO se migra sola
 en el build de Vercel. Después de cada migración, hay que aplicarla a prod.
 
-**Endpoints Neon (rol `neondb_owner`, misma password):**
-- `dev` (local): `ep-shy-pine-apmdf046` · pooled en `.env`
-- `main` (prod/Vercel): `ep-dawn-bird-apsk7hi7`
+**Endpoints Neon (cada branch tiene el suyo; copiarlos de la Neon Console):**
+- `dev` (local): endpoint del branch `dev` · cadena pooled en `.env`
+- `main` (prod/Vercel): endpoint del branch `main` · cadena en las env vars de Vercel
 
 **Aplicar una migración a producción** (usar la conexión DIRECTA, sin `-pooler`,
 porque las migraciones de Prisma fallan sobre el pooler — advisory lock):
@@ -82,8 +82,10 @@ porque las migraciones de Prisma fallan sobre el pooler — advisory lock):
 npx prisma migrate dev --name <nombre>
 
 # 2. Aplicarla a prod (main), conexión DIRECTA (sin -pooler):
-DATABASE_URL="postgresql://neondb_owner:<PASS>@ep-dawn-bird-apsk7hi7.c-7.us-east-1.aws.neon.tech/starmap_ba?sslmode=require" \
+DATABASE_URL="<CADENA_DIRECTA_DE_PROD>" \
   npx prisma migrate deploy
+# ↑ Copiala de la Neon Console (branch main, conexión DIRECTA sin -pooler)
+#   o de las env vars de Vercel. NO la pegues en este archivo (es público).
 
 # 3. git push → Vercel deploya el código (que ya espera el schema nuevo)
 ```
