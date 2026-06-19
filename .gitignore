@@ -49,3 +49,11 @@ notebooks/.venv/
 notebooks/data/*.tif.gz
 **/__pycache__/
 **/.ipynb_checkpoints/
+
+# notas internas / de proceso — quedan locales, fuera del repo público
+AGENTS.md
+CLAUDE.md
+tasks/
+docs/LAUNCH.md
+docs/notebook-03-plan.md
+docs/CASE_STUDY.md

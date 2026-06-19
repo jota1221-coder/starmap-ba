@@ -4,7 +4,7 @@
 
 **Find the darkest sky near you.**
 
-A web app that helps amateur astronomers in Buenos Aires Province, Argentina decide *where* and *when* to go stargazing — combining satellite light-pollution data, weather forecasts, and real-time astronomical calculations into a single 0–100 observation score.
+A web app I built to help amateur astronomers in Buenos Aires Province, Argentina decide *where* and *when* to go stargazing — combining satellite light-pollution data, weather forecasts, and real-time astronomical math into a single 0–100 observation score.
 
 [![Live demo](https://img.shields.io/badge/demo-live-22c55e?style=for-the-badge)](https://starmapba.com.ar)
 &nbsp;
@@ -22,61 +22,49 @@ A web app that helps amateur astronomers in Buenos Aires Province, Argentina dec
 
 </div>
 
-> [!NOTE]
-> The product UI is in Spanish (its audience is Argentine stargazers). This README is in English.
+> The product UI is in Spanish — its users are Argentine stargazers. I wrote this README in English.
 
-## What it is
+## Why I built it
 
-Light pollution makes most of the night sky invisible from cities. StarMap BA maps **21 real, car-accessible observation spots** across Buenos Aires Province, ranks them by how dark their sky actually is (from satellite data), and for any given night tells you how good viewing conditions will be and what you'll be able to see.
+I'm studying data science, and I've always been into astronomy. The catch is that from the city you basically can't see the sky: light pollution erases almost everything. Every time I wanted to go out and actually see stars, I ran into the same two questions — and no single map answered both:
 
-It's both a **real product** for the local amateur-astronomy community and a **portfolio project** showcasing full-stack engineering and a data-driven scoring model.
+- **Where** can I go? A genuinely dark spot, real, reachable by car.
+- **When** is it worth it? A clear night, without a bright moon.
 
-## Features
+StarMap BA is my answer to that intersection. I built it to solve my own problem, and turned it into a project where I could take data the whole way — from a raw source to something people can actually use.
 
-|  |  |
-|---|---|
-| 🛰️ **Dark skies, measured** | Spots ranked by real light pollution from NASA VIIRS satellite data — not guesswork. |
-| 🌦️ **Observation forecast** | For each place and night, a 0–100 score from hourly cloud cover, moon phase, and sky darkness. |
-| 🔭 **What to watch, and where** | Which planets are visible tonight, at what altitude, and which direction to point. |
+## What it does
 
-### The interactive map
-
-A Sentinel-2 satellite basemap clipped to a real province silhouette; greener means a darker sky.
+It maps **21 real, car-accessible observation spots** across Buenos Aires Province, ranks them by how dark their sky actually is — *measured* from satellite data, not guessed — and for any given night gives a **0–100 score** (cloud cover + moon + sky darkness) along with what you'll be able to see and where to point.
 
 ![Interactive map of observation spots](docs/screenshots/map.png)
 
-### Per-spot detail
-
-The observation score broken down by factor, tonight's plan, and community reviews.
-
 ![Observation spot detail with score breakdown](docs/screenshots/point.png)
 
-## How the score works
+## The part I'm proudest of: turning a hunch into a measurement
 
-The heart of the app is a transparent, **multiplicative** 0–100 model — three independent factors, each normalized to 0–1:
+I started by rating each spot's darkness by hand, on a coarse grid. That bothered me — it was basically an opinion. So I validated it against an independent source: I processed **NASA/NOAA VIIRS** satellite light-pollution data for the whole province and compared it to my own ratings. They held up, with a **Spearman correlation of +0.76**. Interestingly, the *exact pixel* correlates weakly (+0.32) but the surrounding ~3 km correlates strongly — which is exactly the point, because you drive to the dark cell, you don't stand on a single coordinate.
+
+I also used the 2012–2024 imagery to project how light pollution is likely to grow **toward 2035**. The whole analysis is reproducible (the Jupyter notebooks are in this repo) and written up on the live [Data Science page](https://starmapba.com.ar/data-science).
+
+## How the observation score works
+
+The core is a deliberately simple, transparent model — three independent factors, each from 0 to 1, multiplied together:
 
 ```
 score = 100 × cloudFactor × bortleFactor × moonFactor
 ```
 
-It's multiplicative on purpose: if it's fully overcast, it doesn't matter how dark the site is — the score collapses to zero, just like reality.
+It's multiplicative on purpose: if it's fully overcast, it doesn't matter how dark the site is — the score collapses to zero, exactly like reality. Low clouds weigh far more than high cirrus, and the moon only counts when it's actually above the horizon. I kept it explainable because I'd rather defend a simple model I understand than ship a black box. The astronomical values — moon phase and altitude, planet positions — are computed locally, so there's no external dependency and the result is deterministic.
 
-| Factor | How it's computed | Why |
-|---|---|---|
-| **Clouds** | `1 − (low×1.0 + mid×0.7 + high×0.3) / 100` | Low clouds block everything; high cirrus barely matters — you can still see planets and the Moon through them. |
-| **Bortle** (sky darkness) | Lookup table, Bortle 1 → 1.0 down to Bortle 9 → 0.05 | The background ceiling of the night. A bright suburban sky caps what's possible no matter the weather. |
-| **Moon** | `1 − 0.6 × illumination × min(altitude / 45°, 1)`; no penalty when the Moon is below the horizon | Moonlight only washes out the sky when the Moon is actually *up*; the impact scales with how full and how high it is. |
+## A few engineering decisions
 
-The result maps to a plain-language rating (Excellent / Very good / Good / Fair / Poor) plus a generated sentence explaining *why* the night is good or bad. Astronomical values (moon phase and altitude, planet positions) are computed locally with `astronomy-engine` — no external API, fully deterministic.
+- **Each route is rendered to match its data:** a static landing page, the map on ISR, and dynamic per-spot pages so conditions are always fresh — all server-rendered for SEO.
+- **Serverless Postgres (Neon) through Prisma,** with separate dev and prod database branches, so it handles bursts of traffic without me babysitting connections.
+- **The basemap was a real choice:** the default imagery had blank tiles over rural Buenos Aires, so I switched to Sentinel-2 cloudless, clipped to the actual province silhouette from IGN.
+- **Hardened for a public launch:** rate limiting, link-detection moderation on reviews, HTTP security headers, and fail-fast environment validation.
 
-## Architecture & technical decisions
-
-- **Next.js 16 App Router**, rendered per route to match its data: the landing is fully static, `/mapa` uses ISR (`revalidate = 3600`), and each `/punto/[slug]` is dynamic so conditions are always fresh — while staying server-rendered for SEO.
-- **Postgres via Prisma 7 + Neon serverless** (driver adapter), with **separate dev/prod database branches**, a denormalized review rating to avoid N+1 aggregation, and composite indexes on the hot query paths.
-- **Passwordless auth** with Auth.js v5 magic links (email via Resend) and database-backed sessions.
-- **The map basemap is a deliberate choice.** The default Esri imagery had no coverage over rural Buenos Aires (blank "data not available" tiles), so the app uses **Sentinel-2 cloudless (EOX)** for uniform, sharp coverage everywhere, clipped to a **real 277-point IGN province silhouette**. Leaflet is loaded strictly client-side (`next/dynamic`, `ssr: false`).
-- **External data, cached deliberately:** Open-Meteo for cloud cover broken down by altitude (low / mid / high), cached in memory + the Next Data Cache (30 min TTL); the nightly observation plan via `unstable_cache`.
-- **Production hardening:** Upstash rate limiting on auth and review writes, link-detection moderation on user reviews, and fail-fast environment-variable validation.
+There's a deeper write-up in [ARCHITECTURE.md](ARCHITECTURE.md), and the visual rationale in [DESIGN.md](DESIGN.md).
 
 ## Tech stack
 
@@ -86,70 +74,25 @@ The result maps to a plain-language rating (Excellent / Very good / Good / Fair 
 | Styling | Tailwind CSS v4 (OKLCH palette), Framer Motion, Space Grotesk + Geist |
 | Data | Prisma 7, Neon (serverless Postgres) |
 | Auth | Auth.js v5 (magic link), Resend |
-| Maps | Leaflet, react-leaflet, Sentinel-2 cloudless (EOX), IGN silhouette |
+| Maps | Leaflet, Sentinel-2 cloudless (EOX), IGN province silhouette |
 | Astronomy / weather | astronomy-engine, Open-Meteo, NASA VIIRS (light pollution) |
-| Infra | Vercel, Upstash (rate limiting), Vercel Analytics |
+| Data science | Python, rasterio, geopandas, NumPy, pandas, Matplotlib |
+| Infra | Vercel, Upstash (rate limiting) |
 
-## Local development
+## Where I'd like to take it
 
-**Requirements:** Node.js 22+, npm, and a free [Neon](https://console.neon.tech) Postgres database (~5 min to set up).
+A few directions I'm interested in exploring next: opening it up to spots submitted by the community, "good night" alerts that email you when a saved place is going to have great conditions, and an offline mode — because it's meant to be used in the field, where there's usually no signal.
 
-```bash
-# 1. Clone
-git clone https://github.com/jota1221-coder/starmap-ba.git
-cd starmap-ba
+## About
 
-# 2. Install
-npm install
+I'm **Joaquín Rao**, a data analyst in the making, building data-driven products. It's all open source (MIT) — the app, the data notebooks, and the scoring logic are here to dig into.
 
-# 3. Environment
-cp .env.example .env
-# Fill in DATABASE_URL (Neon) and AUTH_SECRET — see .env.example for the rest.
-
-# 4. Database
-npx prisma generate
-npx prisma db push
-
-# 5. Run
-npm run dev
-```
-
-Open <http://localhost:3000>. Without `RESEND_API_KEY`, magic-link login prints the sign-in URL to the server console (and to `.dev-magic-link.txt`), so you can test auth with zero external services.
-
-```bash
-npm run dev     # dev server (Turbopack)
-npm run build   # production build
-npm run lint    # ESLint
-```
-
-## Project structure
-
-```
-starmap-ba/
-├── app/                 # Routes (App Router): /, /mapa, /punto/[slug], /login, api/
-├── components/          # Client components (MapView, score ring, hero, …)
-├── lib/                 # Domain logic: score, conditions, weather, astronomy, points
-├── prisma/              # Schema (ObservationPoint, Review, Auth.js models)
-├── scripts/             # verify-points.ts — data-integrity checks (point-in-polygon, Bortle)
-└── docs/                # Screenshots and notes
-```
-
-## Roadmap
-
-- [ ] **Data Science showcase** — a Jupyter notebook processing the full VIIRS light-pollution raster for the whole province, plus a `/data-science` page documenting the methodology behind the scoring model.
-- [ ] **Tests + CI** — Vitest coverage on the scoring and review paths, and a GitHub Action running lint + build + `verify-points`.
-- [ ] **PWA / offline** — the app is used in the field, often without signal.
-- [ ] **"Good night" alerts** — email when conditions at a saved spot look great.
-
-## Author
-
-**Joaquin Rao** — Data Analyst in progress, building data-driven products.
-[GitHub](https://github.com/jota1221-coder)
+[GitHub](https://github.com/jota1221-coder) · [Live demo](https://starmapba.com.ar)
 
 ## License
 
-[MIT](LICENSE) © Joaquin Rao
+[MIT](LICENSE) © Joaquín Rao
 
 ## Credits & data sources
 
-Weather: [Open-Meteo](https://open-meteo.com) · Light pollution: NASA VIIRS · Astronomy: [astronomy-engine](https://github.com/cosinekitty/astronomy) · Basemap: [Sentinel-2 cloudless](https://s2maps.eu) by EOX (Modified Copernicus Sentinel data) · Province silhouette: IGN Argentina · Hero photo: [ESO / L. Calçada](https://commons.wikimedia.org/wiki/File:Beneath_the_Milky_Way.jpg) (CC BY 4.0)
+Weather: [Open-Meteo](https://open-meteo.com) · Light pollution: NASA/NOAA VIIRS · Astronomy: [astronomy-engine](https://github.com/cosinekitty/astronomy) · Basemap: [Sentinel-2 cloudless](https://s2maps.eu) by EOX (modified Copernicus Sentinel data) · Province silhouette: IGN Argentina · Hero photo: [ESO / L. Calçada](https://commons.wikimedia.org/wiki/File:Beneath_the_Milky_Way.jpg) (CC BY 4.0)
