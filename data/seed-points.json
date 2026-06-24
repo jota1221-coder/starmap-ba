@@ -39,7 +39,15 @@
           "Alejate de la costanera y los clubes náuticos: tienen iluminación que arruina la adaptación a la oscuridad.",
           "Llevá repelente: cerca de la laguna hay mosquitos en temporada cálida."
         ],
-        "experiencia": "Escapada corta y accesible. No esperes cielo de montaña, pero a 90 minutos de CABA ya se ve la Vía Láctea en noches buenas."
+        "experiencia": "Escapada corta y accesible. No esperes cielo de montaña, pero a 90 minutos de CABA ya se ve la Vía Láctea en noches buenas.",
+        "seguridad": "Campo abierto sin vigilancia, cerca de una laguna con movida turística de día pero solitaria de noche. Avisá a alguien tu punto exacto, llegá con luz de día para ubicarte, y evitá la costanera y los clubes náuticos de noche.",
+        "hospedajes": [
+          { "nombre": "Cabañas El Encuentro Lobos", "distancia_km": 5, "url": "https://www.google.com/maps/place/?q=place_id:ChIJVfMhE-CnvZUReKWBULY99Wk" },
+          { "nombre": "Kamvá Complejo de Cabañas", "distancia_km": 8, "url": "https://www.google.com/maps/place/?q=place_id:ChIJp4FPaD2nvZUR1r_dDdOr-o0" },
+          { "nombre": "Alma Moon Cabins Country", "distancia_km": 8, "url": "https://www.google.com/maps/place/?q=place_id:ChIJXRIM9t-nvZURwc3YVksi20Y" },
+          { "nombre": "Cabañas \"Un Lugar\"", "distancia_km": 8, "url": "https://www.google.com/maps/place/?q=place_id:ChIJeU2Ca3WovZURm8Z_ojUFtGo" },
+          { "nombre": "Cabaña Un Lugar en El Mundo", "distancia_km": 15, "url": "https://www.google.com/maps/place/?q=place_id:ChIJTeGhRGQHvZURojUds-_s5mc" }
+        ]
       }
     },
     {
@@ -64,7 +72,15 @@
           "Chascomús tiene gastronomía y servicios completos: podés cenar en el pueblo y salir al campo después.",
           "Buscá un camino rural tranquilo y seguro; avisá a alguien dónde vas a estar."
         ],
-        "experiencia": "La escapada 'racional': cielo muy oscuro sin manejar 4 horas. Combinable con turismo de laguna durante el día."
+        "experiencia": "La escapada 'racional': cielo muy oscuro sin manejar 4 horas. Combinable con turismo de laguna durante el día.",
+        "seguridad": "Campo rural tranquilo, sin iluminación ni vigilancia. Elegí un camino secundario de poco tránsito, estacioná fuera de la calzada con balizas, y avisá a alguien dónde vas a estar.",
+        "hospedajes": [
+          { "nombre": "La Calma", "distancia_km": 15, "url": "https://www.google.com/maps/place/?q=place_id:ChIJbYaiyi8TmJUREBZFkdXkOMc" },
+          { "nombre": "Cabañas MaNa", "distancia_km": 15, "url": "https://www.google.com/maps/place/?q=place_id:ChIJ-5fkEV0TmJUR0T0py8Qc2yg" },
+          { "nombre": "Cabañas Doña Margarita", "distancia_km": 19, "url": "https://www.google.com/maps/place/?q=place_id:ChIJT5t3LVVtmJUR8VpSi2ERrJg" },
+          { "nombre": "Cabañas El Refugio Chascomús", "distancia_km": 20, "url": "https://www.google.com/maps/place/?q=place_id:ChIJxYcnaUQNmJURGnOd7_YRw0w" },
+          { "nombre": "Cabañas Altos de la Laguna", "distancia_km": 20, "url": "https://www.google.com/maps/place/?q=place_id:ChIJo7-hUkFtmJUR1PkG1pZyCYk" }
+        ]
       }
     },
     {
@@ -89,7 +105,13 @@
           "Turismo de base comunitaria: el dinero queda en el pueblo, buena experiencia social además de astronómica.",
           "Balnearios El Pericón y Sarandí cerca para actividades de día."
         ],
-        "experiencia": "Pipinas 'resucitó' gracias al turismo cooperativo. Pueblo con alma espacial: ideal para un fin de semana que mezcla ciencia, historia y cielo."
+        "experiencia": "Pipinas 'resucitó' gracias al turismo cooperativo. Pueblo con alma espacial: ideal para un fin de semana que mezcla ciencia, historia y cielo.",
+        "seguridad": "Pueblo chico y de buena recepción al turismo, pero de noche los alrededores del Centro Espacial quedan sin alumbrado. Usá linterna, no camines solo/a lejos del casco urbano, y coordiná con la Oficina de Turismo si vas a observar fuera del pueblo.",
+        "hospedajes": [
+          { "nombre": "Hotel Pipinas (en el pueblo)", "distancia_km": 1, "url": "https://www.google.com/maps/place/?q=place_id:ChIJIfIOEy3rmJURwZHCbSLdzYM" },
+          { "nombre": "Cabañas Dormi (en el pueblo)", "distancia_km": 1, "url": "https://www.google.com/maps/place/?q=place_id:ChIJFSbnNEPrmJURNRF1RvAtewE" },
+          { "nombre": "Estancia El Indio (Verónica)", "distancia_km": 25, "url": "https://www.google.com/maps/place/?q=place_id:ChIJM_wcAeOZmJUReF34eEx19wY" }
+        ]
       }
     },
     {
@@ -114,7 +136,15 @@
           "Combinable con el turismo histórico de Vuelta de Obligado (la batalla) y la costa del Paraná.",
           "San Pedro tiene playas de río, ideal para hacer base familiar."
         ],
-        "experiencia": "Charlas que vinculan astronomía con historia y mitología, accesibles para principiantes y familias. Cielo 'muy limpio' según el propio guía."
+        "experiencia": "Charlas que vinculan astronomía con historia y mitología, accesibles para principiantes y familias. Cielo 'muy limpio' según el propio guía.",
+        "seguridad": "Sitio histórico con buen tránsito turístico de día, pero solitario de noche. Si vas con Turismo Sideral (grupo guiado) no hay problema; si vas por tu cuenta, avisá tu horario a alguien y quedate dentro del área señalizada del sitio.",
+        "hospedajes": [
+          { "nombre": "Cabañas El Mangrullo De Obligado", "distancia_km": 1, "url": "https://www.google.com/maps/place/?q=place_id:ChIJU8MXKsMdupURHf1zY5L_d04" },
+          { "nombre": "Cabañas Altos de Obligado", "distancia_km": 1, "url": "https://www.google.com/maps/place/?q=place_id:ChIJ94Y19OkdupUR41PUVQoO_zk" },
+          { "nombre": "Cabañas Los Teros (San Pedro)", "distancia_km": 10, "url": "https://www.google.com/maps/place/?q=place_id:ChIJfZivubAYupURrFghRsvHxJc" },
+          { "nombre": "Cabañas Los Troncos", "distancia_km": 10, "url": "https://www.google.com/maps/place/?q=place_id:ChIJXVmdCqIYupURkob2YqvljMs" },
+          { "nombre": "Cabañas Manantiales de Obligado", "distancia_km": 11, "url": "https://www.google.com/maps/place/?q=place_id:ChIJJQcQkZ4YupUR1p40pHjpXPk" }
+        ]
       }
     },
     {
@@ -140,7 +170,12 @@
           "Proyecto nacido en aulas y plazas hace más de 10 años: muy buena divulgación para principiantes y chicos.",
           "Coordinar SIEMPRE la visita; no es de acceso libre permanente."
         ],
-        "experiencia": "El destino con más 'sello astronómico oficial' de la provincia. Astrofotógrafos lo eligen cada luna nueva. Ideal si querés acompañamiento experto."
+        "experiencia": "El destino con más 'sello astronómico oficial' de la provincia. Astrofotógrafos lo eligen cada luna nueva. Ideal si querés acompañamiento experto.",
+        "seguridad": "Visita SIEMPRE coordinada con el observatorio: vas acompañado por el equipo del proyecto, no solo/a a un campo desconocido de noche. Seguí las indicaciones que te den y no te adelantes a explorar el predio sin guía.",
+        "hospedajes": [
+          { "nombre": "Amarilis Hotel Boutique (Alberti)", "distancia_km": 9, "url": "https://www.google.com/maps/place/?q=place_id:ChIJbyzQCUfBvpUR2BCCRdaS88M" },
+          { "nombre": "Hotel Petit (Alberti)", "distancia_km": 10, "url": "https://www.google.com/maps/place/?q=place_id:ChIJT-90lEvBvpURUMqRD0pTR18" }
+        ]
       }
     },
     {
@@ -166,7 +201,12 @@
           "Reseñas casi 5 estrellas; destacan al anfitrión (Juan Manuel) y la conexión con la naturaleza.",
           "Actividades extra: huerta agroecológica, observación de aves, capilla antigua, caminatas."
         ],
-        "experiencia": "La opción 'experiencia completa': no es solo ir a mirar, es quedarse a dormir bajo un cielo Bortle 2. Muy elogiado por desconexión y cantidad de estrellas visibles."
+        "experiencia": "La opción 'experiencia completa': no es solo ir a mirar, es quedarse a dormir bajo un cielo Bortle 2. Muy elogiado por desconexión y cantidad de estrellas visibles.",
+        "seguridad": "Predio de ecoturismo con anfitrión presente: la opción más 'acompañada' del mapa. Igual, confirmá la reserva antes de salir y llegá con luz de día — es zona rural con pocas referencias si te perdés de noche.",
+        "hospedajes": [
+          { "nombre": "Yamay Ecoturismo (en el lugar — yurtas con domo transparente)", "distancia_km": 0, "url": "https://www.google.com/maps/place/?q=place_id:ChIJifXS8AlElpURpNedDvTRsAw" },
+          { "nombre": "Cabañas Ángel Viejo (Pardo)", "distancia_km": 1, "url": "https://www.google.com/maps/place/?q=place_id:ChIJBzg6cK5FlpURuAm90qWcUeg" }
+        ]
       }
     },
     {
@@ -191,7 +231,15 @@
           "Salí de la ciudad y el alumbrado de la laguna hacia caminos rurales para ganar oscuridad.",
           "Combinable con centro náutico y museos del pueblo durante el día."
         ],
-        "experiencia": "Escapada clásica de pampa noroeste. Pueblo tranquilo, seguro y con buena hospitalidad, según los medios que lo recomiendan."
+        "experiencia": "Escapada clásica de pampa noroeste. Pueblo tranquilo, seguro y con buena hospitalidad, según los medios que lo recomiendan.",
+        "seguridad": "Acceso cómodo por autopista, pero el campo rural en sí no tiene iluminación ni vigilancia. Salí del camino principal solo en un tramo conocido, estacioná en banquina ancha y evitá adentrarte mucho a pie de noche.",
+        "hospedajes": [
+          { "nombre": "LA CALMA - Eco Lodge Rural", "distancia_km": 9, "url": "https://www.google.com/maps/place/?q=place_id:ChIJ3Q4SlqYnv5URN2VowCkpfrE" },
+          { "nombre": "Hotel Miceli (Bragado)", "distancia_km": 7, "url": "https://www.google.com/maps/place/?q=place_id:ChIJd_w2uCvcvpURftPWFTUpZpg" },
+          { "nombre": "Hotel del Parque (Bragado)", "distancia_km": 7, "url": "https://www.google.com/maps/place/?q=place_id:ChIJ0aNwg4LevpURn8o-fxbZL3w" },
+          { "nombre": "Hotel Unico (Bragado)", "distancia_km": 7, "url": "https://www.google.com/maps/place/?q=place_id:ChIJ0XnWZyrcvpURIhm-8b1PLoU" },
+          { "nombre": "Hotel Coll (Bragado)", "distancia_km": 7, "url": "https://www.google.com/maps/place/?q=place_id:ChIJLUfDFCvcvpURfwDOoJxBSJU" }
+        ]
       }
     },
     {
@@ -217,7 +265,12 @@
           "Avisá tu ubicación a alguien; es zona muy despoblada (eso es justo lo que la hace oscura).",
           "Horizonte 360° limpio: ideal para fotografiar la Vía Láctea de horizonte a horizonte."
         ],
-        "experiencia": "La 'pampa profunda' de verdad: silencio absoluto y cielo de los mejores del listado. Para quien prioriza oscuridad sobre comodidad."
+        "experiencia": "La 'pampa profunda' de verdad: silencio absoluto y cielo de los mejores del listado. Para quien prioriza oscuridad sobre comodidad.",
+        "seguridad": "Es la zona más despoblada del mapa — eso la hace oscura, pero también significa que de noche no hay nadie cerca si algo sale mal. Avisá SIEMPRE tu ubicación y horario de regreso a alguien, llevá el tanque lleno y agua, y no vayas solo/a la primera vez.",
+        "hospedajes": [
+          { "nombre": "Hospedaje Lo del Tío (Pila)", "distancia_km": 15, "url": "https://www.google.com/maps/place/?q=place_id:ChIJhR4BrhcxmJURcyqdxVBTEHE" },
+          { "nombre": "Hotel Plaza Pila", "distancia_km": 15, "url": "https://www.google.com/maps/place/?q=place_id:ChIJ5SF0M3kxmJUREe-lJn8TENs" }
+        ]
       }
     },
     {
@@ -242,7 +295,12 @@
           "Ofrecen observación solar de día: plan distinto si vas con familia y no querés trasnochar.",
           "Reservar por Instagram (@campoyestrellas.astroturismo) antes de viajar; no es acceso libre."
         ],
-        "experiencia": "Astroturismo de pueblo, cálido y educativo. Referente del noroeste bonaerense citado por medios regionales."
+        "experiencia": "Astroturismo de pueblo, cálido y educativo. Referente del noroeste bonaerense citado por medios regionales.",
+        "seguridad": "Vas con un divulgador local que conoce el campo: la opción guiada reduce el riesgo de perderte o quedar aislado/a. Coordinando bien el horario, es de las salidas más tranquilas del mapa.",
+        "hospedajes": [
+          { "nombre": "Dormis Parador Vedia (en el pueblo)", "distancia_km": 2, "url": "https://www.google.com/maps/place/?q=place_id:ChIJDyzCnqt3x5URyk-FBL69ulo" },
+          { "nombre": "Hospedaje Rural \"Don Victorio\" (L. N. Alem)", "distancia_km": 13, "url": "https://www.google.com/maps/place/?q=place_id:ChIJ1WLsQgB9x5URDP2AbeayDsY" }
+        ]
       }
     },
     {
@@ -267,7 +325,15 @@
           "Combina avistaje de aves (reserva top a nivel mundial) de día con cielo de noche.",
           "Mucho viento costero: abrigo y algo para fijar el equipo."
         ],
-        "experiencia": "Más reserva natural que destino astronómico puro. Bueno si ya vas de vacaciones a la costa y querés sumar una noche de estrellas."
+        "experiencia": "Más reserva natural que destino astronómico puro. Bueno si ya vas de vacaciones a la costa y querés sumar una noche de estrellas.",
+        "seguridad": "El faro y sus alrededores quedan desiertos de noche, y hacia el interior de la bahía es zona de marisma sin sendas marcadas: NO te internes solo/a más allá del área del faro. Si querés ir más profundo en la reserva, hacelo de día y con guía.",
+        "hospedajes": [
+          { "nombre": "Hotel Stella Marina (San Clemente)", "distancia_km": 4, "url": "https://www.google.com/maps/place/?q=place_id:ChIJz8OhEKAcnJUR12q4RIkAt0s" },
+          { "nombre": "Gran Tuyú Hotel (San Clemente)", "distancia_km": 5, "url": "https://www.google.com/maps/place/?q=place_id:ChIJq4UXh18bnJURkhhwS_3yavI" },
+          { "nombre": "Apart Hotel Bs.As.Mar (San Clemente)", "distancia_km": 5, "url": "https://www.google.com/maps/place/?q=place_id:ChIJQYyxYmAbnJURVgK7mzlCCuo" },
+          { "nombre": "Hotel Costanera Mar (San Clemente)", "distancia_km": 5, "url": "https://www.google.com/maps/place/?q=place_id:ChIJjS0niGAbnJURnSGioCNEK_A" },
+          { "nombre": "Cabañas Montecalma (San Clemente)", "distancia_km": 6, "url": "https://www.google.com/maps/place/?q=place_id:ChIJLdmGSR0bnJURWk7uOvT8Fyg" }
+        ]
       }
     },
     {
@@ -292,7 +358,14 @@
           "Apuntá el equipo hacia el este/sur (la luz de Tandil queda al oeste).",
           "Combiná con gastronomía serrana (quesos, chacinados) y senderismo de día."
         ],
-        "experiencia": "El destino serrano más 'completo' como escapada: cielo decente + turismo desarrollado. Bueno para quien quiere mezclar estrellas con buen comer y trekking."
+        "experiencia": "El destino serrano más 'completo' como escapada: cielo decente + turismo desarrollado. Bueno para quien quiere mezclar estrellas con buen comer y trekking.",
+        "seguridad": "Caminos vecinales serranos sin alumbrado y con curvas: maneja despacio de noche y evitá los tramos más angostos si no los conocés. Zona tranquila en general, pero avisá tu regreso si volvés tarde por caminos rurales.",
+        "hospedajes": [
+          { "nombre": "Brisas Serranas Cabañas Restó & Spa", "distancia_km": 13, "url": "https://www.google.com/maps/place/?q=place_id:ChIJNcFKSjXgkJUR61vqfAOls78" },
+          { "nombre": "Las Pircas Cabañas & Spa", "distancia_km": 13, "url": "https://www.google.com/maps/place/?q=place_id:ChIJgcb4eTPgkJURdXog6TYoh7I" },
+          { "nombre": "LA NATURE - Hostería Boutique", "distancia_km": 13, "url": "https://www.google.com/maps/place/?q=place_id:ChIJZYa6XvzhkJUR_4S3SlDfzwo" },
+          { "nombre": "Cabañas Mi Descanso", "distancia_km": 13, "url": "https://www.google.com/maps/place/?q=place_id:ChIJOfULMUDgkJURY3Gwxs3xQxU" }
+        ]
       }
     },
     {
@@ -318,7 +391,14 @@
           "Llevá agua, abrigo, linterna ROJA (para no perder visión nocturna) y GPS.",
           "Se puede hacer sandboard en los médanos de día: plan combinado familiar."
         ],
-        "experiencia": "Aventura + cielo Bortle 2. La travesía por 10 km de playa y médanos hasta el faro de 1922 ya es un viaje en sí. Reseñas muy positivas en TripAdvisor."
+        "experiencia": "Aventura + cielo Bortle 2. La travesía por 10 km de playa y médanos hasta el faro de 1922 ya es un viaje en sí. Reseñas muy positivas en TripAdvisor.",
+        "seguridad": "Esto no es una salida improvisada: la travesía en médanos es de riesgo real si no tenés 4x4 con experiencia (autos comunes quedan varados). Avisá tu horario, no vayas solo/a, llevá GPS y agua, y si tenés dudas contratá la excursión guiada en vez de ir por tu cuenta.",
+        "hospedajes": [
+          { "nombre": "La Hora del Sol - Apart (Mar de las Pampas)", "distancia_km": 10, "url": "https://www.google.com/maps/place/?q=place_id:ChIJkZMK7M9dm5URYc3sLa1a9xM" },
+          { "nombre": "Rincón de los Vientos (Mar de las Pampas)", "distancia_km": 10, "url": "https://www.google.com/maps/place/?q=place_id:ChIJz-HDIoxgm5URMCtVQRW5_zk" },
+          { "nombre": "Cabañas San Dionisio (Mar de las Pampas)", "distancia_km": 10, "url": "https://www.google.com/maps/place/?q=place_id:ChIJEfpDF8Vdm5URk3NbY0Ky2co" },
+          { "nombre": "Kimbara Bosque y Mar (Mar de las Pampas)", "distancia_km": 10, "url": "https://www.google.com/maps/place/?q=place_id:ChIJSQr5ps5dm5URvs161A4f3G4" }
+        ]
       }
     },
     {
@@ -344,7 +424,15 @@
           "El parque cierra al atardecer: para observar de noche, hacerlo desde el camping, el pueblo o excursión organizada.",
           "Se ve la Vía Láctea a simple vista en noches buenas. El punto más oscuro y 'serio' del listado."
         ],
-        "experiencia": "El destino estrella (literal) del astroturismo bonaerense. Lejos (620 km) pero con la mejor combinación de cielo + infraestructura + paisaje serrano. Ideal para un viaje dedicado de varios días."
+        "experiencia": "El destino estrella (literal) del astroturismo bonaerense. Lejos (620 km) pero con la mejor combinación de cielo + infraestructura + paisaje serrano. Ideal para un viaje dedicado de varios días.",
+        "seguridad": "El parque cierra al atardecer y el camino de acceso queda sin luz artificial: observá desde el camping, el pueblo o una excursión organizada, no te quedes solo/a dentro del parque después del cierre. Las noches son frías incluso en verano: la hipotermia leve es un riesgo más real que la inseguridad.",
+        "hospedajes": [
+          { "nombre": "Complejo Caramelo (Villa Ventana)", "distancia_km": 4, "url": "https://www.google.com/maps/place/?q=place_id:ChIJX5n-7ijz7JURgP9PYDT-iq4" },
+          { "nombre": "Posada Agua Pampas (Villa Ventana)", "distancia_km": 4, "url": "https://www.google.com/maps/place/?q=place_id:ChIJG5S3rCyN7JURDOt5mJqywQo" },
+          { "nombre": "Hostería La Península (Villa Ventana)", "distancia_km": 4, "url": "https://www.google.com/maps/place/?q=place_id:ChIJ-QW88SyN7JURWgcMZ-atleg" },
+          { "nombre": "Complejo Kalem (Villa Ventana)", "distancia_km": 4, "url": "https://www.google.com/maps/place/?q=place_id:ChIJfamvpdfy7JURs44JNxwM1fw" },
+          { "nombre": "El Mirador Complejo Turístico", "distancia_km": 5, "url": "https://www.google.com/maps/place/?q=place_id:ChIJ5wNqY_2K7JURBxO3nxDaLiI" }
+        ]
       }
     },
     {
@@ -370,7 +458,8 @@
           "Dictan cursos de introducción a la astronomía, astrofotografía, construcción de telescopios y observación solar.",
           "Ideal primer contacto con telescopios de verdad antes de invertir en equipo propio."
         ],
-        "experiencia": "El club de astronomía más antiguo de América: instrumental histórico, socios apasionados y la puerta de entrada perfecta al hobby sin salir de Capital."
+        "experiencia": "El club de astronomía más antiguo de América: instrumental histórico, socios apasionados y la puerta de entrada perfecta al hobby sin salir de Capital.",
+        "seguridad": "Parque urbano bien transitado y con buena iluminación cerca del Subte y las avenidas. Como en cualquier parque de Capital de noche, quedate en la zona del observatorio y la entrada, y evitá los sectores internos menos iluminados del parque."
       }
     },
     {
@@ -396,7 +485,15 @@
           "Combinalo con el Planetario de La Plata, pegado al observatorio.",
           "Plan ideal con chicos: museo de ciencias, bosque y telescopios en el mismo paseo."
         ],
-        "experiencia": "Mirar por un telescopio de 1882 bajo una cúpula centenaria: historia viva de la ciencia argentina."
+        "experiencia": "Mirar por un telescopio de 1882 bajo una cúpula centenaria: historia viva de la ciencia argentina.",
+        "seguridad": "El Paseo del Bosque es seguro durante la visita guiada (hay personal y otros visitantes), pero es un parque grande: estacioná cerca de la entrada señalizada y evitá caminar solo/a por sectores alejados de las luces después de la charla.",
+        "hospedajes": [
+          { "nombre": "Hotel Saint James", "distancia_km": 1, "url": "https://www.google.com/maps/place/?q=place_id:ChIJdy2DRRjmopURVGEO1HTvpkM" },
+          { "nombre": "Hotel Acuarius", "distancia_km": 1, "url": "https://www.google.com/maps/place/?q=place_id:ChIJ775QcDjmopUR4Vce13RPQlo" },
+          { "nombre": "Hotel Benevento", "distancia_km": 1, "url": "https://www.google.com/maps/place/?q=place_id:ChIJbdG8yEfmopURritRxxZ_AV0" },
+          { "nombre": "Hotel García", "distancia_km": 2, "url": "https://www.google.com/maps/place/?q=place_id:ChIJF4zkFNznopURsGwTwpFjBlE" },
+          { "nombre": "Papii", "distancia_km": 2, "url": "https://www.google.com/maps/place/?q=place_id:ChIJxwBiLgDnopUR-STVlt2ykFE" }
+        ]
       }
     },
     {
@@ -422,7 +519,15 @@
           "Mercedes tiene gastronomía típica (el salame quintero es religión) para completar la salida.",
           "Si después querés cielo oscuro de verdad, alejate 15-20 km del casco urbano hacia el campo."
         ],
-        "experiencia": "El plan 'observatorio de pueblo': cercano, guiado y sin pretensiones — perfecto para una primera vez con telescopio."
+        "experiencia": "El plan 'observatorio de pueblo': cercano, guiado y sin pretensiones — perfecto para una primera vez con telescopio.",
+        "seguridad": "Parque municipal con buena concurrencia los viernes de observación pública. Fuera de ese horario es un parque de pueblo como cualquiera de noche: quedate cerca de la zona iluminada del observatorio.",
+        "hospedajes": [
+          { "nombre": "Gran Hotel Mercedes", "distancia_km": 2, "url": "https://www.google.com/maps/place/?q=place_id:ChIJhTSqUnNzvJURdRv42V5Qx5A" },
+          { "nombre": "Amanecer Mercedes", "distancia_km": 3, "url": "https://www.google.com/maps/place/?q=place_id:ChIJo3ONzcd0vJURPGA05uKAWi4" },
+          { "nombre": "Hostal del Sol", "distancia_km": 4, "url": "https://www.google.com/maps/place/?q=place_id:ChIJg4yaGKRzvJURPwdngzTfLw0" },
+          { "nombre": "Casa Quinta Las Casuarinas", "distancia_km": 4, "url": "https://www.google.com/maps/place/?q=place_id:ChIJVT-DQQBzvJURKjS8wxZS2rc" },
+          { "nombre": "Cabañas La Niña", "distancia_km": 5, "url": "https://www.google.com/maps/place/?q=place_id:ChIJU0WoOnNzvJUR0OcgSawwBcY" }
+        ]
       }
     },
     {
@@ -448,7 +553,13 @@
           "El resplandor de CABA y La Plata queda al norte/este: apuntá el equipo al sur y al oeste.",
           "Llevá balizas y estacioná fuera de la calzada; es zona de tránsito rural ocasional."
         ],
-        "experiencia": "No es cielo de pampa profunda, pero a 70 km del Obelisco, ver aparecer estrellas que en la ciudad no existen ya sorprende. El mejor km-por-estrella de la lista."
+        "experiencia": "No es cielo de pampa profunda, pero a 70 km del Obelisco, ver aparecer estrellas que en la ciudad no existen ya sorprende. El mejor km-por-estrella de la lista.",
+        "seguridad": "Caminos rurales de tránsito ocasional cerca de zona semi-poblada: estacioná fuera de la calzada con balizas, y como es la salida más corta del mapa, evitá quedarte hasta muy tarde en un lugar que no conocés de día.",
+        "hospedajes": [
+          { "nombre": "A Orillas de la Laguna (San Vicente)", "distancia_km": 14, "url": "https://www.google.com/maps/place/?q=place_id:ChIJIYxHkYItvZURXMpS1pMj8LU" },
+          { "nombre": "Cabañas de la Laguna (San Vicente)", "distancia_km": 14, "url": "https://www.google.com/maps/place/?q=place_id:ChIJ57n2flosvZURC7Q3PP3-bfU" },
+          { "nombre": "Cabañas de Buena Madera (San Vicente)", "distancia_km": 14, "url": "https://www.google.com/maps/place/?q=place_id:ChIJUbJY3ictvZURM6uWgmEcSoM" }
+        ]
       }
     },
     {
@@ -474,7 +585,15 @@
           "La luz del casco urbano queda al sureste: apuntá hacia el norte y el oeste.",
           "Campo abierto sin servicios: llevá termo, reposera y abrigo."
         ],
-        "experiencia": "El plan romántico de la lista: laguna + domo transparente + 15 minutos de auto a un cielo Bortle 4 de verdad."
+        "experiencia": "El plan romántico de la lista: laguna + domo transparente + 15 minutos de auto a un cielo Bortle 4 de verdad.",
+        "seguridad": "Campo abierto sin servicios ni vigilancia, a 15 minutos del glamping de la laguna. Avisá la hora de vuelta si volvés tarde, y la primera vez hacé el recorrido con luz de día para reconocer el camino rural.",
+        "hospedajes": [
+          { "nombre": "Glamping Monte", "distancia_km": 16, "url": "https://www.google.com/maps/place/?q=place_id:ChIJz7T79xZpvZURpitFgDn3Ckw" },
+          { "nombre": "Cabañas Tzolk'in (San Miguel del Monte)", "distancia_km": 16, "url": "https://www.google.com/maps/place/?q=place_id:ChIJwxMqGRFpvZURutdmcVl59kg" },
+          { "nombre": "Complejo Las Piedras (San Miguel del Monte)", "distancia_km": 16, "url": "https://www.google.com/maps/place/?q=place_id:ChIJqao6e_ZovZURWYxEhuKhtSQ" },
+          { "nombre": "Olivos de Monte Resort & Spa", "distancia_km": 19, "url": "https://www.google.com/maps/place/?q=place_id:ChIJtw5QnItpvZUR_c2XQZ42Rng" },
+          { "nombre": "Cabañas el Colibrí (San Miguel del Monte)", "distancia_km": 19, "url": "https://www.google.com/maps/place/?q=place_id:ChIJMcmtXSVpvZURhrT-BKGg5Cc" }
+        ]
       }
     },
     {
@@ -500,7 +619,12 @@
           "Si querés más oscuridad, seguí 40 minutos hacia Pila (Bortle 2, ya está en el mapa).",
           "La RP 29 tiene poco tránsito de noche: igual estacioná fuera de la calzada y con balizas."
         ],
-        "experiencia": "El escalón intermedio entre la escapada corta y la pampa profunda: cielo Bortle 3 sin resignar servicios ni termas."
+        "experiencia": "El escalón intermedio entre la escapada corta y la pampa profunda: cielo Bortle 3 sin resignar servicios ni termas.",
+        "seguridad": "RP 29 con poco tránsito nocturno: estacioná fuera de la calzada con balizas y evitá frenar en plena ruta. Zona tranquila en general; el mayor riesgo acá es vial, no de inseguridad.",
+        "hospedajes": [
+          { "nombre": "Cabañas Rincón De Termas (Gral. Belgrano)", "distancia_km": 13, "url": "https://www.google.com/maps/place/?q=place_id:ChIJd4u6I-nwl5UR9-1t-QoehaM" },
+          { "nombre": "Ayres de Termas (Gral. Belgrano)", "distancia_km": 13, "url": "https://www.google.com/maps/place/?q=place_id:ChIJl3lRNRbLvJURcGckYa8XH0g" }
+        ]
       }
     },
     {
@@ -526,7 +650,15 @@
           "El resplandor de Pergamino queda al noroeste: mejor cielo mirando al sur y al este.",
           "Zona de campos activos: respetá tranqueras y no entres a propiedad privada."
         ],
-        "experiencia": "El punto del corredor norte: cielo bueno sin cruzar media provincia, con Areco de base."
+        "experiencia": "El punto del corredor norte: cielo bueno sin cruzar media provincia, con Areco de base.",
+        "seguridad": "Zona de campos activos con tranqueras: no entres a propiedad privada y respetá los caminos públicos. El tramo rural de ripio no tiene luz: si volvés de madrugada, manejá despacio y con atención a animales sueltos.",
+        "hospedajes": [
+          { "nombre": "Hotel Rural La María Paloma (Cap. Sarmiento)", "distancia_km": 15, "url": "https://www.google.com/maps/place/?q=place_id:ChIJs6Lff1fXu5URzGpXuyKfOeY" },
+          { "nombre": "Posada Chambery (Cap. Sarmiento)", "distancia_km": 15, "url": "https://www.google.com/maps/place/?q=place_id:ChIJRZyoKsbZu5URch9GpAA_rGA" },
+          { "nombre": "La Mancha Verde (Cap. Sarmiento)", "distancia_km": 16, "url": "https://www.google.com/maps/place/?q=place_id:ChIJ6ySCoH3Xu5URMswBn206rEw" },
+          { "nombre": "Hotel San Carlos (San Antonio de Areco)", "distancia_km": 40, "url": "https://www.google.com/maps/place/?q=place_id:ChIJT2iW9VGVu5URRf-uj5bpB3E" },
+          { "nombre": "La Posada de Don Segundo (San Antonio de Areco)", "distancia_km": 40, "url": "https://www.google.com/maps/place/?q=place_id:ChIJ60UZd1aVu5URJpPin8-FLE8" }
+        ]
       }
     },
     {
@@ -552,7 +684,49 @@
           "Es de las pocas zonas con leve altura (≈60 m): horizonte un poco más limpio hacia el oeste.",
           "Combinable con el observatorio Di Palma de Mercedes en el camino de vuelta por Ruta 5."
         ],
-        "experiencia": "La escapada del oeste: autopista casi todo el viaje y un salto enorme de cielo respecto a la ciudad."
+        "experiencia": "La escapada del oeste: autopista casi todo el viaje y un salto enorme de cielo respecto a la ciudad.",
+        "seguridad": "Acceso muy cómodo por autopista hasta Chivilcoy; el tramo final de ripio hacia Gorostiaga no tiene iluminación. Evitá ese camino rural después de lluvias fuertes (se vuelve resbaladizo) y avisá tu regreso si volvés muy tarde.",
+        "hospedajes": [
+          { "nombre": "Tomaso - Hotel & Eventos Boutique (Chivilcoy)", "distancia_km": 10, "url": "https://www.google.com/maps/place/?q=place_id:ChIJYbWQ1VmwvpURQpPsGaUlqIM" },
+          { "nombre": "Patri Hotel (Chivilcoy)", "distancia_km": 15, "url": "https://www.google.com/maps/place/?q=place_id:ChIJySF2XkqlvpURFKJRTqSktsc" },
+          { "nombre": "Don Hotel Chivilcoy", "distancia_km": 16, "url": "https://www.google.com/maps/place/?q=place_id:ChIJ5UEp9jKlvpUR3xLRaPNeZiA" },
+          { "nombre": "Hotel Mitre (Chivilcoy)", "distancia_km": 17, "url": "https://www.google.com/maps/place/?q=place_id:ChIJh_Ni1SSlvpUR-NbZv9zO1tw" },
+          { "nombre": "Hotel RG (Chivilcoy)", "distancia_km": 17, "url": "https://www.google.com/maps/place/?q=place_id:ChIJtb_PgeOlvpURDmU_eh6IsSg" }
+        ]
+      }
+    },
+    {
+      "slug": "balneario-los-angeles",
+      "nombre": "Balneario Los Ángeles (Necochea)",
+      "partido": "Necochea",
+      "lat": -38.655,
+      "lng": -59.003,
+      "distancia_caba_km": 540,
+      "tipo": "costa",
+      "categoria": "escapada",
+      "bortle": 2,
+      "sqm": 21.6,
+      "acceso": { "tipo": "auto", "tipo_camino": "ripio" },
+      "descripcion": "Balneario chico y tranquilo sobre la costa atlántica, al oeste de Necochea camino a Claromecó. Lo sugirió la comunidad (foro Espacio Profundo) y el satélite lo confirmó: radiancia ≈ 0, Bortle 2. Lejos del resplandor de las grandes ciudades y con el horizonte sur abierto sobre el mar — un lujo para la Vía Láctea y para ver salir las constelaciones desde el agua.",
+      "notas_acceso": "Por RN 88 hasta Necochea y luego el camino costero hacia el oeste (~25-30 km) hasta Balneario Los Ángeles; tramos de ripio en el acceso final. Sin servicios sobre la playa: cargá nafta y provisiones en Necochea.",
+      "referencia": "Sugerido por la comunidad (foro Espacio Profundo) y confirmado por VIIRS 2024 (radiancia ≈ 0, Bortle 2)",
+      "info_visitante": {
+        "mejor_epoca": "Primavera y verano por el clima costero; siempre con Luna nueva. Tras un frente de viento sur el cielo queda muy transparente.",
+        "donde_dormir": "Cabañas en el mismo balneario y mucha más oferta en Necochea/Quequén, a ~25 km (ver lista abajo).",
+        "tips": [
+          "El horizonte sur sobre el mar no tiene obstáculos ni luces: ideal para objetos bajos.",
+          "Llevá todo de Necochea: en la playa no hay kiosco ni nafta.",
+          "El viento costero puede ser fuerte y húmedo: llevá abrigo cortaviento y un trapo para la óptica."
+        ],
+        "experiencia": "Cielo Bortle 2 con el plus del mar: pocas cosas se comparan a la Vía Láctea cayendo sobre el Atlántico.",
+        "seguridad": "Balneario chico que de noche queda casi desierto y sin iluminación. Llegá con luz de día, andá acompañado/a y estacioná cerca de las cabañas, no aislado sobre la playa.",
+        "hospedajes": [
+          { "nombre": "Cabañas Los Teros (en el balneario)", "distancia_km": 1, "url": "https://www.google.com/maps/place/?q=place_id:ChIJqQKhIpyvj5URfcrXMzI5C9Q" },
+          { "nombre": "Cabañas Chuny (Necochea)", "distancia_km": 23, "url": "https://www.google.com/maps/place/?q=place_id:ChIJu1mDnLWij5URY6kEEP4dxfg" },
+          { "nombre": "Casacubo (Necochea)", "distancia_km": 24, "url": "https://www.google.com/maps/place/?q=place_id:ChIJew1P2HCjj5URt21ltbCvr_s" },
+          { "nombre": "Aparts del Lago de los Cisnes", "distancia_km": 24, "url": "https://www.google.com/maps/place/?q=place_id:ChIJWUjyeC-jj5UReD2sS2rR4UM" },
+          { "nombre": "Camping y Cabañas Río Quequén", "distancia_km": 27, "url": "https://www.google.com/maps/place/?q=place_id:ChIJNyjSWvKXj5URa8cu4h9ECog" }
+        ]
       }
     }
   ]

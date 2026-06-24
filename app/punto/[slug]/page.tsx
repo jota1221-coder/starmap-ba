@@ -342,6 +342,45 @@ export default async function PuntoPage({
               )}
             </div>
 
+            {Array.isArray(point.hospedajes) && point.hospedajes.length > 0 && (
+              <div>
+                <SectionTitle>Hospedajes cercanos</SectionTitle>
+                <ul className="mt-3 space-y-1.5">
+                  {(
+                    point.hospedajes as {
+                      nombre: string;
+                      distancia_km: number;
+                      url: string;
+                    }[]
+                  ).map((h) => (
+                    <li
+                      key={h.nombre}
+                      className="flex items-baseline justify-between gap-3 text-sm"
+                    >
+                      <a
+                        href={h.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-fg transition-colors duration-200 hover:text-accent"
+                      >
+                        {h.nombre}
+                      </a>
+                      <span className="tnum shrink-0 text-fg-faint">
+                        ~{h.distancia_km} km
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {point.seguridad && (
+              <div className="rounded-xl border border-amber-400/25 bg-amber-400/5 px-4 py-3">
+                <SectionTitle>Seguridad</SectionTitle>
+                <p className="mt-1.5 text-sm text-fg-muted">{point.seguridad}</p>
+              </div>
+            )}
+
             {point.tips.length > 0 && (
               <div>
                 <SectionTitle>Tips</SectionTitle>

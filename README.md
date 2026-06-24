@@ -35,7 +35,7 @@ StarMap BA is my answer to that intersection. I built it to solve my own problem
 
 ## What it does
 
-It maps **21 real, car-accessible observation spots** across Buenos Aires Province, ranks them by how dark their sky actually is — *measured* from satellite data, not guessed — and for any given night gives a **0–100 score** (cloud cover + moon + sky darkness) along with what you'll be able to see and where to point.
+It maps **22 real, car-accessible observation spots** across Buenos Aires Province, ranks them by how dark their sky actually is — *measured* from satellite data, not guessed — and for any given night gives a **0–100 score** (cloud cover + moon + sky darkness) along with what you'll be able to see and where to point.
 
 ![Interactive map of observation spots](docs/screenshots/map.png)
 

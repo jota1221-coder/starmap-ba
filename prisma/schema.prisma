@@ -49,6 +49,8 @@ model ObservationPoint {
   dondeDormir String?
   tips        String[] // lista de consejos prácticos
   experiencia String?
+  seguridad   String? // nota práctica de seguridad/acceso (no es un rating)
+  hospedajes  Json? // lista de {nombre, distancia_km, url} (Google Maps)
 
   // Reseñas de la comunidad (rating denormalizado para lectura O(1))
   ratingAvg   Float    @default(0)

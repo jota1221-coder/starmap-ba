@@ -95,7 +95,7 @@ export default function DataSciencePage() {
               {[
                 ["+0.76", "correlación Bortle ↔ satélite (Spearman)"],
                 ["94.5%", "de la Provincia bajo el umbral de detección"],
-                ["21", "puntos en el mapa (escapadas + observatorios)"],
+                ["22", "puntos en el mapa (escapadas + observatorios)"],
               ].map(([n, label]) => (
                 <div key={n}>
                   <p
@@ -122,11 +122,11 @@ export default function DataSciencePage() {
             </div>
             <Figure
               src="/data-science/heatmap.png"
-              alt="Mapa de contaminación lumínica VIIRS de la Provincia de Buenos Aires, con los 21 puntos de observación"
+              alt="Mapa de contaminación lumínica VIIRS de la Provincia de Buenos Aires, con los 22 puntos de observación"
               width={975}
               height={1105}
               narrow
-              caption="Radiancia VIIRS 2024 recortada a la Provincia (escala log). En cyan, los 21 puntos de StarMap BA. El AMBA concentra casi toda la luz; el resto del territorio es mayormente oscuro."
+              caption="Radiancia VIIRS 2024 recortada a la Provincia (escala log). En cyan, los 22 puntos de StarMap BA. El AMBA concentra casi toda la luz; el resto del territorio es mayormente oscuro."
             />
             <p className="text-sm leading-relaxed text-fg-muted">
               El <strong className="text-fg">94.5%</strong> de la Provincia está por

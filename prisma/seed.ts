@@ -9,6 +9,7 @@ import "dotenv/config";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
+  Prisma,
   PrismaClient,
   PointType,
   PointCategory,
@@ -30,11 +31,19 @@ interface SeedAcceso {
   tipo_camino: string;
 }
 
+interface SeedHospedaje {
+  nombre: string;
+  distancia_km: number;
+  url: string;
+}
+
 interface SeedInfoVisitante {
   mejor_epoca?: string;
   donde_dormir?: string;
   tips?: string[];
   experiencia?: string;
+  seguridad?: string;
+  hospedajes?: SeedHospedaje[];
 }
 
 interface SeedPunto {
@@ -132,6 +141,10 @@ async function main() {
       dondeDormir: p.info_visitante?.donde_dormir ?? null,
       tips: p.info_visitante?.tips ?? [],
       experiencia: p.info_visitante?.experiencia ?? null,
+      seguridad: p.info_visitante?.seguridad ?? null,
+      hospedajes: p.info_visitante?.hospedajes
+        ? (p.info_visitante.hospedajes as unknown as Prisma.InputJsonValue)
+        : Prisma.DbNull,
     };
 
     await prisma.observationPoint.upsert({

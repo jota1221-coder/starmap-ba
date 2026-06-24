@@ -65,7 +65,7 @@ export default function Home() {
           <CTAButton />
 
           <p className="animate-rise mt-4 text-xs text-fg-faint [animation-delay:520ms]">
-            21 puntos relevados · gratis · sin registro
+            22 puntos relevados · gratis · sin registro
           </p>
         </main>
 
@@ -107,7 +107,7 @@ export default function Home() {
               className="mt-3 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl"
               style={{ fontFamily: "var(--font-display)" }}
             >
-              Veintiún cielos,
+              Veintidós cielos,
               <br />
               rankeados
             </h2>
