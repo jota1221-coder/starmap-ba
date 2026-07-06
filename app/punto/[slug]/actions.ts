@@ -8,17 +8,21 @@ import { contieneEnlace } from "@/lib/moderation";
 import { getProfile } from "@/lib/points";
 import { isProfileComplete } from "@/lib/profile";
 
-/** Recalcula el rating promedio denormalizado contando solo aprobadas. */
+/**
+ * Recalcula el rating promedio denormalizado en un solo UPDATE atómico
+ * (evita la ventana de carrera de leer-y-luego-escribir bajo concurrencia).
+ */
 async function recomputeRating(pointId: number) {
-  const agg = await prisma.review.aggregate({
-    where: { pointId, status: "APPROVED" },
-    _avg: { rating: true },
-    _count: true,
-  });
-  await prisma.observationPoint.update({
-    where: { id: pointId },
-    data: { ratingAvg: agg._avg.rating ?? 0, ratingCount: agg._count },
-  });
+  await prisma.$executeRaw`
+    UPDATE "ObservationPoint" p
+    SET "ratingAvg" = COALESCE(s.avg, 0), "ratingCount" = COALESCE(s.cnt, 0)
+    FROM (
+      SELECT AVG(rating)::float AS avg, COUNT(*)::int AS cnt
+      FROM "Review"
+      WHERE "pointId" = ${pointId} AND status = 'APPROVED'
+    ) s
+    WHERE p.id = ${pointId}
+  `;
 }
 
 export type ReviewActionState = { error?: string; ok?: boolean };

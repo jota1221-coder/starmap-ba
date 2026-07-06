@@ -71,8 +71,9 @@ alpha[~lit] = 0.0
 rgba[..., 3] = (alpha * 255).astype("uint8")
 
 img = Image.fromarray(rgba, "RGBA").filter(ImageFilter.GaussianBlur(radius=2 * UPSCALE))
-path = OUT / "viirs-overlay.png"
-img.save(path, optimize=True)
+# WebP en vez de PNG: mismo canal alpha, ~80% menos peso (auditoría de rendimiento).
+path = OUT / "viirs-overlay.webp"
+img.save(path, "WEBP", quality=80, method=6)
 
 kb = path.stat().st_size // 1024
 print(f"OK {path.name}  {img.width}x{img.height}px  {kb} KB  (EPSG:3857, x{UPSCALE} + blur)")

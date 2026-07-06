@@ -207,7 +207,7 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
 
         {/* ── Overlay de contaminación lumínica (VIIRS 2024) ── */}
         {showOverlay && (
-          <ImageOverlay url="/mapa/viirs-overlay.png" bounds={VIIRS_BOUNDS} opacity={0.7} />
+          <ImageOverlay url="/mapa/viirs-overlay.webp" bounds={VIIRS_BOUNDS} opacity={0.7} />
         )}
 
         {/* ── Máscara: oscurece todo fuera de BA Province ── */}

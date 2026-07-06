@@ -32,14 +32,15 @@ git push -u origin main
 2. **Add New → Project → Import** el repo `starmap-ba`.
 3. Framework: Next.js (lo detecta solo). No cambies build settings.
 
-### 4. ⚠️ Variable de entorno (CRÍTICO)
+### 4. ⚠️ Variables de entorno (CRÍTICO)
 Antes de hacer Deploy, en **Environment Variables** agregá:
 
 | Name | Value | Environments |
 |------|-------|--------------|
-| `DATABASE_URL` | (tu connection string de Neon) | Production, Preview, Development |
+| `DATABASE_URL` | connection string **pooled** (con `-pooler`) de Neon | Production, Preview, Development |
+| `DIRECT_DATABASE_URL` | connection string **directa** (sin `-pooler`) de Neon | Production, Preview, Development |
 
-> Importante: marcá **los 3 entornos**. La página `/mapa` se prerenderiza en el build y necesita la DB **en tiempo de build**, no solo en runtime. Si falta, el build falla.
+> Importante: marcá **los 3 entornos** en ambas. La página `/mapa` se prerenderiza en el build y necesita `DATABASE_URL` **en tiempo de build**, no solo en runtime. `DIRECT_DATABASE_URL` la usa `prisma migrate deploy`, que ahora corre automáticamente como parte del build (ver más abajo) — sin ella, el build falla.
 
 ### 5. Deploy
 Click **Deploy**. En 1-2 min queda en `https://starmap-ba.vercel.app`.
@@ -64,35 +65,33 @@ vercel --prod       # deploy a producción
 - [ ] `/punto/parque-tornquist` muestra score, clima y cielo en vivo
 - [ ] Probar en el celular
 
-## ⚠️ Migraciones de DB (IMPORTANTE: dev y prod están separadas)
+## Migraciones de DB (automatizadas en el build)
 
 Desde que separamos las DBs (Neon branching), `prisma migrate dev` en local
-**solo afecta al branch `dev`**. Producción (branch `main`) NO se migra sola
-en el build de Vercel. Después de cada migración, hay que aplicarla a prod.
+**solo afecta al branch `dev`**. Producción (branch `main`) se migra sola:
+el script `build` corre `prisma migrate deploy && next build`, y
+`prisma.config.ts` le pasa a ese comando la conexión **directa**
+(`DIRECT_DATABASE_URL`, sin `-pooler`) para evitar el advisory lock del pooler.
 
 **Endpoints Neon (cada branch tiene el suyo; copiarlos de la Neon Console):**
-- `dev` (local): endpoint del branch `dev` · cadena pooled en `.env`
-- `main` (prod/Vercel): endpoint del branch `main` · cadena en las env vars de Vercel
+- `dev` (local): endpoint del branch `dev` · cadenas pooled/directa en `.env`
+- `main` (prod/Vercel): endpoint del branch `main` · `DATABASE_URL` (pooled) y
+  `DIRECT_DATABASE_URL` (directa) en las env vars de Vercel
 
-**Aplicar una migración a producción** (usar la conexión DIRECTA, sin `-pooler`,
-porque las migraciones de Prisma fallan sobre el pooler — advisory lock):
+**Flujo normal de trabajo:**
 
 ```bash
 # 1. Crear la migración en local (va al branch dev)
 npx prisma migrate dev --name <nombre>
 
-# 2. Aplicarla a prod (main), conexión DIRECTA (sin -pooler):
-DATABASE_URL="<CADENA_DIRECTA_DE_PROD>" \
-  npx prisma migrate deploy
-# ↑ Copiala de la Neon Console (branch main, conexión DIRECTA sin -pooler)
-#   o de las env vars de Vercel. NO la pegues en este archivo (es público).
-
-# 3. git push → Vercel deploya el código (que ya espera el schema nuevo)
+# 2. git push → Vercel corre "prisma migrate deploy" (contra prod, vía
+#    DIRECT_DATABASE_URL) y recién después "next build" — el código nuevo
+#    nunca corre contra un schema viejo.
 ```
 
-> NO meter `prisma migrate deploy` en el script `build` con la URL pooled:
-> falla por advisory lock y rompe el deploy. Si se quisiera automatizar,
-> haría falta una env var `DIRECT_DATABASE_URL` (unpooled) y configurarla.
+Ya no hace falta correr `migrate deploy` a mano contra prod. Si en algún
+momento `DIRECT_DATABASE_URL` no estuviera seteada en Vercel, el build
+fallaría de forma explícita (mejor que un 500 silencioso en runtime).
 
 ## Notas
 - El free tier de Vercel + Neon alcanza de sobra para validar.
