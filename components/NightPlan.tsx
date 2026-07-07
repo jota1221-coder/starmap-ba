@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import SkyPointer from "./SkyPointer";
 import AltitudeCurve from "./AltitudeCurve";
 import type { ObjectPlan } from "@/lib/observation-plan";
+import { BODY_COLOR } from "@/lib/theme";
 
 interface NightPlanProps {
   objects: ObjectPlan[];
@@ -119,13 +120,13 @@ export default function NightPlan({
               altitude={obj.best.altitude}
               timeLabel={obj.best.timeLabel}
               deviceHeading={heading}
-              color={obj.color}
+              color={BODY_COLOR[obj.key]}
             />
             <AltitudeCurve
               track={obj.track}
               duskMs={duskMs}
               dawnMs={dawnMs}
-              color={obj.color}
+              color={BODY_COLOR[obj.key]}
             />
             <div className="tnum flex justify-between text-[10px] text-fg-faint">
               <span>{duskLabel}</span>

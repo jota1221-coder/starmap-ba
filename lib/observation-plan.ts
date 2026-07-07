@@ -14,17 +14,17 @@ const MIN_PEAK_ALT = 10; // grados — debajo de esto no vale la pena observar
 interface Target {
   body: Body;
   nombre: string;
-  color: string;
 }
 
-// Plata para la Luna; ámbar terroso para planetas (consistente con el tema).
+// El color de cada astro es una decisión de presentación, no de este cálculo
+// astronómico — vive en lib/theme.ts (BODY_COLOR, indexado por Body).
 const TARGETS: Target[] = [
-  { body: Body.Moon, nombre: "La Luna", color: "#94a3b8" },
-  { body: Body.Mercury, nombre: "Mercurio", color: "#d6a862" },
-  { body: Body.Venus, nombre: "Venus", color: "#d6a862" },
-  { body: Body.Mars, nombre: "Marte", color: "#c8804b" },
-  { body: Body.Jupiter, nombre: "Júpiter", color: "#d6a862" },
-  { body: Body.Saturn, nombre: "Saturno", color: "#d6a862" },
+  { body: Body.Moon, nombre: "La Luna" },
+  { body: Body.Mercury, nombre: "Mercurio" },
+  { body: Body.Venus, nombre: "Venus" },
+  { body: Body.Mars, nombre: "Marte" },
+  { body: Body.Jupiter, nombre: "Júpiter" },
+  { body: Body.Saturn, nombre: "Saturno" },
 ];
 
 export interface TrackPoint {
@@ -44,7 +44,6 @@ export interface BestMoment {
 export interface ObjectPlan {
   key: string;
   nombre: string;
-  color: string;
   best: BestMoment;
   track: TrackPoint[];
 }
@@ -95,7 +94,6 @@ export function getObservationPlan(
       objects.push({
         key: tgt.body,
         nombre: tgt.nombre,
-        color: tgt.color,
         best,
         track,
       });

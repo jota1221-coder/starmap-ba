@@ -166,6 +166,9 @@ body {
   .scroll-cue {
     animation: none;
   }
+  .kenburns {
+    animation: none;
+  }
   html {
     scroll-behavior: auto;
   }

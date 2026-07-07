@@ -8,21 +8,18 @@ import { contieneEnlace } from "@/lib/moderation";
 import { getProfile } from "@/lib/points";
 import { isProfileComplete } from "@/lib/profile";
 
-/**
- * Recalcula el rating promedio denormalizado en un solo UPDATE atómico
- * (evita la ventana de carrera de leer-y-luego-escribir bajo concurrencia).
- */
-async function recomputeRating(pointId: number) {
-  await prisma.$executeRaw`
-    UPDATE "ObservationPoint" p
-    SET "ratingAvg" = COALESCE(s.avg, 0), "ratingCount" = COALESCE(s.cnt, 0)
-    FROM (
-      SELECT AVG(rating)::float AS avg, COUNT(*)::int AS cnt
-      FROM "Review"
-      WHERE "pointId" = ${pointId} AND status = 'APPROVED'
-    ) s
-    WHERE p.id = ${pointId}
-  `;
+// El rating denormalizado (ratingAvg/ratingCount) lo mantiene un trigger de
+// la DB (migración db_integrity_checks_and_rating_trigger): cualquier
+// INSERT/UPDATE/DELETE sobre Review lo recalcula solo, incluido el borrado
+// en cascada de un User. Acá ya no hace falta llamarlo a mano.
+
+/** Busca el slug real de un punto por id — nunca confiar en el que manda el form. */
+async function slugFor(pointId: number): Promise<string | null> {
+  const point = await prisma.observationPoint.findUnique({
+    where: { id: pointId },
+    select: { slug: true },
+  });
+  return point?.slug ?? null;
 }
 
 export type ReviewActionState = { error?: string; ok?: boolean };
@@ -44,7 +41,6 @@ export async function submitReview(
     return { error: "Completá tu perfil antes de reseñar." };
 
   const pointId = Number(formData.get("pointId"));
-  const slug = String(formData.get("slug") ?? "");
   const rating = Number(formData.get("rating"));
   const cuerpo = String(formData.get("cuerpo") ?? "").trim();
   const consejoRaw = String(formData.get("consejo") ?? "").trim();
@@ -61,14 +57,17 @@ export async function submitReview(
   if (contieneEnlace(cuerpo) || (consejo && contieneEnlace(consejo)))
     return { error: "No se permiten enlaces en las reseñas." };
 
+  const slug = await slugFor(pointId);
+  if (!slug) return { error: "Punto inválido." };
+
   try {
     await prisma.review.upsert({
       where: { pointId_userId: { pointId, userId } },
       create: { pointId, userId, rating, cuerpo, consejo },
       update: { rating, cuerpo, consejo },
     });
-    await recomputeRating(pointId);
-  } catch {
+  } catch (e) {
+    console.error("submitReview:", e);
     return { error: "No se pudo guardar la reseña. Probá de nuevo." };
   }
 
@@ -82,11 +81,20 @@ export async function deleteReview(formData: FormData): Promise<void> {
   const userId = session?.user?.id;
   if (!userId) return;
 
+  const { ok } = await checkRateLimit("review", userId);
+  if (!ok) return;
+
   const pointId = Number(formData.get("pointId"));
-  const slug = String(formData.get("slug") ?? "");
   if (!Number.isInteger(pointId)) return;
 
-  await prisma.review.deleteMany({ where: { pointId, userId } });
-  await recomputeRating(pointId);
+  const slug = await slugFor(pointId);
+  if (!slug) return;
+
+  try {
+    await prisma.review.deleteMany({ where: { pointId, userId } });
+  } catch (e) {
+    console.error("deleteReview:", e);
+    return;
+  }
   revalidatePath(`/punto/${slug}`);
 }

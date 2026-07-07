@@ -42,6 +42,7 @@ export default async function LoginPage({
             required
             autoFocus
             placeholder="tu@email.com"
+            aria-label="Tu email"
             className="w-full rounded-xl border border-white/10 bg-surface px-4 py-3 text-fg placeholder:text-fg-faint transition-colors duration-200 focus:border-accent focus:outline-none"
           />
           <button

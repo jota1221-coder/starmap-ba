@@ -1,4 +1,5 @@
 import { BA_PROVINCE_RING } from "../lib/ba-province";
+import { haversineKm } from "../lib/distance";
 import { readFileSync } from "node:fs";
 
 const seed = JSON.parse(readFileSync("./data/seed-points.json", "utf8"));
@@ -17,18 +18,10 @@ function inside(lng: number, lat: number, ring: [number, number][]): boolean {
   return c;
 }
 
-// Haversine desde CABA (referencia de distancia en línea recta)
+// Distancia en línea recta desde CABA (referencia; la guardada es por ruta).
 const CABA = { lat: -34.6037, lng: -58.3816 };
 function haversine(lat: number, lng: number): number {
-  const R = 6371;
-  const dLat = ((lat - CABA.lat) * Math.PI) / 180;
-  const dLng = ((lng - CABA.lng) * Math.PI) / 180;
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos((CABA.lat * Math.PI) / 180) *
-      Math.cos((lat * Math.PI) / 180) *
-      Math.sin(dLng / 2) ** 2;
-  return Math.round(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
+  return Math.round(haversineKm(CABA, { lat, lng }));
 }
 
 let problemas = 0;

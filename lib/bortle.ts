@@ -1,3 +1,5 @@
+import { SCORE_BANDS } from "./score";
+
 /**
  * Escala de color por nivel Bortle.
  * Verde = cielo excelente (oscuro), Rojo = muy contaminado.
@@ -14,15 +16,11 @@ export function bortleColor(bortle: number): string {
 }
 
 /**
- * Color por score de observación (0-100). Misma familia de tonos apagados
- * que la escala Bortle. Verde = excelente, rojo = malo.
+ * Color por score de observación (0-100). Deriva de SCORE_BANDS
+ * (lib/score.ts) — misma fuente que usa la etiqueta "Excelente/Bueno/...".
  */
 export function scoreColor(score: number): string {
-  if (score >= 80) return "#7fb08a";
-  if (score >= 60) return "#a9b97e";
-  if (score >= 40) return "#d6a862";
-  if (score >= 20) return "#c8804b";
-  return "#b65c4d";
+  return SCORE_BANDS.find((b) => score >= b.min)!.color;
 }
 
 /** Etiqueta corta de calidad de cielo por Bortle. */

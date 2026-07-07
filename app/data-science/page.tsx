@@ -3,7 +3,7 @@ import Image from "next/image";
 import Wordmark from "@/components/Wordmark";
 import FadeIn from "@/components/FadeIn";
 import BeforeAfterSlider from "@/components/BeforeAfterSlider";
-import { ogFor } from "@/lib/site";
+import { ogFor, SITE_URL, jsonLdScript } from "@/lib/site";
 
 const TITLE = "Data Science — Validando los cielos con datos satelitales";
 const DESCRIPTION =
@@ -59,9 +59,22 @@ function Figure({
   );
 }
 
+const ARTICLE_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: TITLE,
+  description: DESCRIPTION,
+  url: `${SITE_URL}/data-science`,
+  author: { "@type": "Person", name: "Joaquin Rao" },
+};
+
 export default function DataSciencePage() {
   return (
     <div className="min-h-dvh bg-ink text-fg">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(ARTICLE_JSON_LD) }}
+      />
       {/* Nav */}
       <header className="border-b border-white/5 px-4 py-3.5">
         <div className="mx-auto flex max-w-3xl items-center justify-between">

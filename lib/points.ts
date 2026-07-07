@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import type { PointType, PointCategory, AccessType } from "@prisma/client";
 
 /** Forma serializable de un punto para pasar al mapa (Client Component). */
 export type MapPoint = {
@@ -11,9 +12,9 @@ export type MapPoint = {
   bortle: number;
   sqm: number;
   distanciaCabaKm: number;
-  tipo: string;
-  categoria: string;
-  accesoTipo: string;
+  tipo: PointType;
+  categoria: PointCategory;
+  accesoTipo: AccessType;
   descripcion: string;
   ratingAvg: number;
   ratingCount: number;

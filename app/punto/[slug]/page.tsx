@@ -10,11 +10,15 @@ import {
 import { isProfileComplete, reviewerName, experienceLabel } from "@/lib/profile";
 import Avatar from "@/components/Avatar";
 import Stars from "@/components/Stars";
+import Badge from "@/components/Badge";
 import ReviewForm from "@/components/ReviewForm";
 import { getConditions } from "@/lib/conditions";
 import { explainScore } from "@/lib/score";
 import { bortleColor, bortleLabel, scoreColor } from "@/lib/bortle";
-import { ogFor } from "@/lib/site";
+import { ogFor, SITE_URL, jsonLdScript } from "@/lib/site";
+import { TIPO_LABEL, ACCESO_LABEL, CAMINO_LABEL } from "@/lib/labels";
+import { CATEGORIA_COLOR } from "@/lib/theme";
+import { parseHospedajes } from "@/lib/hospedaje";
 import DatePicker from "@/components/DatePicker";
 import Wordmark from "@/components/Wordmark";
 import NightPlan from "@/components/NightPlan";
@@ -29,28 +33,6 @@ import {
 } from "@/lib/observation-time";
 
 export const dynamic = "force-dynamic"; // condiciones en vivo
-
-const TIPO_LABEL: Record<string, string> = {
-  sierra: "Sierra",
-  costa: "Costa",
-  reserva: "Reserva",
-  pampa: "Pampa",
-  laguna: "Laguna",
-  urbano: "Urbano",
-};
-
-const ACCESO_LABEL: Record<string, string> = {
-  auto: "Se llega en auto",
-  auto_caminata_corta: "Auto + caminata corta",
-  cuatro_x_cuatro: "Requiere 4x4",
-};
-
-const CAMINO_LABEL: Record<string, string> = {
-  asfalto: "asfalto",
-  ripio: "ripio",
-  tierra: "tierra",
-};
-
 
 export async function generateMetadata({
   params,
@@ -117,6 +99,7 @@ export default async function PuntoPage({
   const { score, sky, weather } = conditions;
   const moon = sky.moon;
   const explanation = score ? explainScore(score) : null;
+  const hospedajes = parseHospedajes(point.hospedajes);
 
   const myReview = session?.user?.id
     ? await getUserReview(point.id, session.user.id)
@@ -127,8 +110,39 @@ export default async function PuntoPage({
   const canReview = isProfileComplete(myProfile);
   const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${point.lat},${point.lng}`;
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "TouristAttraction",
+    name: point.nombre,
+    description: point.descripcion,
+    url: `${SITE_URL}/punto/${point.slug}`,
+    address: {
+      "@type": "PostalAddress",
+      addressRegion: point.partido,
+      addressCountry: "AR",
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: point.lat,
+      longitude: point.lng,
+    },
+    ...(point.ratingCount > 0 && {
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: point.ratingAvg,
+        reviewCount: point.ratingCount,
+        bestRating: 5,
+        worstRating: 1,
+      },
+    }),
+  };
+
   return (
     <div className="min-h-dvh bg-ink text-fg">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
+      />
       {/* Nav */}
       <header className="border-b border-white/5 px-4 py-3.5">
         <div className="mx-auto flex max-w-2xl items-center justify-between">
@@ -150,30 +164,18 @@ export default async function PuntoPage({
               {point.nombre}
             </h1>
             <p className="mt-1 text-sm text-fg-muted">{point.partido}</p>
-            <div className="mt-4 flex flex-wrap gap-1.5 text-xs">
-              <span
-                className="rounded-full px-2.5 py-1 font-medium text-ink"
-                style={{ backgroundColor: bortleColor(point.bortle) }}
-              >
+            <div className="mt-4 flex flex-wrap gap-1.5">
+              <Badge color={bortleColor(point.bortle)} filled>
                 Bortle {point.bortle} · {bortleLabel(point.bortle)}
-              </span>
+              </Badge>
               {point.categoria === "observatorio" && (
-                <span
-                  className="rounded-full border px-2.5 py-1 text-fg-muted"
-                  style={{ borderColor: "#7c3aed" }}
-                >
-                  Observatorio
-                </span>
+                <Badge color={CATEGORIA_COLOR.observatorio}>Observatorio</Badge>
               )}
-              <span className="rounded-full border border-white/10 px-2.5 py-1 text-fg-muted">
-                {TIPO_LABEL[point.tipo] ?? point.tipo}
-              </span>
-              <span className="tnum rounded-full border border-white/10 px-2.5 py-1 text-fg-muted">
-                {point.distanciaCabaKm} km de CABA
-              </span>
-              <span className="rounded-full border border-white/10 px-2.5 py-1 text-fg-muted">
-                {ACCESO_LABEL[point.accesoTipo] ?? point.accesoTipo}
-              </span>
+              <Badge>{TIPO_LABEL[point.tipo] ?? point.tipo}</Badge>
+              <Badge>
+                <span className="tnum">{point.distanciaCabaKm} km de CABA</span>
+              </Badge>
+              <Badge>{ACCESO_LABEL[point.accesoTipo] ?? point.accesoTipo}</Badge>
             </div>
           </section>
         </FadeIn>
@@ -195,8 +197,16 @@ export default async function PuntoPage({
         {/* Score — animado */}
         <section>
           {point.categoria === "observatorio" && point.bortle >= 6 && (
-            <p className="mb-5 rounded-xl border border-[#7c3aed]/40 bg-surface px-4 py-3 text-sm leading-relaxed text-fg-muted">
-              <span className="font-medium text-[#a78bfa]">Observatorio:</span>{" "}
+            <p
+              className="mb-5 rounded-xl border bg-surface px-4 py-3 text-sm leading-relaxed text-fg-muted"
+              style={{ borderColor: `${CATEGORIA_COLOR.observatorio}66` }}
+            >
+              <span
+                className="font-medium"
+                style={{ color: CATEGORIA_COLOR.observatorio }}
+              >
+                Observatorio:
+              </span>{" "}
               acá el valor es el instrumento y la visita guiada, no el cielo
               oscuro. El score refleja un cielo urbano — coordiná la visita y
               dejá que el telescopio haga el resto.
@@ -351,17 +361,11 @@ export default async function PuntoPage({
               )}
             </div>
 
-            {Array.isArray(point.hospedajes) && point.hospedajes.length > 0 && (
+            {hospedajes.length > 0 && (
               <div>
                 <SectionTitle>Hospedajes cercanos</SectionTitle>
                 <ul className="mt-3 space-y-1.5">
-                  {(
-                    point.hospedajes as {
-                      nombre: string;
-                      distancia_km: number;
-                      url: string;
-                    }[]
-                  ).map((h) => (
+                  {hospedajes.map((h) => (
                     <li
                       key={h.nombre}
                       className="flex items-baseline justify-between gap-3 text-sm"
@@ -438,11 +442,7 @@ export default async function PuntoPage({
                   para dejar tu reseña y ayudar a otros a elegir.
                 </p>
               ) : canReview ? (
-                <ReviewForm
-                  pointId={point.id}
-                  slug={point.slug}
-                  initial={myReview}
-                />
+                <ReviewForm pointId={point.id} initial={myReview} />
               ) : (
                 <p className="text-sm text-fg-muted">
                   <Link

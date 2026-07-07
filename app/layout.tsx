@@ -7,7 +7,8 @@ const spaceGrotesk = Space_Grotesk({
   weight: ["500", "600", "700"],
 });
 import { Analytics } from "@vercel/analytics/next";
-import { SITE_URL } from "@/lib/site";
+import { SITE_URL, jsonLdScript } from "@/lib/site";
+import MotionProvider from "@/components/MotionProvider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -57,6 +58,15 @@ export const metadata: Metadata = {
   },
 };
 
+const WEBSITE_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "StarMap BA",
+  url: SITE_URL,
+  description: DESCRIPTION,
+  inLanguage: "es-AR",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -68,7 +78,11 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-ink text-fg">
-        {children}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLdScript(WEBSITE_JSON_LD) }}
+        />
+        <MotionProvider>{children}</MotionProvider>
         <Analytics />
       </body>
     </html>

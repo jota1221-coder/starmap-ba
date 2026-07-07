@@ -38,6 +38,19 @@ export interface ScoreResult {
 const clamp = (n: number, min: number, max: number) =>
   Math.min(max, Math.max(min, n));
 
+/**
+ * Umbrales y color por banda de score. Única fuente de verdad para
+ * `ratingFor` (acá abajo) y `scoreColor` (lib/bortle.ts) — antes los mismos
+ * 4 umbrales (80/60/40/20) estaban codificados dos veces y podían desincronizarse.
+ */
+export const SCORE_BANDS = [
+  { min: 80, rating: "Excelente", color: "#7fb08a" },
+  { min: 60, rating: "Muy bueno", color: "#a9b97e" },
+  { min: 40, rating: "Bueno", color: "#d6a862" },
+  { min: 20, rating: "Regular", color: "#c8804b" },
+  { min: 0, rating: "Malo", color: "#b65c4d" },
+] as const;
+
 /** Calidad de cielo por Bortle (techo del score). */
 function bortleFactor(bortle: number): number {
   const table: Record<number, number> = {
@@ -76,11 +89,7 @@ function moonFactor(illumination: number, altitude: number): number {
 }
 
 function ratingFor(score: number): string {
-  if (score >= 80) return "Excelente";
-  if (score >= 60) return "Muy bueno";
-  if (score >= 40) return "Bueno";
-  if (score >= 20) return "Regular";
-  return "Malo";
+  return SCORE_BANDS.find((b) => score >= b.min)!.rating;
 }
 
 function cloudLabel(low: number, mid: number, high: number): string {

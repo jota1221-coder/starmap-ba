@@ -6,11 +6,10 @@ import { STAR_PATH } from "@/lib/icons";
 
 interface ReviewFormProps {
   pointId: number;
-  slug: string;
   initial?: { rating: number; cuerpo: string; consejo: string | null } | null;
 }
 
-export default function ReviewForm({ pointId, slug, initial }: ReviewFormProps) {
+export default function ReviewForm({ pointId, initial }: ReviewFormProps) {
   const [rating, setRating] = useState(initial?.rating ?? 0);
   const [hover, setHover] = useState(0);
   const [state, formAction, pending] = useActionState<
@@ -23,7 +22,6 @@ export default function ReviewForm({ pointId, slug, initial }: ReviewFormProps) 
   return (
     <form action={formAction} className="space-y-3">
       <input type="hidden" name="pointId" value={pointId} />
-      <input type="hidden" name="slug" value={slug} />
       <input type="hidden" name="rating" value={rating} />
 
       {/* Selector de estrellas */}
@@ -60,6 +58,7 @@ export default function ReviewForm({ pointId, slug, initial }: ReviewFormProps) 
         rows={3}
         defaultValue={initial?.cuerpo ?? ""}
         placeholder="¿Cómo estuvo el cielo? ¿Qué pudiste ver?"
+        aria-label="Tu reseña"
         className="w-full resize-y rounded-xl border border-white/10 bg-surface px-4 py-3 text-sm text-fg placeholder:text-fg-faint transition-colors duration-200 focus:border-accent focus:outline-none"
       />
 
@@ -68,6 +67,7 @@ export default function ReviewForm({ pointId, slug, initial }: ReviewFormProps) 
         maxLength={300}
         defaultValue={initial?.consejo ?? ""}
         placeholder="Un consejo para el próximo (opcional)"
+        aria-label="Consejo para el próximo visitante (opcional)"
         className="w-full rounded-xl border border-white/10 bg-surface px-4 py-2.5 text-sm text-fg placeholder:text-fg-faint transition-colors duration-200 focus:border-accent focus:outline-none"
       />
 

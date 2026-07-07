@@ -30,3 +30,13 @@ export function ogFor(title: string, description: string, path: string) {
     },
   };
 }
+
+/**
+ * Serializa un objeto JSON-LD para un <script type="application/ld+json">.
+ * Escapa "<" para que un valor con "</script>" adentro (en teoría, hoy todo
+ * el contenido es curado por nosotros, no de usuarios) no pueda cerrar el
+ * tag antes de tiempo.
+ */
+export function jsonLdScript(data: unknown): string {
+  return JSON.stringify(data).replace(/</g, "\\u003c");
+}

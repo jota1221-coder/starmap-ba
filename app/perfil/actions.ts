@@ -45,7 +45,8 @@ export async function saveProfile(
       where: { id: userId },
       data: { firstName, lastName, nickname, experience },
     });
-  } catch {
+  } catch (e) {
+    console.error("saveProfile:", e);
     return { error: "No se pudo guardar el perfil. Probá de nuevo." };
   }
 

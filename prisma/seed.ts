@@ -17,6 +17,7 @@ import {
   RoadType,
 } from "@prisma/client";
 import { PrismaNeon } from "@prisma/adapter-neon";
+import type { Hospedaje } from "../lib/hospedaje";
 
 const connectionString = process.env.DATABASE_URL;
 if (!connectionString) throw new Error("DATABASE_URL no está definida");
@@ -31,19 +32,13 @@ interface SeedAcceso {
   tipo_camino: string;
 }
 
-interface SeedHospedaje {
-  nombre: string;
-  distancia_km: number;
-  url: string;
-}
-
 interface SeedInfoVisitante {
   mejor_epoca?: string;
   donde_dormir?: string;
   tips?: string[];
   experiencia?: string;
   seguridad?: string;
-  hospedajes?: SeedHospedaje[];
+  hospedajes?: Hospedaje[];
 }
 
 interface SeedPunto {

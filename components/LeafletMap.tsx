@@ -1,13 +1,17 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Map as LMap, PathOptions } from "leaflet";
 import { MapContainer, TileLayer, CircleMarker, Tooltip, GeoJSON, ImageOverlay } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import type { MapPoint } from "@/lib/points";
 import { bortleColor, bortleLabel, BORTLE_LEGEND } from "@/lib/bortle";
 import { BA_PROVINCE_RING } from "@/lib/ba-province";
+import { haversineKm } from "@/lib/distance";
+import { TIPO_LABEL, ACCESO_LABEL } from "@/lib/labels";
+import { CATEGORIA_COLOR, CATEGORIA_LABEL, ACCENT_CYAN, ACCENT_ERROR } from "@/lib/theme";
 import Stars from "@/components/Stars";
+import Badge from "@/components/Badge";
 
 // ── Máscara de Buenos Aires Province ─────────────────────────────────────
 // Polígono real de la provincia (lib/ba-province.ts — 277 puntos, IGN).
@@ -62,50 +66,11 @@ const PAN_BOUNDS: [[number, number], [number, number]] = [
   [-30.6, -53.8], // NE
 ];
 
-const ACCESS_LABEL: Record<string, string> = {
-  auto: "Auto",
-  auto_caminata_corta: "Auto + caminata",
-  cuatro_x_cuatro: "4x4",
-};
-
-const TIPO_LABEL: Record<string, string> = {
-  sierra: "Sierra",
-  costa: "Costa",
-  reserva: "Reserva",
-  pampa: "Pampa",
-  laguna: "Laguna",
-  urbano: "Urbano",
-};
-
-// Borde del marker según categoría: violeta = observatorio, azul = escapada.
-const CATEGORIA_COLOR: Record<string, string> = {
-  observatorio: "#7c3aed", // violeta intenso (distinto del azul)
-  escapada: "#4f74e3", // azul con contraste ≥3:1 sobre el fondo del mapa
-};
-
-const CATEGORIA_LABEL: Record<string, string> = {
-  observatorio: "Observatorio (visitas)",
-  escapada: "Escapada de cielo oscuro",
-};
-
 // Bounds del overlay VIIRS (EPSG:3857, de notebooks/make_overlay.py).
 const VIIRS_BOUNDS: [[number, number], [number, number]] = [
   [-41.037166, -63.397916],
   [-33.281251, -56.673410],
 ];
-
-// Distancia en km entre dos coordenadas (haversine).
-function distanciaKm(a: [number, number], b: [number, number]): number {
-  const R = 6371;
-  const dLat = ((b[0] - a[0]) * Math.PI) / 180;
-  const dLng = ((b[1] - a[1]) * Math.PI) / 180;
-  const lat1 = (a[0] * Math.PI) / 180;
-  const lat2 = (b[0] * Math.PI) / 180;
-  const h =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2;
-  return 2 * R * Math.asin(Math.sqrt(h));
-}
 
 // Link a Google Maps con la ruta desde la ubicación del usuario (si la tenemos).
 function comoLlegarUrl(p: MapPoint, from: [number, number] | null): string {
@@ -117,6 +82,7 @@ type BaseLayer = "satelite" | "oscuro";
 
 export default function LeafletMap({ points }: { points: MapPoint[] }) {
   const mapRef = useRef<LMap | null>(null);
+  const panelRef = useRef<HTMLElement | null>(null);
   const [selected, setSelected] = useState<MapPoint | null>(null);
   const [base, setBase] = useState<BaseLayer>("satelite");
   const [showOverlay, setShowOverlay] = useState(true);
@@ -129,6 +95,24 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
     setSelected(p);
     mapRef.current?.flyTo([p.lat, p.lng], POINT_ZOOM, { duration: 1.2 });
   }
+
+  /** Cierra el panel y devuelve el foco al mapa (el marker que lo abrió no es
+   * un elemento enfocable real — es un <path> SVG dentro del canvas de Leaflet). */
+  function closePanel() {
+    setSelected(null);
+    mapRef.current?.getContainer().focus();
+  }
+
+  // Panel de detalle como diálogo no-modal: foco al abrir + Escape para cerrar.
+  useEffect(() => {
+    if (!selected) return;
+    panelRef.current?.focus();
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") closePanel();
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [selected]);
 
   function locateMe() {
     if (!("geolocation" in navigator)) {
@@ -172,7 +156,7 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
         maxBoundsViscosity={0.75}
         scrollWheelZoom
         zoomControl={false}
-        className="h-full w-full bg-slate-950"
+        className="h-full w-full bg-ink"
       >
         {/* ── Capas base ── */}
         {base === "satelite" && (
@@ -248,7 +232,7 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
           <CircleMarker
             center={userLoc}
             radius={8}
-            pathOptions={{ color: "#ffffff", weight: 2, fillColor: "#22d3ee", fillOpacity: 1 }}
+            pathOptions={{ color: "#ffffff", weight: 2, fillColor: ACCENT_CYAN, fillOpacity: 1 }}
           >
             <Tooltip direction="top" offset={[0, -6]}>
               Tu ubicación
@@ -261,12 +245,14 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
       <div className="absolute right-3 top-3 z-[1000] flex overflow-hidden rounded-xl border border-white/10 bg-surface/60 text-xs font-medium backdrop-blur-md">
         <button
           onClick={() => setBase("satelite")}
+          aria-pressed={base === "satelite"}
           className={`px-3.5 py-2 transition-colors duration-200 ${base === "satelite" ? "bg-accent text-ink" : "text-fg-muted hover:text-fg"}`}
         >
           Satélite
         </button>
         <button
           onClick={() => setBase("oscuro")}
+          aria-pressed={base === "oscuro"}
           className={`px-3.5 py-2 transition-colors duration-200 ${base === "oscuro" ? "bg-accent text-ink" : "text-fg-muted hover:text-fg"}`}
         >
           Oscuro
@@ -277,6 +263,7 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
       <div className="absolute right-3 top-14 z-[1000] flex flex-col items-end gap-2 text-xs font-medium">
         <button
           onClick={() => setShowOverlay((v) => !v)}
+          aria-pressed={showOverlay}
           className={`rounded-xl border border-white/10 px-3.5 py-2 backdrop-blur-md transition-colors duration-200 ${showOverlay ? "bg-accent text-ink" : "bg-surface/60 text-fg-muted hover:text-fg"}`}
         >
           Luz urbana
@@ -288,7 +275,10 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
           {locStatus === "loading" ? "Buscando…" : "Mi ubicación"}
         </button>
         {locStatus === "error" && locMsg && (
-          <span className="max-w-[13rem] rounded-lg bg-surface/80 px-2.5 py-1.5 text-right text-[11px] leading-snug text-[#ff9b9b] backdrop-blur-md">
+          <span
+            className="max-w-[13rem] rounded-lg bg-surface/80 px-2.5 py-1.5 text-right text-[11px] leading-snug backdrop-blur-md"
+            style={{ color: ACCENT_ERROR }}
+          >
             {locMsg}
           </span>
         )}
@@ -346,11 +336,18 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
         </div>
       </div>
 
-      {/* ── Panel de detalle del punto ── */}
+      {/* ── Panel de detalle del punto (diálogo no-modal: el mapa detrás sigue
+          interactivo, pero recibe foco al abrir y Escape lo cierra) ── */}
       {selected && (
-        <aside className="absolute inset-x-0 bottom-0 z-[1100] max-h-[62%] overflow-y-auto border-t border-white/10 bg-surface/70 p-6 backdrop-blur-xl transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] sm:inset-y-0 sm:left-auto sm:right-0 sm:max-h-none sm:w-[24rem] sm:border-l sm:border-t-0">
+        <aside
+          ref={panelRef}
+          role="dialog"
+          aria-label={selected.nombre}
+          tabIndex={-1}
+          className="absolute inset-x-0 bottom-0 z-[1100] max-h-[62%] overflow-y-auto border-t border-white/10 bg-surface/70 p-6 backdrop-blur-xl transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] focus:outline-none sm:inset-y-0 sm:left-auto sm:right-0 sm:max-h-none sm:w-[24rem] sm:border-l sm:border-t-0"
+        >
           <button
-            onClick={() => setSelected(null)}
+            onClick={closePanel}
             className="absolute right-4 top-4 rounded-full p-1.5 text-fg-faint transition-colors duration-200 hover:bg-white/5 hover:text-fg"
             aria-label="Cerrar"
           >
@@ -364,34 +361,24 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
           </h2>
           <p className="mt-0.5 text-sm text-fg-muted">{selected.partido}</p>
 
-          <div className="mt-4 flex flex-wrap gap-1.5 text-xs">
-            <span
-              className="rounded-full px-2.5 py-1 font-medium text-ink"
-              style={{ backgroundColor: bortleColor(selected.bortle) }}
-            >
+          <div className="mt-4 flex flex-wrap gap-1.5">
+            <Badge color={bortleColor(selected.bortle)} filled>
               Bortle {selected.bortle} · {bortleLabel(selected.bortle)}
-            </span>
-            <span
-              className="rounded-full border px-2.5 py-1 text-fg-muted"
-              style={{
-                borderColor: CATEGORIA_COLOR[selected.categoria] ?? "rgba(255,255,255,0.1)",
-              }}
-            >
+            </Badge>
+            <Badge color={CATEGORIA_COLOR[selected.categoria]}>
               {selected.categoria === "observatorio" ? "Observatorio" : "Escapada"}
-            </span>
-            <span className="rounded-full border border-white/10 px-2.5 py-1 text-fg-muted">
-              {TIPO_LABEL[selected.tipo] ?? selected.tipo}
-            </span>
-            <span className="tnum rounded-full border border-white/10 px-2.5 py-1 text-fg-muted">
-              {selected.distanciaCabaKm} km
-            </span>
-            <span className="rounded-full border border-white/10 px-2.5 py-1 text-fg-muted">
-              {ACCESS_LABEL[selected.accesoTipo] ?? selected.accesoTipo}
-            </span>
+            </Badge>
+            <Badge>{TIPO_LABEL[selected.tipo] ?? selected.tipo}</Badge>
+            <Badge>
+              <span className="tnum">{selected.distanciaCabaKm} km</span>
+            </Badge>
+            <Badge>{ACCESO_LABEL[selected.accesoTipo] ?? selected.accesoTipo}</Badge>
             {userLoc && (
-              <span className="tnum rounded-full border border-cyan-400/40 px-2.5 py-1 text-fg-muted">
-                a {Math.round(distanciaKm(userLoc, [selected.lat, selected.lng]))} km de vos
-              </span>
+              <Badge color="rgba(34,211,238,0.4)">
+                <span className="tnum">
+                  a {Math.round(haversineKm({ lat: userLoc[0], lng: userLoc[1] }, { lat: selected.lat, lng: selected.lng }))} km de vos
+                </span>
+              </Badge>
             )}
           </div>
 
