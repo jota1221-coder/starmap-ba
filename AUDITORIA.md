@@ -5,6 +5,10 @@
 **Metodología:** 7 sub-agentes especializados auditaron en paralelo Seguridad, Base de datos, Diseño/UI-UX, Rendimiento, Código/Arquitectura, DevOps/Deploy y SEO. Este documento consolida sus informes: los hallazgos que aparecieron en más de un dominio se fusionaron en una sola entrada (marcada con los dominios de origen), y todo está ordenado por severidad global. Cada ubicación `archivo:línea` fue verificada por el agente correspondiente; lo que no se pudo comprobar desde el repo está marcado **[a verificar]**.
 
 > **✅ Nivel 1 del plan de acción — RESUELTO (2026-06-26):** C1, C2, A1, A2 y A3 ya están arreglados y verificados (lint/typecheck/tests/build + smoke test en browser). Detalle abajo, en la sección del plan. El resto de los hallazgos (Niveles 2-4) sigue pendiente tal como se documentó originalmente.
+>
+> **✅ Nivel 2 del plan de acción — RESUELTO (2026-07-06):** A4, A5, A6, A8, A9, A10, A11, M9, M10, M11, M12, M23, M24 ya están arreglados y verificados (lint/typecheck/tests/build + smoke test en browser, incluyendo click real sobre un marker del mapa y foco sobre el slider). Detalle abajo, en la sección del plan.
+>
+> **⏳ M8 (UptimeRobot) — pendiente de una acción externa, no de código:** `/api/health` ya existe y funciona (chequea server + DB, responde 503 si algo está degradado). Falta que alguien lo monitoree. Pasos (5 minutos, gratis): (1) crear cuenta en [uptimerobot.com](https://uptimerobot.com), (2) "Add New Monitor" → tipo HTTP(s), URL `https://starmapba.com.ar/api/health`, intervalo 5 minutos, (3) agregar tu email como contacto de alerta. Avisa por mail si el sitio o la DB se caen — sin esto, te enterás por un usuario antes que por una alerta.
 
 ---
 

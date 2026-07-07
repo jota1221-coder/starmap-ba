@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {
   motion,
   useScroll,
@@ -25,12 +26,19 @@ export default function HeroBackdrop() {
       aria-hidden
       className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
     >
-      {/* Capa de foto (sobredimensionada para que el parallax no revele bordes) */}
+      {/* Capa de foto (sobredimensionada para que el parallax no revele bordes).
+          next/image + priority: la manda a precargar de entrada (candidata a LCP). */}
       <motion.div style={{ y }} className="absolute inset-0">
-        <div
-          className="kenburns absolute inset-x-0 -top-[16%] h-[132%] bg-cover bg-center"
-          style={{ backgroundImage: "url(/sky-hero.jpg)" }}
-        />
+        <div className="kenburns absolute inset-x-0 -top-[16%] h-[132%]">
+          <Image
+            src="/sky-hero.jpg"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+        </div>
       </motion.div>
 
       {/* Degradé vertical para legibilidad del texto */}

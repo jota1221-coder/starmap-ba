@@ -4,11 +4,16 @@ import MapView from "@/components/MapView";
 import Wordmark from "@/components/Wordmark";
 import AuthStatus from "@/components/AuthStatus";
 import { bortleColor } from "@/lib/bortle";
+import { ogFor } from "@/lib/site";
+
+const TITLE = "Mapa de cielos";
+const DESCRIPTION =
+  "Mapa de los mejores puntos para ver las estrellas en la Provincia de Buenos Aires, rankeados por calidad de cielo.";
 
 export const metadata = {
-  title: "Mapa de cielos — StarMap BA",
-  description:
-    "Mapa de los mejores puntos para ver las estrellas en la Provincia de Buenos Aires, rankeados por calidad de cielo.",
+  title: TITLE,
+  description: DESCRIPTION,
+  ...ogFor(TITLE, DESCRIPTION, "/mapa"),
 };
 
 // Los puntos cambian poco; revalidar cada hora es más que suficiente.
@@ -33,6 +38,10 @@ export default async function MapaPage() {
           <AuthStatus />
         </div>
       </header>
+
+      <h1 className="sr-only">
+        Mapa de cielos oscuros de la Provincia de Buenos Aires
+      </h1>
 
       {/*
         Lista de puntos server-rendered: el mapa (Leaflet, ssr:false) no

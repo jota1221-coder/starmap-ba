@@ -3,11 +3,16 @@ import Image from "next/image";
 import Wordmark from "@/components/Wordmark";
 import FadeIn from "@/components/FadeIn";
 import BeforeAfterSlider from "@/components/BeforeAfterSlider";
+import { ogFor } from "@/lib/site";
+
+const TITLE = "Data Science — Validando los cielos con datos satelitales";
+const DESCRIPTION =
+  "Análisis exploratorio de contaminación lumínica en la Provincia de Buenos Aires con datos VIIRS (NASA/NOAA), validando los ratings de cielo oscuro de StarMap BA. Correlación de Spearman +0.76.";
 
 export const metadata = {
-  title: "Data Science — Validando los cielos con datos satelitales · StarMap BA",
-  description:
-    "Análisis exploratorio de contaminación lumínica en la Provincia de Buenos Aires con datos VIIRS (NASA/NOAA), validando los ratings de cielo oscuro de StarMap BA. Correlación de Spearman +0.76.",
+  title: TITLE,
+  description: DESCRIPTION,
+  ...ogFor(TITLE, DESCRIPTION, "/data-science"),
 };
 
 const NOTEBOOK_URL =

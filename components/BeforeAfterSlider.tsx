@@ -33,7 +33,7 @@ export default function BeforeAfterSlider({
   return (
     <figure className="mx-auto max-w-md">
       <div
-        className="relative w-full select-none overflow-hidden rounded-2xl border border-white/10 bg-surface"
+        className="relative w-full select-none overflow-hidden rounded-2xl border border-white/10 bg-surface has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent"
         style={{ aspectRatio: `${width} / ${height}` }}
       >
         {/* Después (base) */}

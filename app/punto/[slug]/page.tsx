@@ -14,6 +14,7 @@ import ReviewForm from "@/components/ReviewForm";
 import { getConditions } from "@/lib/conditions";
 import { explainScore } from "@/lib/score";
 import { bortleColor, bortleLabel, scoreColor } from "@/lib/bortle";
+import { ogFor } from "@/lib/site";
 import DatePicker from "@/components/DatePicker";
 import Wordmark from "@/components/Wordmark";
 import NightPlan from "@/components/NightPlan";
@@ -58,10 +59,13 @@ export async function generateMetadata({
 }) {
   const { slug } = await params;
   const point = await getPointBySlug(slug);
-  if (!point) return { title: "Punto no encontrado — StarMap BA" };
+  if (!point) return { title: "Punto no encontrado" };
+
+  const description = `Guía de observación astronómica: ${point.nombre} (${point.partido}). Cielo Bortle ${point.bortle}, a ${point.distanciaCabaKm} km de CABA.`;
   return {
-    title: `${point.nombre} — StarMap BA`,
-    description: `Guía de observación astronómica: ${point.nombre} (${point.partido}). Cielo Bortle ${point.bortle}, a ${point.distanciaCabaKm} km de CABA.`,
+    title: point.nombre,
+    description,
+    ...ogFor(point.nombre, description, `/punto/${slug}`),
   };
 }
 
@@ -207,10 +211,15 @@ export default async function PuntoPage({
               explanation={explanation}
               isNight={sky.isNight}
             />
+          ) : dateStr > maxForecastDate() || dateStr < todayInBA() ? (
+            <p className="text-sm text-fg-muted">
+              Esa fecha está fuera del rango de pronóstico. Elegí una entre
+              hoy y el {formatBADate(maxForecastDate())}.
+            </p>
           ) : (
             <p className="text-sm text-fg-muted">
-              No hay datos de clima para esta fecha (fuera del rango de
-              pronóstico). Probá una fecha dentro de los próximos 7 días.
+              No pudimos consultar el clima ahora. Probá recargar la página
+              en unos minutos.
             </p>
           )}
         </section>

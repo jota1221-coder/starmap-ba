@@ -15,6 +15,9 @@ export type MapPoint = {
   categoria: string;
   accesoTipo: string;
   descripcion: string;
+  ratingAvg: number;
+  ratingCount: number;
+  updatedAt: Date;
 };
 
 /** Devuelve un punto completo por su slug (o null si no existe). */
@@ -67,6 +70,9 @@ export async function getMapPoints(): Promise<MapPoint[]> {
       categoria: true,
       accesoTipo: true,
       descripcion: true,
+      ratingAvg: true,
+      ratingCount: true,
+      updatedAt: true,
     },
   });
 }

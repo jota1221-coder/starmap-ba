@@ -7,6 +7,7 @@ import "leaflet/dist/leaflet.css";
 import type { MapPoint } from "@/lib/points";
 import { bortleColor, bortleLabel, BORTLE_LEGEND } from "@/lib/bortle";
 import { BA_PROVINCE_RING } from "@/lib/ba-province";
+import Stars from "@/components/Stars";
 
 // ── Máscara de Buenos Aires Province ─────────────────────────────────────
 // Polígono real de la provincia (lib/ba-province.ts — 277 puntos, IGN).
@@ -79,7 +80,7 @@ const TIPO_LABEL: Record<string, string> = {
 // Borde del marker según categoría: violeta = observatorio, azul = escapada.
 const CATEGORIA_COLOR: Record<string, string> = {
   observatorio: "#7c3aed", // violeta intenso (distinto del azul)
-  escapada: "#1e40af", // azul oscuro
+  escapada: "#4f74e3", // azul con contraste ≥3:1 sobre el fondo del mapa
 };
 
 const CATEGORIA_LABEL: Record<string, string> = {
@@ -122,6 +123,7 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
   const [userLoc, setUserLoc] = useState<[number, number] | null>(null);
   const [locStatus, setLocStatus] = useState<"idle" | "loading" | "error">("idle");
   const [locMsg, setLocMsg] = useState<string | null>(null);
+  const [legendOpen, setLegendOpen] = useState(false);
 
   function selectPoint(p: MapPoint) {
     setSelected(p);
@@ -292,43 +294,56 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
         )}
       </div>
 
-      {/* ── Leyenda Bortle ── */}
-      <div className="pointer-events-none absolute left-3 top-3 z-[1000] rounded-xl border border-white/10 bg-surface/60 p-3.5 text-xs text-fg-muted backdrop-blur-md">
-        <p className="mb-2.5 font-semibold tracking-tight text-fg">Calidad de cielo</p>
-        <ul className="space-y-1.5">
-          {BORTLE_LEGEND.map((item) => (
-            <li key={item.bortle} className="flex items-center gap-2.5">
-              <span
-                className="inline-block h-2.5 w-2.5 rounded-full"
-                style={{ backgroundColor: bortleColor(item.bortle) }}
-              />
-              {item.label}
-            </li>
-          ))}
-        </ul>
-        <p className="mb-2 mt-3.5 font-semibold tracking-tight text-fg">
-          Tipo de lugar
-        </p>
-        <ul className="space-y-1.5">
-          {Object.entries(CATEGORIA_LABEL).map(([key, label]) => (
-            <li key={key} className="flex items-center gap-2.5">
-              <span
-                className="inline-block h-2.5 w-2.5 rounded-full"
-                style={{ border: `2px solid ${CATEGORIA_COLOR[key]}` }}
-              />
-              {label}
-            </li>
-          ))}
-        </ul>
-        {showOverlay && (
-          <p className="mt-3 flex items-center gap-2.5 border-t border-white/10 pt-2.5">
-            <span
-              className="inline-block h-2.5 w-2.5 rounded-full"
-              style={{ background: "linear-gradient(135deg, #fed976, #e31a1c)" }}
-            />
-            Halo cálido = luz urbana
+      {/* ── Leyenda Bortle (colapsable en mobile: en 375px se pisaba con los
+          controles de la derecha si quedaba siempre abierta) ── */}
+      <div className="pointer-events-none absolute left-3 top-3 z-[1000] text-xs text-fg-muted">
+        <button
+          onClick={() => setLegendOpen((v) => !v)}
+          aria-expanded={legendOpen}
+          className="pointer-events-auto rounded-xl border border-white/10 bg-surface/60 px-3.5 py-2 font-medium text-fg backdrop-blur-md transition-colors duration-200 hover:text-accent sm:hidden"
+        >
+          {legendOpen ? "Ocultar leyenda ▲" : "Leyenda ▼"}
+        </button>
+
+        <div
+          className={`${legendOpen ? "block" : "hidden"} mt-2 rounded-xl border border-white/10 bg-surface/60 p-3.5 backdrop-blur-md sm:mt-0 sm:block`}
+        >
+          <p className="mb-2.5 font-semibold tracking-tight text-fg">Calidad de cielo</p>
+          <ul className="space-y-1.5">
+            {BORTLE_LEGEND.map((item) => (
+              <li key={item.bortle} className="flex items-center gap-2.5">
+                <span
+                  className="inline-block h-2.5 w-2.5 rounded-full"
+                  style={{ backgroundColor: bortleColor(item.bortle) }}
+                />
+                {item.label}
+              </li>
+            ))}
+          </ul>
+          <p className="mb-2 mt-3.5 font-semibold tracking-tight text-fg">
+            Tipo de lugar
           </p>
-        )}
+          <ul className="space-y-1.5">
+            {Object.entries(CATEGORIA_LABEL).map(([key, label]) => (
+              <li key={key} className="flex items-center gap-2.5">
+                <span
+                  className="inline-block h-2.5 w-2.5 rounded-full"
+                  style={{ border: `2px solid ${CATEGORIA_COLOR[key]}` }}
+                />
+                {label}
+              </li>
+            ))}
+          </ul>
+          {showOverlay && (
+            <p className="mt-3 flex items-center gap-2.5 border-t border-white/10 pt-2.5">
+              <span
+                className="inline-block h-2.5 w-2.5 rounded-full"
+                style={{ background: "linear-gradient(135deg, #fed976, #e31a1c)" }}
+              />
+              Halo cálido = luz urbana
+            </p>
+          )}
+        </div>
       </div>
 
       {/* ── Panel de detalle del punto ── */}
@@ -384,9 +399,21 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
             {selected.descripcion}
           </p>
 
-          <p className="mt-5 text-xs text-fg-faint">
-            Fotos y reseñas de la comunidad, próximamente.
-          </p>
+          {selected.ratingCount > 0 ? (
+            <div className="mt-5 flex items-center gap-2 text-sm">
+              <Stars value={selected.ratingAvg} size={14} />
+              <span className="tnum font-medium text-fg">
+                {selected.ratingAvg.toFixed(1)}
+              </span>
+              <span className="tnum text-fg-faint">
+                ({selected.ratingCount})
+              </span>
+            </div>
+          ) : (
+            <p className="mt-5 text-xs text-fg-faint">
+              Todavía no hay reseñas para este punto.
+            </p>
+          )}
 
           <div className="mt-5 flex flex-col gap-2">
             <a

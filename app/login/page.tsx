@@ -4,7 +4,7 @@ import { signIn } from "@/auth";
 import Wordmark from "@/components/Wordmark";
 import { checkRateLimit, clientIp } from "@/lib/rate-limit";
 
-export const metadata = { title: "Entrar — StarMap BA" };
+export const metadata = { title: "Entrar" };
 
 export default async function LoginPage({
   searchParams,

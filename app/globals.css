@@ -10,7 +10,7 @@
 
   --color-fg: oklch(0.95 0.006 250);
   --color-fg-muted: oklch(0.74 0.02 265);
-  --color-fg-faint: oklch(0.55 0.022 265);
+  --color-fg-faint: oklch(0.62 0.022 265); /* ≥5:1 sobre ink/surface (WCAG AA) */
 
   --color-accent: oklch(0.82 0.13 78);
   --color-accent-soft: oklch(0.74 0.13 70);
