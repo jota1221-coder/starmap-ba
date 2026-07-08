@@ -15,7 +15,6 @@ interface Props {
   color: string;
   breakdown: Breakdown[];
   explanation: string | null;
-  isNight: boolean;
 }
 
 const SIZE = 96; // h-24 w-24
@@ -29,7 +28,6 @@ export default function AnimatedScore({
   color,
   breakdown,
   explanation,
-  isNight,
 }: Props) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-40px" });
@@ -88,8 +86,12 @@ export default function AnimatedScore({
             />
           </svg>
 
-          {/* Número en el centro */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
+          {/* Número en el centro (animado → oculto a lectores de pantalla;
+              el valor real va en el sr-only de abajo, sin la cuenta 0→N). */}
+          <div
+            className="absolute inset-0 flex flex-col items-center justify-center"
+            aria-hidden="true"
+          >
             <span
               className="tnum text-3xl font-semibold leading-none"
               style={{ color }}
@@ -98,6 +100,7 @@ export default function AnimatedScore({
             </span>
             <span className="mt-0.5 text-[10px] text-fg-faint">de 100</span>
           </div>
+          <span className="sr-only">{score} de 100</span>
         </div>
 
         {/* Rating + descripción */}
@@ -132,12 +135,6 @@ export default function AnimatedScore({
         >
           {explanation}
         </motion.p>
-      )}
-
-      {!isNight && (
-        <p className="mt-2 text-sm text-night">
-          Ojo: a las 22:00 de esta fecha todavía no es noche cerrada.
-        </p>
       )}
 
       {/* Barras de breakdown */}

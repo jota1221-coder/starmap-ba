@@ -8,7 +8,7 @@ import type { MapPoint } from "@/lib/points";
 const LeafletMap = dynamic(() => import("./LeafletMap"), {
   ssr: false,
   loading: () => (
-    <div className="flex h-full w-full items-center justify-center bg-slate-950 text-slate-400">
+    <div className="flex h-full w-full items-center justify-center bg-ink text-fg-muted">
       <span className="animate-pulse text-sm">Cargando mapa…</span>
     </div>
   ),

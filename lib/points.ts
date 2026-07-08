@@ -1,30 +1,43 @@
 import { prisma } from "@/lib/prisma";
-import type { PointType, PointCategory, AccessType } from "@prisma/client";
+import { Prisma } from "@prisma/client";
+import { cache } from "react";
 
-/** Forma serializable de un punto para pasar al mapa (Client Component). */
-export type MapPoint = {
-  id: number;
-  slug: string;
-  nombre: string;
-  partido: string;
-  lat: number;
-  lng: number;
-  bortle: number;
-  sqm: number;
-  distanciaCabaKm: number;
-  tipo: PointType;
-  categoria: PointCategory;
-  accesoTipo: AccessType;
-  descripcion: string;
-  ratingAvg: number;
-  ratingCount: number;
-  updatedAt: Date;
-};
+/** Campos que el mapa necesita de un punto (Client Component, serializable). */
+const mapPointSelect = {
+  id: true,
+  slug: true,
+  nombre: true,
+  partido: true,
+  lat: true,
+  lng: true,
+  bortle: true,
+  sqm: true,
+  distanciaCabaKm: true,
+  tipo: true,
+  categoria: true,
+  accesoTipo: true,
+  descripcion: true,
+  ratingAvg: true,
+  ratingCount: true,
+  updatedAt: true,
+} satisfies Prisma.ObservationPointSelect;
 
-/** Devuelve un punto completo por su slug (o null si no existe). */
-export async function getPointBySlug(slug: string) {
+/**
+ * Forma serializable de un punto para pasar al mapa. Deriva del `select` de
+ * arriba: agregar o sacar un campo actualiza el tipo solo (sin doble mantenimiento).
+ */
+export type MapPoint = Prisma.ObservationPointGetPayload<{
+  select: typeof mapPointSelect;
+}>;
+
+/**
+ * Devuelve un punto completo por su slug (o null si no existe).
+ * `cache()` deduplica la llamada dentro de un mismo request: la página y su
+ * `generateMetadata` la piden por separado y así pega a la DB una sola vez.
+ */
+export const getPointBySlug = cache((slug: string) => {
   return prisma.observationPoint.findUnique({ where: { slug } });
-}
+});
 
 /** Reseñas APROBADAS de un punto, más recientes primero. */
 export async function getReviews(pointId: number) {
@@ -57,24 +70,7 @@ export async function getUserReview(pointId: number, userId: string) {
 export async function getMapPoints(): Promise<MapPoint[]> {
   return prisma.observationPoint.findMany({
     orderBy: [{ bortle: "asc" }, { distanciaCabaKm: "asc" }],
-    select: {
-      id: true,
-      slug: true,
-      nombre: true,
-      partido: true,
-      lat: true,
-      lng: true,
-      bortle: true,
-      sqm: true,
-      distanciaCabaKm: true,
-      tipo: true,
-      categoria: true,
-      accesoTipo: true,
-      descripcion: true,
-      ratingAvg: true,
-      ratingCount: true,
-      updatedAt: true,
-    },
+    select: mapPointSelect,
   });
 }
 

@@ -28,6 +28,12 @@ export async function GET(request: NextRequest) {
       { status: 400 },
     );
   }
+  if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+    return Response.json(
+      { error: "lat (-90 a 90) y lng (-180 a 180) fuera de rango" },
+      { status: 400 },
+    );
+  }
   if (!Number.isFinite(bortle) || bortle < 1 || bortle > 9) {
     return Response.json(
       { error: "bortle es requerido (1-9)" },

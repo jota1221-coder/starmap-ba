@@ -1,7 +1,8 @@
 /**
  * Manejo de la "noche de observación".
- * La guía evalúa las condiciones a las 22:00 hora de Argentina (UTC-3),
- * un horario representativo para observar. El usuario puede elegir otra fecha.
+ * Las 22:00 ART (UTC-3) son solo el ANCLA para saber a qué noche pertenece una
+ * fecha; el score real se calcula en la medianoche astronómica de esa noche
+ * (midpoint dusk↔dawn, ver observation-plan.ts). El usuario elige la fecha.
  */
 
 const BA_TZ = "America/Argentina/Buenos_Aires";

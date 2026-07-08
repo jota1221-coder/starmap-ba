@@ -126,7 +126,9 @@ export function getCachedObservationPlan(
 ): Promise<NightPlan> {
   return unstable_cache(
     async () => getObservationPlan(nightOf(dateStr).date, lat, lon),
-    ["observation-plan", slug, dateStr],
-    { revalidate: 60 * 60 * 6 }, // 6 h; la fecha está en la key
+    // lat/lon van en la key: si un re-seed corrige las coordenadas de un punto,
+    // el plan viejo no se sirve hasta 6h después (la astronomía depende de ellas).
+    ["observation-plan", slug, dateStr, lat.toFixed(3), lon.toFixed(3)],
+    { revalidate: 60 * 60 * 6 }, // 6 h; fecha + coords están en la key
   )();
 }

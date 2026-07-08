@@ -101,12 +101,13 @@ export default async function PuntoPage({
   const explanation = score ? explainScore(score) : null;
   const hospedajes = parseHospedajes(point.hospedajes);
 
-  const myReview = session?.user?.id
-    ? await getUserReview(point.id, session.user.id)
-    : null;
-  const myProfile = session?.user?.id
-    ? await getProfile(session.user.id)
-    : null;
+  // Ambas dependen de la sesión y son independientes entre sí → en paralelo.
+  const [myReview, myProfile] = session?.user?.id
+    ? await Promise.all([
+        getUserReview(point.id, session.user.id),
+        getProfile(session.user.id),
+      ])
+    : [null, null];
   const canReview = isProfileComplete(myProfile);
   const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${point.lat},${point.lng}`;
 
@@ -219,7 +220,6 @@ export default async function PuntoPage({
               color={scoreColor(score.score)}
               breakdown={score.breakdown}
               explanation={explanation}
-              isNight={sky.isNight}
             />
           ) : dateStr > maxForecastDate() || dateStr < todayInBA() ? (
             <p className="text-sm text-fg-muted">

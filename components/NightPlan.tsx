@@ -127,6 +127,7 @@ export default function NightPlan({
               duskMs={duskMs}
               dawnMs={dawnMs}
               color={BODY_COLOR[obj.key]}
+              nombre={obj.nombre}
             />
             <div className="tnum flex justify-between text-[10px] text-fg-faint">
               <span>{duskLabel}</span>

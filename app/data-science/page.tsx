@@ -50,7 +50,14 @@ function Figure({
   return (
     <figure className={narrow ? "mx-auto max-w-lg" : undefined}>
       <div className="overflow-hidden rounded-2xl border border-white/10 bg-surface">
-        <Image src={src} alt={alt} width={width} height={height} className="h-auto w-full" />
+        <Image
+          src={src}
+          alt={alt}
+          width={width}
+          height={height}
+          sizes={narrow ? "(max-width: 640px) 100vw, 512px" : "(max-width: 768px) 100vw, 688px"}
+          className="h-auto w-full"
+        />
       </div>
       <figcaption className="mt-2.5 text-xs leading-relaxed text-fg-faint">
         {caption}
@@ -109,7 +116,7 @@ export default function DataSciencePage() {
             </p>
 
             {/* Stats */}
-            <div className="mt-8 grid grid-cols-3 gap-4 border-y border-white/5 py-6">
+            <div className="mt-8 grid grid-cols-1 gap-6 border-y border-white/5 py-6 sm:grid-cols-3 sm:gap-4">
               {[
                 ["+0.76", "correlación Bortle ↔ satélite (Spearman)"],
                 ["94.5%", "de la Provincia bajo el umbral de detección"],

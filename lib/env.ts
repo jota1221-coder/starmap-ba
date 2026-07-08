@@ -29,4 +29,9 @@ export const env = {
     }
     return value;
   },
+  // Secreto de Auth.js. Sin fail-fast, si falta, NextAuth tira un error
+  // críptico recién en runtime; acá el mensaje dice exactamente qué falta.
+  get AUTH_SECRET(): string {
+    return required("AUTH_SECRET");
+  },
 };

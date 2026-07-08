@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useRef, useState } from "react";
 import { submitReview, type ReviewActionState } from "@/app/punto/[slug]/actions";
 import { STAR_PATH } from "@/lib/icons";
 
@@ -19,16 +19,38 @@ export default function ReviewForm({ pointId, initial }: ReviewFormProps) {
 
   const shown = hover || rating;
 
+  // Roving tabindex: solo una estrella es tabbable; las flechas mueven la
+  // selección y el foco entre ellas (patrón WAI-ARIA de radiogroup).
+  const starRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  function onStarsKeyDown(e: React.KeyboardEvent) {
+    let next = rating || 0;
+    if (e.key === "ArrowRight" || e.key === "ArrowUp") next = Math.min(5, next + 1);
+    else if (e.key === "ArrowLeft" || e.key === "ArrowDown")
+      next = Math.max(1, next - 1);
+    else return;
+    e.preventDefault();
+    setRating(next);
+    starRefs.current[next - 1]?.focus();
+  }
+
   return (
     <form action={formAction} className="space-y-3">
       <input type="hidden" name="pointId" value={pointId} />
       <input type="hidden" name="rating" value={rating} />
 
       {/* Selector de estrellas */}
-      <div className="flex items-center gap-1" role="radiogroup" aria-label="Puntuación">
+      <div
+        className="flex items-center gap-1"
+        role="radiogroup"
+        aria-label="Puntuación"
+        onKeyDown={onStarsKeyDown}
+      >
         {[1, 2, 3, 4, 5].map((n) => (
           <button
             key={n}
+            ref={(el) => {
+              starRefs.current[n - 1] = el;
+            }}
             type="button"
             onClick={() => setRating(n)}
             onMouseEnter={() => setHover(n)}
@@ -36,6 +58,7 @@ export default function ReviewForm({ pointId, initial }: ReviewFormProps) {
             aria-label={`${n} estrella${n > 1 ? "s" : ""}`}
             aria-checked={rating === n}
             role="radio"
+            tabIndex={n === (rating || 1) ? 0 : -1}
             className="p-0.5 transition-transform duration-150 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-110"
           >
             <svg
@@ -76,17 +99,24 @@ export default function ReviewForm({ pointId, initial }: ReviewFormProps) {
         <p className="text-sm text-accent">¡Gracias! Tu reseña se guardó.</p>
       )}
 
-      <button
-        type="submit"
-        disabled={pending || rating === 0}
-        className="rounded-xl bg-accent px-5 py-2.5 text-sm font-semibold text-ink transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-accent-soft disabled:opacity-50"
-      >
-        {pending
-          ? "Guardando…"
-          : initial
-            ? "Actualizar reseña"
-            : "Publicar reseña"}
-      </button>
+      <div className="flex items-center gap-3">
+        <button
+          type="submit"
+          disabled={pending || rating === 0}
+          className="rounded-xl bg-accent px-5 py-2.5 text-sm font-semibold text-ink transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-accent-soft disabled:opacity-50"
+        >
+          {pending
+            ? "Guardando…"
+            : initial
+              ? "Actualizar reseña"
+              : "Publicar reseña"}
+        </button>
+        {rating === 0 && (
+          <span className="text-xs text-fg-faint">
+            Elegí una puntuación para publicar.
+          </span>
+        )}
+      </div>
     </form>
   );
 }

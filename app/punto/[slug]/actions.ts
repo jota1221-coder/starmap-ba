@@ -54,6 +54,8 @@ export async function submitReview(
     return { error: "Escribí un comentario (mínimo 3 caracteres)." };
   if (cuerpo.length > 1000)
     return { error: "El comentario es demasiado largo (máx. 1000)." };
+  if (consejo && consejo.length > 300)
+    return { error: "El consejo es demasiado largo (máx. 300)." };
   if (contieneEnlace(cuerpo) || (consejo && contieneEnlace(consejo)))
     return { error: "No se permiten enlaces en las reseñas." };
 

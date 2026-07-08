@@ -6,7 +6,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/api/", "/login"],
+      // /login cubre también /login/revisa por prefijo.
+      disallow: ["/api/", "/login", "/perfil"],
     },
     sitemap: `${SITE_URL}/sitemap.xml`,
   };

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import type { Map as LMap, PathOptions } from "leaflet";
 import { MapContainer, TileLayer, CircleMarker, Tooltip, GeoJSON, ImageOverlay } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
@@ -241,6 +242,25 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
         )}
       </MapContainer>
 
+      {/* ── Zoom (el control default de Leaflet está oculto para respetar el
+          estilo; estos botones matchean el resto de la UI) ── */}
+      <div className="absolute bottom-3 left-3 z-[1000] flex flex-col overflow-hidden rounded-xl border border-white/10 bg-surface/60 text-fg-muted backdrop-blur-md">
+        <button
+          onClick={() => mapRef.current?.zoomIn()}
+          aria-label="Acercar el mapa"
+          className="px-3 py-1.5 text-lg leading-none transition-colors duration-200 hover:text-fg"
+        >
+          +
+        </button>
+        <button
+          onClick={() => mapRef.current?.zoomOut()}
+          aria-label="Alejar el mapa"
+          className="border-t border-white/10 px-3 py-1.5 text-lg leading-none transition-colors duration-200 hover:text-fg"
+        >
+          −
+        </button>
+      </div>
+
       {/* ── Toggle de capa base ── */}
       <div className="absolute right-3 top-3 z-[1000] flex overflow-hidden rounded-xl border border-white/10 bg-surface/60 text-xs font-medium backdrop-blur-md">
         <button
@@ -403,12 +423,12 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
           )}
 
           <div className="mt-5 flex flex-col gap-2">
-            <a
+            <Link
               href={`/punto/${selected.slug}`}
               className="block rounded-2xl bg-accent px-4 py-3 text-center text-sm font-semibold text-ink transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-accent-soft"
             >
               Ver guía de observación →
-            </a>
+            </Link>
             <a
               href={comoLlegarUrl(selected, userLoc)}
               target="_blank"

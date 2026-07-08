@@ -10,6 +10,7 @@ interface AltitudeCurveProps {
   duskMs: number;
   dawnMs: number;
   color: string;
+  nombre: string;
 }
 
 const W = 320;
@@ -24,6 +25,7 @@ export default function AltitudeCurve({
   duskMs,
   dawnMs,
   color,
+  nombre,
 }: AltitudeCurveProps) {
   const span = Math.max(1, dawnMs - duskMs);
   const x = (t: number) => PAD_X + ((t - duskMs) / span) * (W - 2 * PAD_X);
@@ -48,7 +50,7 @@ export default function AltitudeCurve({
       viewBox={`0 0 ${W} ${H}`}
       className="mt-3 w-full"
       role="img"
-      aria-label="Altitud a lo largo de la noche"
+      aria-label={`Altitud de ${nombre} a lo largo de la noche`}
     >
       {/* horizonte */}
       <line

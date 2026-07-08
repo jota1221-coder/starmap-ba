@@ -100,7 +100,9 @@ export async function fetchForecast(
   // invocaciones serverless. Es el cache real de cara a escalar.
   // En runtime no-Next (scripts/tests) la opción `next` se ignora sin romper.
   const res = await fetch(url, {
-    signal: AbortSignal.timeout(10_000),
+    // Timeout corto: en el request path de /punto no queremos colgar la página
+    // esperando a Open-Meteo. Si tarda más de 4s devolvemos cielo sin score.
+    signal: AbortSignal.timeout(4_000),
     next: { revalidate: CACHE_TTL_MS / 1000, tags: ["weather"] },
   });
   if (!res.ok) {

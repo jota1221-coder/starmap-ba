@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import type { EmailConfig } from "next-auth/providers/email";
 import { prisma } from "@/lib/prisma";
+import { env } from "@/lib/env";
 
 const FROM = process.env.EMAIL_FROM ?? "StarMap BA <onboarding@resend.dev>";
 
@@ -22,6 +23,14 @@ const magicLink: EmailConfig = {
     const apiKey = process.env.RESEND_API_KEY;
 
     if (!apiKey) {
+      // En producción NUNCA loggear el link: iría a los logs de Vercel y
+      // cualquiera con acceso a los logs podría secuestrar el login. Fallar
+      // ruidosamente es más seguro que filtrar el token.
+      if (process.env.NODE_ENV === "production") {
+        throw new Error(
+          "RESEND_API_KEY no está configurada en producción: no se puede enviar el magic link.",
+        );
+      }
       console.log("\n════════════════ MAGIC LINK (dev) ════════════════");
       console.log(`Para: ${identifier}`);
       console.log(url);
@@ -39,6 +48,7 @@ const magicLink: EmailConfig = {
 
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
+      signal: AbortSignal.timeout(10_000),
       headers: {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
@@ -64,6 +74,7 @@ const magicLink: EmailConfig = {
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
+  secret: env.AUTH_SECRET,
   session: { strategy: "database" },
   providers: [magicLink],
   pages: { signIn: "/login", verifyRequest: "/login/revisa" },

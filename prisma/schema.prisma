@@ -81,6 +81,7 @@ model Review {
 
   @@unique([pointId, userId]) // una reseña por usuario por punto
   @@index([pointId, status, createdAt]) // listado de aprobadas, paginado
+  @@index([userId]) // borrado en cascada de un usuario + sus reseñas
 }
 
 enum ModerationStatus {
@@ -133,6 +134,7 @@ model Account {
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId]) // FK sin índice propio: borrado en cascada del usuario
 }
 
 model Session {
@@ -141,6 +143,8 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId]) // FK sin índice propio: borrado en cascada del usuario
 }
 
 model VerificationToken {

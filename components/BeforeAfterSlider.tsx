@@ -95,7 +95,7 @@ export default function BeforeAfterSlider({
           max={100}
           value={pos}
           onChange={(e) => setPos(Number(e.target.value))}
-          aria-label="Comparar 2012 y 2024: deslizá para revelar"
+          aria-label={`Comparar ${beforeLabel} y ${afterLabel}: deslizá para revelar`}
           className="absolute inset-0 z-20 h-full w-full cursor-ew-resize appearance-none bg-transparent opacity-0"
         />
       </div>
