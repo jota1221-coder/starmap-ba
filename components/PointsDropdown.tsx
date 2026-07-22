@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import type { MapPoint } from "@/lib/points";
 import { bortleColor } from "@/lib/bortle";
@@ -8,14 +8,18 @@ import { bortleColor } from "@/lib/bortle";
 type SortBy = "bortle" | "cercania";
 
 /**
- * Lista de puntos como sidebar angosto: en desktop siempre visible al costado
- * del mapa (con su propio scroll interno); en mobile colapsa detrás de un
- * toggle para no robarle alto al mapa. Son <Link> reales (no depende de
- * Leaflet, que es ssr:false) — Google los indexa y son navegables por teclado.
+ * Botón "N puntos" en el header: el panel se abre al pasar el mouse (hover)
+ * o al tocar/clickear (mobile y teclado). El panel queda SIEMPRE en el DOM
+ * — solo se le cambia `hidden`/`block` vía CSS, nunca se desmonta — así los
+ * <Link> reales a /punto/[slug] siguen indexables por Google y navegables
+ * sin depender de que el mapa (Leaflet, ssr:false) haya cargado.
  */
-export default function PointsSidebar({ points }: { points: MapPoint[] }) {
-  const [open, setOpen] = useState(false);
+export default function PointsDropdown({ points }: { points: MapPoint[] }) {
+  const [hovering, setHovering] = useState(false);
+  const [pinned, setPinned] = useState(false);
   const [sortBy, setSortBy] = useState<SortBy>("bortle");
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const open = hovering || pinned;
 
   const sorted = useMemo(() => {
     const copy = [...points];
@@ -27,29 +31,60 @@ export default function PointsSidebar({ points }: { points: MapPoint[] }) {
     return copy;
   }, [points, sortBy]);
 
+  function close() {
+    setHovering(false);
+    setPinned(false);
+  }
+
+  useEffect(() => {
+    if (!open) return;
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") close();
+    }
+    function onClickOutside(e: MouseEvent) {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+        close();
+      }
+    }
+    window.addEventListener("keydown", onKeyDown);
+    document.addEventListener("mousedown", onClickOutside);
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("mousedown", onClickOutside);
+    };
+  }, [open]);
+
   return (
-    <aside className="flex flex-col border-b border-white/5 bg-ink sm:h-full sm:min-h-0 sm:w-60 sm:shrink-0 sm:border-b-0 sm:border-r">
+    <div
+      ref={wrapperRef}
+      className="relative"
+      onMouseEnter={() => setHovering(true)}
+      onMouseLeave={() => setHovering(false)}
+    >
       <button
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => setPinned((v) => !v)}
         aria-expanded={open}
-        className="flex items-center justify-between px-4 py-2.5 text-sm font-medium text-fg-muted transition-colors duration-200 hover:text-fg sm:hidden"
+        aria-haspopup="true"
+        className="flex items-center gap-1 text-xs text-fg-faint transition-colors duration-200 hover:text-fg"
       >
-        <span>Ver los {points.length} puntos en lista</span>
+        <span className="tnum text-fg-muted">{points.length}</span> puntos
         <svg
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
-          className={`h-4 w-4 shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+          className={`h-3 w-3 shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
         >
           <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </button>
 
       <div
-        className={`${open ? "flex" : "hidden"} min-h-0 flex-1 flex-col border-t border-white/5 sm:flex sm:min-h-0 sm:border-t-0`}
+        className={`${
+          open ? "block opacity-100" : "hidden opacity-0"
+        } absolute left-1/2 top-full z-[1200] mt-2 w-72 -translate-x-1/2 rounded-xl border border-white/10 bg-surface/95 shadow-xl backdrop-blur-md transition-opacity duration-200`}
       >
-        <div className="flex shrink-0 items-center gap-1.5 px-3 py-2.5 text-xs">
+        <div className="flex items-center gap-1.5 border-b border-white/5 px-3 py-2.5 text-xs">
           <span className="text-fg-faint">Ordenar por</span>
           <button
             onClick={() => setSortBy("bortle")}
@@ -77,7 +112,7 @@ export default function PointsSidebar({ points }: { points: MapPoint[] }) {
 
         <nav
           aria-label="Puntos de observación"
-          className="max-h-64 min-h-0 overflow-y-auto px-2 pb-2 sm:max-h-none sm:flex-1"
+          className="max-h-80 overflow-y-auto p-2"
         >
           <ul className="space-y-1">
             {sorted.map((p) => (
@@ -102,6 +137,6 @@ export default function PointsSidebar({ points }: { points: MapPoint[] }) {
           </ul>
         </nav>
       </div>
-    </aside>
+    </div>
   );
 }
