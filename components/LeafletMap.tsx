@@ -81,7 +81,20 @@ function comoLlegarUrl(p: MapPoint, from: [number, number] | null): string {
 
 type BaseLayer = "satelite" | "oscuro";
 
-export default function LeafletMap({ points }: { points: MapPoint[] }) {
+/** Señal de selección disparada desde afuera del mapa (ver PointsDropdown).
+ * Objeto nuevo en cada pedido — así dos clicks seguidos al mismo punto
+ * igual disparan el efecto, aunque el `point` en sí sea el mismo objeto. */
+export interface PendingSelection {
+  point: MapPoint;
+}
+
+export default function LeafletMap({
+  points,
+  pendingSelection,
+}: {
+  points: MapPoint[];
+  pendingSelection?: PendingSelection | null;
+}) {
   const mapRef = useRef<LMap | null>(null);
   const panelRef = useRef<HTMLElement | null>(null);
   const [selected, setSelected] = useState<MapPoint | null>(null);
@@ -92,10 +105,42 @@ export default function LeafletMap({ points }: { points: MapPoint[] }) {
   const [locMsg, setLocMsg] = useState<string | null>(null);
   const [legendOpen, setLegendOpen] = useState(false);
 
-  function selectPoint(p: MapPoint) {
-    setSelected(p);
+  function flyToPoint(p: MapPoint) {
     mapRef.current?.flyTo([p.lat, p.lng], POINT_ZOOM, { duration: 1.2 });
   }
+
+  function selectPoint(p: MapPoint) {
+    setSelected(p);
+    flyToPoint(p);
+  }
+
+  // Selección pedida desde el dropdown del header (fuera del mapa, prop en
+  // vez de evento DOM): mismo resultado que clickear el marker, pero el
+  // setState se ajusta durante el render comparando contra OTRO estado
+  // (patrón oficial: https://react.dev/reference/react/useState#storing-information-from-previous-renders
+  // — un ref no sirve acá, leer/escribir refs durante el render no está
+  // permitido). El efecto de abajo queda solo con la llamada imperativa a
+  // Leaflet (flyTo), que sí es tarea de un efecto.
+  const [lastPending, setLastPending] = useState<PendingSelection | null | undefined>(undefined);
+  if (pendingSelection && pendingSelection !== lastPending) {
+    setLastPending(pendingSelection);
+    setSelected(pendingSelection.point);
+  }
+
+  // Guard con ref (leer/escribir refs SÍ está permitido dentro de un efecto,
+  // a diferencia de durante el render): sin esto, React Strict Mode invoca
+  // este efecto dos veces seguidas en dev, disparando dos flyTo() casi
+  // simultáneos al mismo punto — Leaflet interpola mal esa carrera y tira
+  // "Invalid LatLng: NaN, NaN" a mitad de la animación (visto y reproducido
+  // acá mismo). El click directo sobre un marker nunca lo sufre porque
+  // llama flyTo desde un handler de evento real, no desde un efecto.
+  const flownToRef = useRef<PendingSelection | null | undefined>(undefined);
+  useEffect(() => {
+    if (pendingSelection && pendingSelection !== flownToRef.current) {
+      flownToRef.current = pendingSelection;
+      flyToPoint(pendingSelection.point);
+    }
+  }, [pendingSelection]);
 
   /** Cierra el panel y devuelve el foco al mapa (el marker que lo abrió no es
    * un elemento enfocable real — es un <path> SVG dentro del canvas de Leaflet). */

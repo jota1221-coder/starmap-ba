@@ -13,8 +13,19 @@ type SortBy = "bortle" | "cercania";
  * — solo se le cambia `hidden`/`block` vía CSS, nunca se desmonta — así los
  * <Link> reales a /punto/[slug] siguen indexables por Google y navegables
  * sin depender de que el mapa (Leaflet, ssr:false) haya cargado.
+ *
+ * `onSelectPoint` es opcional a propósito: si viene (mapa ya montado),
+ * el click abre el mismo panel que un marker del mapa en vez de navegar.
+ * Sin JS (o sin ese callback todavía), el <Link> navega normal a la ficha
+ * del punto — degrada bien, nunca deja un click sin efecto.
  */
-export default function PointsDropdown({ points }: { points: MapPoint[] }) {
+export default function PointsDropdown({
+  points,
+  onSelectPoint,
+}: {
+  points: MapPoint[];
+  onSelectPoint?: (point: MapPoint) => void;
+}) {
   const [hovering, setHovering] = useState(false);
   const [pinned, setPinned] = useState(false);
   const [sortBy, setSortBy] = useState<SortBy>("bortle");
@@ -119,6 +130,15 @@ export default function PointsDropdown({ points }: { points: MapPoint[] }) {
               <li key={p.id}>
                 <Link
                   href={`/punto/${p.slug}`}
+                  onClick={
+                    onSelectPoint
+                      ? (e) => {
+                          e.preventDefault();
+                          onSelectPoint(p);
+                          close();
+                        }
+                      : undefined
+                  }
                   className="flex items-center gap-2 rounded-lg px-2.5 py-2 text-sm text-fg-muted transition-colors duration-200 hover:bg-white/5 hover:text-fg"
                 >
                   <span

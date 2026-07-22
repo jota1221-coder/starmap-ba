@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import type { MapPoint } from "@/lib/points";
+import type { PendingSelection } from "@/components/LeafletMap";
 
 // Leaflet depende de `window`, así que el mapa se carga solo en el cliente.
 // `ssr: false` debe vivir dentro de un Client Component (regla de Next.js 16).
@@ -14,6 +15,12 @@ const LeafletMap = dynamic(() => import("./LeafletMap"), {
   ),
 });
 
-export default function MapView({ points }: { points: MapPoint[] }) {
-  return <LeafletMap points={points} />;
+export default function MapView({
+  points,
+  pendingSelection,
+}: {
+  points: MapPoint[];
+  pendingSelection?: PendingSelection | null;
+}) {
+  return <LeafletMap points={points} pendingSelection={pendingSelection} />;
 }
